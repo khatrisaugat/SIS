@@ -4,7 +4,9 @@
   $tbl_students=$obj->select("tbl_students");//select all from tbl_students
   $j=1;//initialize j
   if(isset($_GET['sid'])){//check url for get variable
-  	if($_GET['op']='d'){//delete operation
+
+
+  	if($_GET['op']=='d'){//delete operation
   		array_pop($_GET);//popping op from get
   		$single_select="tbl_students WHERE sid=".$_GET['sid'];//selecting 1 row from tbl_students
   		$img_name=$obj->select($single_select);//select function call
@@ -16,7 +18,12 @@
   		}
   		$obj->delete($_GET,"tbl_students");//delete data from tbl_students
   		header("Location:display_student.php");//redirect to display_student.php page
+
+
+  	}else if($_GET['op']=='e'){
+  		header("Location:edit_student.php?sid=".$_GET['sid']);
   	}
+
   }
 
 	
@@ -37,6 +44,7 @@
 				<th>Gender</th>
 				<th>date</th>
 				<th>Delete</th>
+				<th>Edit</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -64,6 +72,7 @@
 					<td><?=$row['gender'];?></td>
 					<td><?=$row['date'];?></td>
 					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=d">Delete</a></td>
+					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=e">Edit</a></td>
 				</tr>
 				<?php
 			}

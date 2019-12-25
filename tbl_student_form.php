@@ -1,7 +1,7 @@
 <?php
 
 require_once('queries.php');//including queries
-$obj= new queries;//object create
+
 if (isset($_POST['submit'])) {//check if form is submitted
 	
 if (isset($_FILES['image'])) {

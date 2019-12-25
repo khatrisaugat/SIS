@@ -10,7 +10,7 @@ class queries extends connection
 	{
 		$sql="SELECT * FROM $tbl_name";
 		$stm=$this->con->prepare($sql);
-		// echo $sql;
+		 // echo $sql;
 		$stm->execute();
 		return $stm;
 
@@ -34,6 +34,20 @@ class queries extends connection
 		echo "$sql";
 		$stm->execute();
 
+	}
+	function update($val,$tbl_name,$sn){
+		$sql="UPDATE $tbl_name SET ";
+		foreach ($val as $key => $value) {
+			$arr[]=$key."='$value'";
+		}
+		$sql.=implode(',', $arr);
+		
+		$sql.=" WHERE ";
+		$sql.=join('',array_keys($sn));
+		$sql.="=".join('',$sn);
+		$stm=$this->con->prepare($sql);
+		$stm->execute();
+		// echo "$sql";
 	}
 }
 $obj=new queries;
