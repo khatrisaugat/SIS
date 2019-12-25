@@ -1,22 +1,19 @@
 <?php
-// echo "<pre>";
-// print_r($_POST);
-// print_r($_FILES);
-// echo "</pre>";
-require_once('queries.php');
-$obj= new queries;
-if (isset($_POST['submit'])) {
+
+require_once('queries.php');//including queries
+$obj= new queries;//object create
+if (isset($_POST['submit'])) {//check if form is submitted
 	
 if (isset($_FILES['image'])) {
-		$filename=$_FILES['image']['name'];
-		$temp_name=$_FILES['image']['tmp_name'];
+		$filename=$_FILES['image']['name'];//filename
+		$temp_name=$_FILES['image']['tmp_name'];//temp name
 		$location='files/'.$filename;
-		move_uploaded_file($temp_name, $location);
-		array_pop($_POST);
+		move_uploaded_file($temp_name, $location);//upload file
+		array_pop($_POST);//popping submit form post
 
-		$_POST['img']=$filename;
+		$_POST['img']=$filename;//insert filename in post variable
 		
-		$obj->insert($_POST,"tbl_students");
+		$obj->insert($_POST,"tbl_students");//insert query
 		
 }
 }
@@ -24,13 +21,7 @@ if (isset($_FILES['image'])) {
 
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Student Form</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-</head>
-<body>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
@@ -104,5 +95,6 @@ if (isset($_FILES['image'])) {
 		</div>
 	</div>
 
-</body>
-</html>
+<?php
+include_once("includes/footer.php")
+?>

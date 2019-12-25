@@ -70,3 +70,6 @@ require_once("includes/header.php");
 					<input type="submit" name="submit"  class="btn btn-success" value="submit">
 					</form>
 				</div>
+        <?php
+include_once("includes/footer.php")
+?>

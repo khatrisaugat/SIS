@@ -50,5 +50,6 @@ if (isset($_POST['submit'])) {
 		</div>
 	</div>
 
-</body>
-</html>
+<?php
+include_once("includes/footer.php")
+?>
