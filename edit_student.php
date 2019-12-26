@@ -4,30 +4,49 @@
 	$query_complete="`tbl_students` WHERE sid=".$_GET['sid'];
 	$select_single=$obj->select($query_complete);//select single data row 
 	$row=$select_single->fetch(PDO::FETCH_ASSOC);//row contains values of selected data
-	 print_r($row);
+	 // print_r($row);
 if (isset($_POST['submit'])) {//check if form is submitted
 	
 	if (isset($_FILES['image'])) {
 		$filename=$_FILES['image']['name'];//filename
 		$temp_name=$_FILES['image']['tmp_name'];//temp name
-		$location='files/'.$filename;
-		move_uploaded_file($temp_name, $location);//upload file
-		array_pop($_POST);//popping submit form post
-		$sn['sid']=$_GET['sid'];
-		$_POST['img']=$filename;//insert filename in post variable
+		$imageFileType = strtolower(pathinfo($filename,PATHINFO_EXTENSION));//file extension
+
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+			&& $imageFileType != "gif" && !empty($filename)) {//file extension check
+			    
+				header("Location:edit_student.php?sid=".$_GET['sid']."&err=1&img=e");
+				die();
+
+			    
+			}else{
+				unset($_GET['err']);
+				$location='files/'.$filename;
+				move_uploaded_file($temp_name, $location);//upload file
+				array_pop($_POST);//popping submit form post
+				$sn['sid']=$_GET['sid'];
+				$_POST['img']=$filename;//insert filename in post variable
+			}
 		
 		
 		
 	}
+	if(!isset($_GET['err'])){
 	$obj->update($_POST,"tbl_students",$sn);//update query
 	header("Location:display_student.php");
+	}
 }
 if(isset($_GET['img'])){//check if the image edit link is clicked
 	if($_GET['img']=='d'){
 	$location='files/'.$row['img'];
-	unlink($location);//delete image from storage
+	if (file_exists($location)) {
+		unlink($location);//delete image from storage
+	}
 	$_GET['img']='ok';//get variable is assigned to new value as to prevent error since the page will refresh
 
+	}
+	if ($_GET['img']=='e') {//error show
+		echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 	}
 }
 

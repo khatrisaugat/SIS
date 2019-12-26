@@ -7,13 +7,22 @@ if (isset($_POST['submit'])) {//check if form is submitted
 if (isset($_FILES['image'])) {
 		$filename=$_FILES['image']['name'];//filename
 		$temp_name=$_FILES['image']['tmp_name'];//temp name
-		$location='files/'.$filename;
-		move_uploaded_file($temp_name, $location);//upload file
-		array_pop($_POST);//popping submit form post
+		$imageFileType = strtolower(pathinfo($filename,PATHINFO_EXTENSION));
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+			&& $imageFileType != "gif" ) {
+			    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 
-		$_POST['img']=$filename;//insert filename in post variable
+			    
+			}else{
+				$location='files/'.$filename;
+				move_uploaded_file($temp_name, $location);//upload file
+				array_pop($_POST);//popping submit form post
+
+				$_POST['img']=$filename;//insert filename in post variable
+				
+				$obj->insert($_POST,"tbl_students");//insert query
+			}
 		
-		$obj->insert($_POST,"tbl_students");//insert query
 		
 }
 }

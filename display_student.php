@@ -45,6 +45,7 @@
 				<th>date</th>
 				<th>Delete</th>
 				<th>Edit</th>
+				<th>View</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -73,6 +74,7 @@
 					<td><?=$row['date'];?></td>
 					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=d">Delete</a></td>
 					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=e">Edit</a></td>
+					<td><a href="student_details.php?sid=<?=$row['sid'];?>">View</a></td>
 				</tr>
 				<?php
 			}

@@ -6,9 +6,9 @@ class queries extends connection
 	
 	function select($tbl_name)
 	{
-		$sql="SELECT * FROM $tbl_name";
+		$sql="SELECT * FROM {$tbl_name}";
 		$stm=$this->con->prepare($sql);
-		 // echo $sql;
+		// echo "$sql";
 		$stm->execute();
 		return $stm;
 
