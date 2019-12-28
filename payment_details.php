@@ -1,4 +1,7 @@
 <?php
+if (!isset($_GET['sid'])) {//not letting direct access
+	header("Location:display_student.php");
+}
 //initialization
 	$count=0;
 	$Sem=0;

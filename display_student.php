@@ -29,7 +29,7 @@
 	
  ?>
  <div class="container">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
 				<th>S.N</th>
@@ -72,9 +72,9 @@
 					<td><?=$row['batch'];?></td>
 					<td><?=$row['gender'];?></td>
 					<td><?=$row['date'];?></td>
-					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=d">Delete</a></td>
-					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=e">Edit</a></td>
-					<td><a href="student_details.php?sid=<?=$row['sid'];?>">View</a></td>
+					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger">Delete</a></td>
+					<td><a href="display_student.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info">Edit</a></td>
+					<td><a href="student_details.php?sid=<?=$row['sid'];?>" class="btn btn-success">View</a></td>
 				</tr>
 				<?php
 			}

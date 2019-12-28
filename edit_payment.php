@@ -1,4 +1,7 @@
 <?php
+if (!isset($_GET['tspid'])) {//not letting direct access
+  header("Location:display_payment.php");
+}
 	require_once("includes/header.php");
 	require_once("queries.php");//including queries
 	$tbl_name="tbl_students";

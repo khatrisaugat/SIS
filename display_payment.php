@@ -19,7 +19,7 @@
 
 ?>
 <div class="container">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
 				<th>S.N</th>
@@ -27,7 +27,8 @@
 				<th>Name</th>
 				<th>Fee type</th>
 				<th>Batch</th>
-				<th>spid</th>
+				<th>Fees</th>
+				<th>Policy Amount</th>
 				<th>Amount</th>
 				<th>Date</th>
 				<th>Delete</th>
@@ -48,11 +49,18 @@
 					<td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
 					<td><?=$row['ftype'];?></td>
 					<td><?=$row['batch'];?></td>
-					<td><?=$row['spid'];?></td>
+					<td><?=$row['fees'];?></td>
+					<td><?php
+						$spid=$obj->select("tbl_student_policy WHERE spid=".$row['spid']);
+						$tbl_spid=$spid->fetch(PDO::FETCH_ASSOC);
+						echo $tbl_spid['amount'];
+					?>
+						
+					</td>
 					<td><?=$row['amount'];?></td>
 					<td><?=$row['pdate'];?></td>
-					<td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d">Delete</a></td>
-					<td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e">Edit</a></td>
+					<td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d" class="btn btn-danger">Delete</a></td>
+					<td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e" class="btn btn-info">Edit</a></td>
 
 				</tr>
 			<?php } ?>

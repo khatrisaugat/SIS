@@ -1,4 +1,7 @@
 <?php
+if (!isset($_GET['sid'])) {//not letting direct access
+	header('Location:display_student.php');
+}
  	require_once("includes/header.php");
 	require_once("queries.php");//including queries
 	$query_complete="`tbl_students` WHERE sid=".$_GET['sid'];

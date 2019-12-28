@@ -1,4 +1,7 @@
 <?php 
+if(!isset($_GET['sid'])){//not letting direct access
+	header('Location:display_student.php');
+}
 require_once("includes/header.php");
 require_once("queries.php");
 $j=0;//initialize j
@@ -135,4 +138,5 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 			
 		</tbody>
 	</table>
+	<a href="payment_details.php?sid=<?=$_GET['sid'];?>" class="btn btn-info">Payment details</a>
 </div>
