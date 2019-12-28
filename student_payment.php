@@ -10,6 +10,8 @@
   //joining tbl_students_payment and tbl_fees
   $tbl_student_policy=$obj->select($tbl_join_hai);
   //selecting all data from tbl_student_policy
+
+  $tbl_sem=$obj->select("semester");
   if(isset($_POST['submit'])){
     if($_POST['submit']=='submit'){
       array_pop($_POST);
@@ -86,11 +88,28 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Semester</label>
+                                <select name="semester">
+                                  <option value="" selected="" disabled="">Select</option>
+                                    <?php
+                                      while ($row3=$tbl_sem->fetch(PDO::FETCH_ASSOC)) {
+                                        ?>
+                                          <option value="<?=$row3['sem_id'];?>"><?=$row3['semester'];?></option>
+                                        <?php
+                                      }
+                                    ?>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
                             	<label class="bmd-label-floating">amount</label>
-                           	<input type="text" name="amount" class="form-control">
+                           	<input type="number" name="amount" class="form-control">
                           </div>
                         </div>
                       </div>

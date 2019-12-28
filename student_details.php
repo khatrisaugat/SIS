@@ -91,11 +91,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 		</tbody>
 	</table>
 	<?php
-	if ($count>0) {
-		$query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE sid=".$_GET['sid'];
-	}else{
-		$query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE sid=".$_GET['sid'];
-	}
+		$query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN semester ON semester.sem_id=tbl_student_payment.semester WHERE sid=".$_GET['sid'];
 		$j=0;
 	$student_payment_select=$obj->select($query_complete);
 	?>
@@ -106,6 +102,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 				<th>Payment type</th>
 				<th>Payment Date</th>
 				<th>Payment Amount</th>
+				<th>Semester</th>
 				<th>Policy(if any)</th>
 			</tr>
 			
@@ -117,6 +114,8 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 					<td><?=$payment['ftype'];?></td>
 					<td><?=$payment['pdate'];?></td>
 					<td><?=$payment['amount'];?></td>
+					<td><?=$payment['semester']?></td>
+
 					<td>
 						<?php 
 						if($count>0){

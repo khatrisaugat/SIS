@@ -1,6 +1,7 @@
 <?php
-
+require_once('includes/header.php');
 require_once('queries.php');//including queries
+$batch_select=$obj->select("batch");
 
 if (isset($_POST['submit'])) {//check if form is submitted
 	
@@ -79,14 +80,9 @@ if (isset($_FILES['image'])) {
 					<div class="form-group">
 						<select name="batch" class="form-control">
 							<option selected="" disabled="">Select Your Batch</option>
-							<option>2018</option>
-							<option>2019</option>
-							<option>2020</option>
-							<option>2021</option>
-							<option>2022</option>
-							<option>2023</option>
-							<option>2024</option>
-
+							<?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+								<option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
+							<?php } ?>
 						</select>
 					</div>
 					<div class="form-group">

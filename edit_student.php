@@ -4,7 +4,7 @@
 	$query_complete="`tbl_students` WHERE sid=".$_GET['sid'];
 	$select_single=$obj->select($query_complete);//select single data row 
 	$row=$select_single->fetch(PDO::FETCH_ASSOC);//row contains values of selected data
-	 // print_r($row);
+	$batch_select=$obj->select("batch");
 if (isset($_POST['submit'])) {//check if form is submitted
 	
 	if (isset($_FILES['image'])) {
@@ -14,17 +14,14 @@ if (isset($_POST['submit'])) {//check if form is submitted
 
 		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 			&& $imageFileType != "gif" && !empty($filename)) {//file extension check
-			    
 				header("Location:edit_student.php?sid=".$_GET['sid']."&err=1&img=e");
 				die();
-
-			    
 			}else{
 				unset($_GET['err']);
 				$location='files/'.$filename;
 				move_uploaded_file($temp_name, $location);//upload file
-				array_pop($_POST);//popping submit form post
-				$sn['sid']=$_GET['sid'];
+				
+				
 				$_POST['img']=$filename;//insert filename in post variable
 			}
 		
@@ -32,6 +29,8 @@ if (isset($_POST['submit'])) {//check if form is submitted
 		
 	}
 	if(!isset($_GET['err'])){
+	unset($_POST['submit']);//popping submit form post
+	$sn['sid']=$_GET['sid'];
 	$obj->update($_POST,"tbl_students",$sn);//update query
 	header("Location:display_student.php");
 	}
@@ -108,14 +107,9 @@ if(isset($_GET['img'])){//check if the image edit link is clicked
 					</div> -->
 					<div class="form-group">
 						<select name="batch" class="form-control">
-							<option <?php if($row['batch']==2018){echo "selected";}?>>2018</option>
-							<option <?php if($row['batch']==2019){echo "selected";}?>>2019</option>
-							<option <?php if($row['batch']==2020){echo "selected";}?>>2020</option>
-							<option <?php if($row['batch']==2021){echo "selected";}?>>2021</option>
-							<option <?php if($row['batch']==2022){echo "selected";}?>>2022</option>
-							<option <?php if($row['batch']==2023){echo "selected";}?>>2023</option>
-							<option <?php if($row['batch']==2024){echo "selected";}?>>2024</option>
-
+							<?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+								<option value="<?=$batch['batch'];?>" <?php if($row['batch']==$batch['batch']){echo "selected";}?>><?=$batch['batch'];?></option>
+							<?php } ?>
 						</select>
 					</div>
 					<div class="form-group">

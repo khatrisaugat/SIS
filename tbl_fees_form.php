@@ -4,6 +4,8 @@
 // echo "</pre>";
 require_once("includes/header.php");
 require_once('queries.php');
+$fee_select=$obj->select("fee_types");
+$batch_select=$obj->select("batch");
 
 if (isset($_POST['submit'])) {
 	array_pop($_POST);//popping submit from post
@@ -21,7 +23,13 @@ if (isset($_POST['submit'])) {
 				<form action="" method="post" class="form-group">
 					<div class="form-group">
 						<label>Fee Type*</label>
-						<input type="text" name="ftype" class="form-control">
+						<select name="ftype" class="form-control">
+							<option selected="" disabled="">Select Your Fee type</option>
+							<?php while ($fee_type=$fee_select->fetch(PDO::FETCH_ASSOC)) {?>
+								<option value="<?=$fee_type['fee_type'];?>"><?=$fee_type['fee_type'];?></option>
+							<?php } ?>
+							
+						</select>
 					</div>
 					<label>Batch*</label>
 					<!-- <div class="form-group">
@@ -30,14 +38,9 @@ if (isset($_POST['submit'])) {
 					<div class="form-group">
 						<select name="batch" class="form-control">
 							<option selected="" disabled="">Select Your Batch</option>
-							<option>2018</option>
-							<option>2019</option>
-							<option>2020</option>
-							<option>2021</option>
-							<option>2022</option>
-							<option>2023</option>
-							<option>2024</option>
-
+								<?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+								<option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
+							<?php } ?>
 						</select>
 					</div>
 					<div class="form-group">
