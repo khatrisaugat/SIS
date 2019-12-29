@@ -29,7 +29,7 @@ class queries extends connection
 		$sql.=join('',array_keys($val));
 		$sql.="=".join('',$val);
 		$stm=$this->con->prepare($sql);
-		echo "$sql";
+		// echo "$sql";
 		$stm->execute();
 
 	}
@@ -45,7 +45,7 @@ class queries extends connection
 		$sql.="=".join('',$sn);
 		$stm=$this->con->prepare($sql);
 		$stm->execute();
-		echo "$sql";
+		// echo "$sql";
 	}
 }
 $obj=new queries;
