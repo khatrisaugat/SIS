@@ -43,9 +43,10 @@ class queries extends connection
 		$sql.=" WHERE ";
 		$sql.=join('',array_keys($sn));
 		$sql.="=".join('',$sn);
+		echo $sql;
 		$stm=$this->con->prepare($sql);
 		$stm->execute();
-		// echo "$sql";
+		
 	}
 }
 $obj=new queries;
