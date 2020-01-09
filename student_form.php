@@ -106,6 +106,13 @@ if (isset($_FILES['image'])) {
             <label><input type="radio" name="gender" value="female">Female</label>
           </div>
           <div class="form-group">
+            <label>Status</label>
+            <select name="status" class="form-control">
+              <option value="1" selected="">Active</option>
+              <option value="0">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Date*</label>
             <input type="date" name="date" class="form-control" value="<?php echo date('Y-m-d'); ?>">
           </div>

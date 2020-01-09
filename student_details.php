@@ -87,6 +87,11 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <td><?=$student['date'];?></td>
       </tr>
       <tr>
+        <td><?=++$j;?></td>
+        <td>Status</td>
+        <td><?php if($student['status']==0){echo "Inactive";}else{echo "Active";}?></td>
+      </tr>
+      <tr>
         
         <?php while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
           // print_r($policy);

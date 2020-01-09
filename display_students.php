@@ -69,7 +69,7 @@ if($_SESSION['status']!='Success'){
     <tbody>
       <?php while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
         ?>
-        <tr>
+        <tr <?php if($row['status']==0){ ?>style="background-color: #ff8080;color: #000" <?php } ?>>
           <td><?=$j++;?></td>
 
           <?php

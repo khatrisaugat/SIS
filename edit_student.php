@@ -133,6 +133,13 @@ if(isset($_GET['img'])){//check if the image edit link is clicked
             <label><input type="radio" name="gender" value="female"<?php if($row['gender']=='female'){echo "checked";}?>>Female</label>
           </div>
           <div class="form-group">
+            <label>Status</label>
+            <select name="status" class="form-control">
+              <option value="1" <?php if($row['status']==1){echo "selected";} ?>>Active</option>
+              <option value="0" <?php if($row['status']==0){echo "selected";} ?>>Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Date*</label>
             <input type="date" name="date" class="form-control"value="<?=$row['date'];?>">
           </div>
