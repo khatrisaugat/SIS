@@ -70,11 +70,11 @@ include("includes/header.php");?>
 
                  <td><?php
                  $fid['fid']=$row['fid'];
-                 $ftypeResult=$obj->select("tbl_fees WHERE fid=".$row['fid']);
+                 $ftypeResult=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fid=".$row['fid']);
 
                  // print_r($ftypeResult);
                  $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
-                 echo $ftype['ftype'];?></td>
+                 echo $ftype['fee_type'];?></td>
                  <td><?=$row['amount'];?></td>
                  <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e">Edit</a></td>
                  <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d">Delete</a></td>

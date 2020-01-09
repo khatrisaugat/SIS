@@ -4,7 +4,7 @@ if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
     require_once("queries.php");
-  $tbl_join="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid";
+  $tbl_join="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
   $tbl_student_payment=$obj->select($tbl_join);
   $j=0;
 
@@ -66,7 +66,7 @@ if($_SESSION['status']!='Success'){
           }?>
           </td>
           <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
-          <td><?=$row['ftype'];?></td>
+          <td><?=$row['fee_type'];?></td>
           <td><?=$row['batch'];?></td>
           <td><?=$row['fees'];?></td>
           <td><?php

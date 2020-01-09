@@ -21,7 +21,7 @@ if($_SESSION['status']!='Success'){
 require_once("queries.php");
 $j=0;//initialize j
 $count=0;//initialize count
-$check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid WHERE sid=".$_GET['sid']);//select policy if exists
+$check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
 $student_select=$obj->select("tbl_students WHERE sid=".$_GET['sid']);
 $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 
@@ -90,12 +90,12 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         
         <?php while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
           // print_r($policy);
-          $policy_hai[]=['ftype'=>$policy['ftype'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
+          $policy_hai[]=['fee_type'=>$policy['fee_type'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
           $count++;
           ?>
           <td><?=++$j;?></td>
           <td>Policy Name</td>
-          <td><?=$policy['ftype'];?></td>
+          <td><?=$policy['fee_type'];?></td>
           
         
         
@@ -109,7 +109,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
     </tbody>
   </table>
   <?php
-    $query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN semester ON semester.sem_id=tbl_student_payment.semester WHERE sid=".$_GET['sid'];
+    $query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];
     $j=0;
   $student_payment_select=$obj->select($query_complete);
   ?>
@@ -129,7 +129,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
       <?php while ($payment=$student_payment_select->fetch(PDO::FETCH_ASSOC)) {?>
         <tr>
           <td><?=++$j;?></td>
-          <td><?=$payment['ftype'];?></td>
+          <td><?=$payment['fee_type'];?></td>
           <td><?=$payment['pdate'];?></td>
           <td><?=$payment['amount'];?></td>
           <td><?=$payment['semester']?></td>

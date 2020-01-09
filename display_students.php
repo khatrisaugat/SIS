@@ -69,7 +69,7 @@ if($_SESSION['status']!='Success'){
       <?php while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
         ?>
         <tr>
-          <td><?=++$j;?></td>
+          <td><?=$j++;?></td>
 
           <?php
           if(!empty($row['img'])){?>

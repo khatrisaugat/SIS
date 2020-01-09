@@ -18,7 +18,7 @@ if($_SESSION['status']!='Success'){
   $tbl_name="tbl_students WHERE sid=".$_GET['sid'];
   $tbl_students=$obj->select($tbl_name);//selecting all data from tbl_students
   $row=$tbl_students->fetch(PDO::FETCH_ASSOC);
-  $tbl_fees=$obj->select("tbl_fees WHERE batch=".$row['batch']);
+  $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
   // $row=$result->fetch(PDO::FETCH_ASSOC);
   // print_r($row);
 
@@ -56,7 +56,7 @@ if($_SESSION['status']!='Success'){
                                     <?php
                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
-                                          <option value="<?=$row1['fid'];?>"><?=$row1['ftype']." (".$row1['fees'].") ";?></option>
+                                          <option value="<?=$row1['fid'];?>"><?=$row1['fee_type']." (".$row1['fees'].") ";?></option>
                                         <?php
                                       }
                                     ?>

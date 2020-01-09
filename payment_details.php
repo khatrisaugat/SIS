@@ -26,11 +26,11 @@ include("includes/header.php");
   $admission=0;
 //initialization finish
   require_once("queries.php");//include queries
-  $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE sid=".$_GET['sid'];//query for selecting payment data
+  $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];//query for selecting payment data
   $select_payment=$obj->select($query);//select payment data
 
-  $policy_select=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid WHERE sid=".$_GET['sid']);//select policy
-  $tbl_fees=$obj->select("tbl_fees");//select fees
+  $policy_select=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy
+  $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");//select fees
 
   $tbl_student=$obj->select("tbl_students WHERE sid=".$_GET['sid']);//select student data
   $row=$tbl_student->fetch(PDO::FETCH_ASSOC);//fetch student data
@@ -39,13 +39,13 @@ include("includes/header.php");
   while ($policy=$policy_select->fetch(PDO::FETCH_ASSOC)) {//check policy
     
     $count++;
-    if($policy['ftype']=='admission'){
+    if($policy['fee_type']=='admission'){
       $admission=$policy['amount'];
       
-    }else if($policy['ftype']=='Semester fee'){
+    }else if($policy['fee_type']=='Semester fee'){
       $Semfee=$policy['amount'];
       
-    }else if($policy['ftype']=='Monthly Fee'){
+    }else if($policy['fee_type']=='Monthly Fee'){
       $Monthly=$policy['amount'];
       
     }
@@ -53,20 +53,20 @@ include("includes/header.php");
   while ($fees=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
     if($row['batch']==$fees['batch']){
       if($count==0){//if no policy than
-        if($fees['ftype']=='admission'){
+        if($fees['fee_type']=='admission'){
           $Sem+=$fees['fees'];
         }else{
           $Sem+=$fees['fees'];
           $allSem+=$fees['fees'];
         }
     }else{//if some policy than
-      if ($fees['ftype']=='admission') {
+      if ($fees['fee_type']=='admission') {
         if($admission<=0){
           $Sem+=$fees['fees'];
         }else{
           $Sem+=$admission;
         }
-      }else if ($fees['ftype']=='Semester fee') {
+      }else if ($fees['fee_type']=='Semester fee') {
         if($Semfee<=0){
           $Sem+=$fees['fees'];
           $allSem+=$fees['fees'];
@@ -74,7 +74,7 @@ include("includes/header.php");
           $Sem+=$Semfee;
           $allSem+=$Semfee;
         }
-      }else if ($fees['ftype']=='Monthly Fee') {
+      }else if ($fees['fee_type']=='Monthly Fee') {
         if($Monthly<=0){
           $Sem+=$fees['fees'];
           $allSem+=$fees['fees'];
@@ -105,7 +105,7 @@ include("includes/header.php");
             <td>
               <table class="table">
                 <tr>
-                <td><?=$pay['ftype']?></td>
+                <td><?=$pay['fee_type']?></td>
                 <td><?=$pay['amount'];?></td>
                 <td><?=$pay['pdate'];?></td>
                 </tr>

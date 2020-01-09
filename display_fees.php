@@ -6,7 +6,7 @@ if($_SESSION['status']!='Success'){
 
 require_once('queries.php');
 $obj= new queries;
-$feesData=$obj->select("tbl_fees");
+$feesData=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
 $i=0;
 if (isset($_GET['op'])) {
   if ($_GET['op']='d') {
@@ -65,7 +65,7 @@ if (isset($_GET['op'])) {
             while ($row=$feesData->fetch(PDO::FETCH_ASSOC)) {?>
               <tr>
                  <td><?=++$i;?></td>
-                 <td><?=$row['ftype'];?></td>
+                 <td><?=$row['fee_type'];?></td>
                  <td><?=$row['batch'];?></td>
                  <td><?=$row['fees'];?></td>
                  <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e">Edit</a></td>

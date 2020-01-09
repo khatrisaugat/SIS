@@ -47,21 +47,6 @@ if ($_POST['submit']=='submit') {
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-          <nav>
-          <ul class="nav ">
-            <li><a href="tbl_student_form.php">Insert Students</a></li>
-            <li><a href="tbl_fees_form.php">Insert Fees</a></li>
-            <li><a href="Student_policy.php">Insert Fee Policy</a></li>
-            <li><a href="Student_payment.php">Insert Payment</a></li>
-            <li><a href="display_student.php">Display Students</a></li>
-            <li><a href="display_fees.php">Display Fees</a></li>
-            <li><a href="display_policy.php">Display Fee Policy</a></li>
-            <li><a href="display_payment.php">Display Payment</a></li>
-
-          </ul>
-        </nav>
-        </div>
-      <div class="col-md-12">
           <div class="col-md-6">
             <h2><i class="glyphicon glyphicon-user"></i> Student's Fee Edit Form</h2>
             <form action="" method="post" class="form-group">

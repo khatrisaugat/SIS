@@ -35,10 +35,10 @@ if (isset($_POST['submit'])) {
         <form action="" method="post" class="form-group">
           <div class="form-group">
             <label>Fee Type*</label>
-            <select name="ftype" class="form-control">
+            <select name="ftid" class="form-control">
               <option selected="" disabled="">Select Your Fee type</option>
               <?php while ($fee_type=$fee_select->fetch(PDO::FETCH_ASSOC)) {?>
-                <option value="<?=$fee_type['fee_type'];?>"><?=$fee_type['fee_type'];?></option>
+                <option value="<?=$fee_type['ftid'];?>"><?=$fee_type['fee_type'];?></option>
               <?php } ?>
               
             </select>
