@@ -63,8 +63,9 @@ if (isset($_GET['op'])) {
               <tr>
                  <td><?=++$i;?></td>
                  <td><?=$row['batch'];?></td>
-                 <td><a href="batch_edit.php?bid=<?=$row['bid'];?>" class="btn btn-info">Edit</a></td>
-                 <td><a href="batch_display.php?bid=<?=$row['bid'];?>&op=d" class="btn btn-danger">Delete</a></td>
+                 <td><a href="batch_edit.php?bid=<?=$row['bid'];?>" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
+                 <td><a href="batch_display.php?bid=<?=$row['bid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
+>Delete</a></td>
 
 
                 </tr>

@@ -47,7 +47,7 @@ if (isset($_GET['op'])) {
     <div class="row">
       
       <div class="col-md-12">
-        <h2>Display Fees Table</h2>
+        <h2> Fees Table</h2>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
@@ -68,8 +68,9 @@ if (isset($_GET['op'])) {
                  <td><?=$row['fee_type'];?></td>
                  <td><?=$row['batch'];?></td>
                  <td><?=$row['fees'];?></td>
-                 <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e">Edit</a></td>
-                 <td><a href="display_fees.php?fid=<?=$row['fid'];?>&op=d">Delete</a></td>
+                 <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
+                 <td><a href="display_fees.php?fid=<?=$row['fid'];?>&op=d" onclick="return confirm('Are you sure you want to delete this item?');"
+>Delete</a></td>
 
 
                 </tr>

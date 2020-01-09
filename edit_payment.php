@@ -51,6 +51,7 @@ if($_SESSION['status']!='Success'){
 <div class="container">
           <form action="" method="post" enctype="multipart/form-data" class="form-group">
             <div class="row">
+              
              <div class="col-md-12">
                 <div class="form-group">
                   <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname']." (".$row['batch'].") ";?></label>

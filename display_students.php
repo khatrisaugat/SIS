@@ -48,6 +48,7 @@ if($_SESSION['status']!='Success'){
         <div class="row">
   
  <div class="container">
+  <h1>Students Details</h1>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -89,8 +90,10 @@ if($_SESSION['status']!='Success'){
           <td><?=$row['gender'];?></td>
           <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Add policy</a></td>
           <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Add payment</a></td>
-          <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger">Delete</a></td>
-          <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info">Edit</a></td>
+          <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
+>Delete</a></td>
+          <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
+>Edit</a></td>
           <td><a href="student_details.php?sid=<?=$row['sid'];?>" class="btn btn-success">View</a></td>
         </tr>
         <?php
