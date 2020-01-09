@@ -37,6 +37,7 @@ if($_SESSION['status']!='Success'){
         <div class="row">
     
 <div class="container">
+  <h1>Payment Details</h1>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -79,8 +80,10 @@ if($_SESSION['status']!='Success'){
           <td><?=$row['amount'];?></td>
           <td><?=$row['pdate'];?></td>
           <td><?=$row['semester']." Sem";?></td>
-          <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d" class="btn btn-danger">Delete</a></td>
-          <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e" class="btn btn-info">Edit</a></td>
+          <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
+>Delete</a></td>
+          <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
+>Edit</a></td>
 
         </tr>
       <?php } ?>

@@ -40,7 +40,7 @@ include("includes/header.php");?>
     <div class="row">
       
       <div class="col-md-12">
-        <h2>Display Fee Policy Table</h2>
+        <h2> Fee Policy Table</h2>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
@@ -76,8 +76,10 @@ include("includes/header.php");?>
                  $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
                  echo $ftype['fee_type'];?></td>
                  <td><?=$row['amount'];?></td>
-                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e">Edit</a></td>
-                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d">Delete</a></td>
+                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e" onclick="return confirm('Are you sure you want to edit this item?');"
+>Edit</a></td>
+                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d" onclick="return confirm('Are you sure you want to delete this item?');"
+>Delete</a></td>
 
 
                 </tr>
