@@ -22,7 +22,7 @@ if($_SESSION['status']!='Success'){
   //fetch the data of the student
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
   //selecting all data from tbl_fees
-  $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid";
+  $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
   //joining tbl_students_payment and tbl_fees
   $tbl_student_policy=$obj->select($tbl_join_policy);
   //selecting all data from tbl_student_policy
@@ -88,7 +88,7 @@ if($_SESSION['status']!='Success'){
                                     <?php
                                       while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
-                                          <option value="<?=$row2['spid'];?>"><?=$row2['ftype']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
+                                          <option value="<?=$row2['spid'];?>"><?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
                                         <?php
                                       }
                                     ?>

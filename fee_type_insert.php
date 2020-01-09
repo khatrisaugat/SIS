@@ -41,6 +41,13 @@ if ($_POST['submit']=='submit') {
                 <label>Fee Type</label>
                 <input type="text" name="fee_type" class="form-control">
               </div>
+              <div class="form-group">
+                <label>Applicable for:</label>
+                <select name="sem_wise" class="form-control">
+                  <option value="0">1st Semester</option>
+                  <option value="1">All Semester</option>
+                </select>
+              </div>
               <input type="submit" class="btn btn-success" name="submit" value="submit">
           </form>
         </div>

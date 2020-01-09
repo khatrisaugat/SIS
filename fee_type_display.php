@@ -52,6 +52,7 @@ if (isset($_GET['op'])) {
             <tr>
               <th>SN</th>
               <th>Fee Type</th>
+              <th>Semester application</th>
               <th>Edit</th>
               <th>Delete</th>
 
@@ -63,6 +64,7 @@ if (isset($_GET['op'])) {
               <tr>
                  <td><?=++$i;?></td>
                  <td><?=$row['fee_type'];?></td>
+                 <td><?php if($row['sem_wise']==1){echo "All Semester";}else{echo "1st Semester";} ?></td>
                  <td><a href="fee_type_edit.php?ftid=<?=$row['ftid'];?>" class="btn btn-info">Edit</a></td>
                  <td><a href="fee_type_display.php?ftid=<?=$row['ftid'];?>&op=d" class="btn btn-danger">Delete</a></td>
 

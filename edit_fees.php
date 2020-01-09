@@ -56,7 +56,7 @@ if ($_POST['submit']=='submit') {
                   <option selected="" disabled="">Select Your Fee type</option>
                   <?php while ($fee_type=$fee_select->fetch(PDO::FETCH_ASSOC)) {?>
                     <?php print_r($fee_type);?>
-                    <option value="<?=$fee_type['fee_type'];?>" <?php if ($value['ftype']==$fee_type['fee_type']){echo "Selected";} ?>><?=$fee_type['fee_type'];?></option>
+                    <option value="<?=$fee_type['fee_type'];?>" <?php if ($value['ftid']==$fee_type['ftid']){echo "Selected";} ?>><?=$fee_type['fee_type'];?></option>
                   <?php } ?>
                   
                 </select>
