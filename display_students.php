@@ -3,6 +3,7 @@ session_start();
 if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
+
     // <!--header end-->
     // <!-- **********************************************************************************************************************************************************
     //     MAIN SIDEBAR MENU
@@ -26,14 +27,24 @@ if($_SESSION['status']!='Success'){
         unlink($Location);
       }
       $obj->delete($_GET,"tbl_students");//delete data from tbl_students
+      $_SESSION['true']="Data deleted successfully!";
       header("Location:display_students.php");//redirect to display_student.php page
-
+      exit();
 
     }else if($_GET['op']=='e'){
       header("Location:edit_student.php?sid=".$_GET['sid']);
     }
 
   }
+  // if(isset($_POST['submit']))
+  // {
+  //   if ($_POST['submit']=='Sort') {
+  //     print_r($_POST);
+  //     array_pop($_POST);
+  //     $obj->sort("tbl_students",$_POST['sort']);
+  //     // mysqli_query(mysqli_connect('localhost','root','','student'),"SELECT * FROM tbl_students ORDER BY status");
+  //   }
+  // }
 
   include("includes/header.php");
   include("includes/sidebar.php"); 
@@ -46,8 +57,31 @@ if($_SESSION['status']!='Success'){
     <section id="main-content">
       <section class="wrapper">
         <div class="row">
+         
   
- <div class="container">
+ <!-- <div class="container"><div style="float: right;margin: 10px;">
+           <form class="form-group" method="post">
+               <select name="sort" style="padding: 8px 12px;">
+                <option selected="" disabled="">Select Sorting method</option>
+                 <option value="Date">Date</option>
+                 <option value="batch">Batch</option>
+                 <option value="city">City</option>
+                 <option value="status">Status</option>
+
+             </select>
+             <input type="submit" name="submit" value="Sort" class="btn btn-success">
+           </form>
+         </div> -->
+     <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
   <h1>Students Details</h1>
   <table class="table table-bordered table-striped">
     <thead>
@@ -88,8 +122,8 @@ if($_SESSION['status']!='Success'){
           
           <td><?=$row['batch'];?></td>
           <td><?=$row['gender'];?></td>
-          <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Add policy</a></td>
-          <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Add payment</a></td>
+          <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Policy</a></td>
+          <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Payment</a></td>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
@@ -189,6 +223,14 @@ if($_SESSION['status']!='Success'){
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+  </script>
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
   </script>
 </body>
 

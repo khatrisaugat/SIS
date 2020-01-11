@@ -11,7 +11,9 @@ if (isset($_GET['spid'])) {
   if ($_GET['op']=='d') {
     array_pop($_GET);
     $obj->delete($_GET,"tbl_student_policy");
+    $_SESSION['true']="Data deleted successfully!";
     header("Location:display_policy.php");
+    exit();
   }
   else if($_GET['op']=='e'){
       header("Location:edit_policy.php?spid=".$_GET['spid']);
@@ -40,6 +42,16 @@ include("includes/header.php");?>
     <div class="row">
       
       <div class="col-md-12">
+         <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
         <h2> Fee Policy Table</h2>
         <table class="table table-striped" border="1">
           <thead>
@@ -112,7 +124,14 @@ include("includes/header.php");?>
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
+  </script>
 </body>
 
 </html>

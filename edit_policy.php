@@ -11,7 +11,7 @@ if($_SESSION['status']!='Success'){
           $fid['fid']=$tspid['fid'];
           $name_select=$obj->select("tbl_students WHERE sid=".$tspid['sid']);
           $row=$name_select->fetch(PDO::FETCH_ASSOC);
-          $ftype_select=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fid=".$fid['fid']);
+          $ftype_select=$obj->select("tbl_fees WHERE fid=".$fid['fid']);
           $ftype=$ftype_select->fetch(PDO::FETCH_ASSOC);
 
             if (isset($_POST['submit'])) {
@@ -21,7 +21,9 @@ if($_SESSION['status']!='Success'){
                 $sn['spid']=$_GET['spid'];
                 // print_r($sn);
                 $obj->update($_POST,"tbl_student_policy",$sn);
+                $_SESSION['true']="Data edited successfully!";
                 header('location:display_policy.php');
+                exit();
               }
             }
           } 
@@ -31,7 +33,8 @@ if($_SESSION['status']!='Success'){
 
 
   include("includes/header.php");
-  include("includes/sidebar.php");?>
+  include("includes/sidebar.php");
+  ?>
     <!--sidebar end-->
     <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
@@ -48,7 +51,7 @@ if($_SESSION['status']!='Success'){
                                     <div class="col-md-6">
                                         <h1><i class="glyphicon glyphicon-user"></i> Student's Fee Policy Form</h1>
                                         <div class="form-group">
-                                            <label><?=$row['name'];?></label>
+                                            <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname']." (".$row['batch'].") ";?></label>
                                             <input type="hidden" name="sid" value="<?=$row['sid'];?>">
                                         </div>
                                         <div class="form-group">
@@ -58,6 +61,7 @@ if($_SESSION['status']!='Success'){
                                                 <?php
                                                   while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
                                                     ?>
+
                                                       <option value="<?=$row1['fid'];?>" 
                                                           <?php if ($row1['fid']==$ftype['fid']) {
                                                           echo "selected";

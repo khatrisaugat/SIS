@@ -39,7 +39,9 @@ if (isset($_POST['submit'])) {//check if form is submitted
   unset($_POST['submit']);//popping submit form post
   $sn['sid']=$_GET['sid'];
   $obj->update($_POST,"tbl_students",$sn);//update query
+  $_SESSION['true']="Data edited successfully!";
   header("Location:display_students.php");
+  exit();
   }
 }
 if(isset($_GET['img'])){//check if the image edit link is clicked

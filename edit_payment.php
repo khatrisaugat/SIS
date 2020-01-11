@@ -15,9 +15,9 @@ if($_SESSION['status']!='Success'){
     $tbl_students=$obj->select($tbl_name);
     $row=$tbl_students->fetch(PDO::FETCH_ASSOC);
   //selecting all data from tbl_students
-    $tbl_fees=$obj->select("tbl_fees WHERE batch=".$row['batch']);
+    $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
   //selecting all data from tbl_fees
-    $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid";
+    $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN fee_types ON tbl_fees.ftid=fee_types.ftid";
   //joining tbl_students_payment and tbl_fees
     $tbl_student_policy=$obj->select($tbl_join_policy);
   //selecting all data from tbl_student_policy
@@ -34,7 +34,9 @@ if($_SESSION['status']!='Success'){
             //if there is no policy than spid is not needed
            }
            $obj->update($_POST,"tbl_student_payment",$sn);
+           $_SESSION['true']="Data edited successfully!";
            header("Location:display_payment.php");
+           exit();
       }
      }
   include("includes/header.php"); 
@@ -72,7 +74,7 @@ if($_SESSION['status']!='Success'){
                                       if ($single_select['fid']==$row1['fid']) {
                                           echo "selected";
                                       } ?>>
-                                      <?=$row1['ftype']." (".$row1['batch'].") ";?></option>
+                                      <?=$row1['fee_type']." (".$row1['batch'].") ";?></option>
                                         <?php
                                       }
                                     ?>
@@ -95,7 +97,7 @@ if($_SESSION['status']!='Success'){
                                       if ($single_select['spid']==$row2['spid']) {
                                           echo "selected";
                                       } ?>>
-                                      <?=$row2['ftype']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
+                                      <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
                                         <?php
                                       }
                                     ?>

@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -43,6 +44,7 @@ if($_SESSION['status']!='Success'){
 
       $obj->insert($_POST,"tbl_student_payment");
       //insert values from form
+      $_SESSION['true']="Data added successfully!";
       
       
     }
@@ -57,6 +59,14 @@ if($_SESSION['status']!='Success'){
           <form action="" method="post" enctype="multipart/form-data" class="form-group">
             <div class="row">
              <div class="col-md-12">
+              <?php if(isset($_SESSION['true'])):?>
+
+          <div class="alert alert-success">
+            <?php echo $_SESSION['true'];
+            unset($_SESSION['true']);
+            ?>
+          </div>
+        <?php endif;?>
                 <div class="form-group">
                   <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname'];?></label>
                  <input type="hidden" name="sid" value="<?=$row['sid']?>">
@@ -181,7 +191,14 @@ if($_SESSION['status']!='Success'){
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
-
+  <script>
+    $(document).ready(function(){
+      setTimeout(function(){
+        $('.alert').hide('slow')
+      },3000);
+    })
+  </script>
 </body>
 
 </html>
+
