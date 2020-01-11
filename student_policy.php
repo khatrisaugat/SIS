@@ -19,6 +19,10 @@ if($_SESSION['status']!='Success'){
   $tbl_students=$obj->select($tbl_name);//selecting all data from tbl_students
   $row=$tbl_students->fetch(PDO::FETCH_ASSOC);
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
+  $tbl_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']);
+  while ($pol=$tbl_policy->fetch(PDO::FETCH_ASSOC)) {
+    $policy[]=$pol;
+  }
   // $row=$result->fetch(PDO::FETCH_ASSOC);
   // print_r($row);
 
@@ -55,9 +59,22 @@ if($_SESSION['status']!='Success'){
                                 <select name="fid" class="form-control">
                                     <?php
                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
-                                        ?>
-                                          <option value="<?=$row1['fid'];?>"><?=$row1['fee_type']." (".$row1['fees'].") ";?></option>
-                                        <?php
+                                        for ($i=0; $i < count($policy) ; $i++) { 
+                                          $fid[]=$policy[$i]['fid'];
+                                        }
+
+                                        
+                                          $j=0;
+                                          if($fid[$j]!=$row1['fid']){?>
+                                            <option value="<?=$row1['fid'];?>"><?=$row1['fee_type']." (".$row1['fees'].") ";?></option>
+                                            <?php
+
+                                        } 
+                                          
+                                          
+                                        
+                                        $j++;
+                                        
                                       }
                                     ?>
                                 </select>

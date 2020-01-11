@@ -11,7 +11,7 @@ if($_SESSION['status']!='Success'){
           $fid['fid']=$tspid['fid'];
           $name_select=$obj->select("tbl_students WHERE sid=".$tspid['sid']);
           $row=$name_select->fetch(PDO::FETCH_ASSOC);
-          $ftype_select=$obj->select("tbl_fees WHERE fid=".$fid['fid']);
+          $ftype_select=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fid=".$fid['fid']);
           $ftype=$ftype_select->fetch(PDO::FETCH_ASSOC);
 
             if (isset($_POST['submit'])) {
@@ -27,7 +27,7 @@ if($_SESSION['status']!='Success'){
           } 
   $tbl_name="tbl_students";
   $tbl_students=$obj->select($tbl_name);//selecting all data from tbl_students
-  $tbl_fees=$obj->select("tbl_fees WHERE batch=".$row['batch']);
+  $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
 
 
   include("includes/header.php");
@@ -62,7 +62,7 @@ if($_SESSION['status']!='Success'){
                                                           <?php if ($row1['fid']==$ftype['fid']) {
                                                           echo "selected";
                                                         }?>
-                                                        ><?=$row1['ftype']." (".$row1['batch'].") ";?></option>
+                                                        ><?=$row1['fee_type']." (".$row1['batch'].") ";?></option>
                                                     <?php
                                                   }
                                                 ?>

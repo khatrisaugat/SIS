@@ -5,6 +5,9 @@
         while($user=$user_select->fetch(PDO::FETCH_ASSOC)){
           if($user['username']==$_POST['username'] && $user['password']==md5($_POST['password'])){
             session_start();
+            if($user['username']=='admin'){
+              $_SESSION['adminlogin']="yes";
+            }
             $_SESSION['status']="Success";
             header("Location:display_students.php");
           }

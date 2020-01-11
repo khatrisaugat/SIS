@@ -67,7 +67,8 @@ if($_SESSION['status']!='Success'){
                           <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Fee Type</label>
-                                <select name="fid" class="form-control">
+                                <select name="fid" class="form-control" onchange="feeChange(this.value)">
+                                  <option value="" selected="" disabled="">Select</option>
                                     <?php
                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
@@ -75,20 +76,23 @@ if($_SESSION['status']!='Success'){
                                         <?php
                                       }
                                     ?>
+
                                 </select>
                             </div>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-12">
-                            <div class="form-group">
+                            <div class="form-group" id="policy"> 
                                 <label class="bmd-label-floating">Student Policy</label>
                                 <select name="spid" class="form-control">
-                                  <option value="" selected="">No policy</option>
+                                  <option value="" selected="">Select</option>
                                     <?php
                                       while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
-                                          <option value="<?=$row2['spid'];?>"><?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
+                                          <option value="<?=$row2['spid'];?>">
+                                            
+                                          <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
                                         <?php
                                       }
                                     ?>
@@ -145,6 +149,21 @@ if($_SESSION['status']!='Success'){
     <!--footer end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
+  <script type="text/javascript">
+      function feeChange(fid){
+      var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('policy').innerHTML=this.responseText;
+
+        }
+      }
+      xhr.open('GET','ajaxinpayment.php?fid='+fid+"&sid="+<?=$_GET['sid']?>,true);
+      xhr.send();
+  }
+
+  </script>
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
