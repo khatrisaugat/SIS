@@ -18,7 +18,10 @@ if ($_POST['submit']=='submit') {
   $sn['bid']=$_GET['bid'];
   // print_r($sn);
   $obj->update($_POST,"batch",$sn);
-  header('location:batch_display.php');
+     $_SESSION['true']="Data edited successfully!";
+
+header('location:batch_display.php');
+  
 }
 }
  } 
@@ -38,6 +41,7 @@ if ($_POST['submit']=='submit') {
     <div class="row">
       <div class="col-md-12">
           <div class="col-md-6">
+
             <h2><i class="glyphicon glyphicon-user"></i> Batch Edit Form</h2>
             <form action="" method="post" class="form-group">
               <div class="form-group">

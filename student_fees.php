@@ -22,6 +22,8 @@ $batch_select=$obj->select("batch");
 if (isset($_POST['submit'])) {
   array_pop($_POST);//popping submit from post
   $obj->insert($_POST,"tbl_fees");//insert to tbl_fees
+  $_SESSION['true']="Data inserted successfully!";
+  // exit();
 }
 
 
@@ -31,6 +33,16 @@ if (isset($_POST['submit'])) {
   <div class="container">
     <div class="row">
       <div class="col-md-5">
+        <?php if (isset($_SESSION['true'])) :?>
+
+          <div class="alert alert-success">
+            <?php echo $_SESSION['true'];
+            unset($_SESSION['true']);
+            ?>
+          </div>
+
+
+        <?php endif;?>
         <h2><i class="glyphicon glyphicon-user"></i> Student's Fee Record Form</h2>
         <form action="" method="post" class="form-group">
           <div class="form-group">
@@ -93,7 +105,14 @@ if (isset($_POST['submit'])) {
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
-
+<script>
+  $(document).ready(function(){
+    setTimeout(function(){
+      $('.alert').hide('slow')
+    },3000);
+  })
+</script>
+ 
 </body>
 
 </html>

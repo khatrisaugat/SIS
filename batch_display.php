@@ -9,10 +9,14 @@ $batchdata=$obj->select("batch");
 $i=0;
 if (isset($_GET['op'])) {
   if ($_GET['op']='d') {
+
     // print_r($_GET);
     array_pop($_GET); 
     $obj->delete($_GET,"batch");
+     $_SESSION['true']="Data deleted successfully!";
     header('Location:batch_display.php');
+exit();
+    
   }
 
   else if($_GET['op']=='e'){
@@ -44,8 +48,17 @@ if (isset($_GET['op'])) {
 
   <div class="container">
     <div class="row">
-      
       <div class="col-md-12">
+         <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
         <h2>Display Fees Table</h2>
         <table class="table table-striped" border="1">
           <thead>
@@ -93,6 +106,15 @@ if (isset($_GET['op'])) {
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
+  </script>
+
   
 </body>
 
