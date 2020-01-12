@@ -52,7 +52,7 @@ include("includes/header.php");?>
                         </div>
 
                     <?php endif;?>
-        <h2> Fee Policy Table</h2>
+        <h2>Policy Table</h2>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
@@ -88,9 +88,9 @@ include("includes/header.php");?>
                  $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
                  echo $ftype['fee_type'];?></td>
                  <td><?=$row['amount'];?></td>
-                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e" onclick="return confirm('Are you sure you want to edit this item?');"
+                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
 >Edit</a></td>
-                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d" onclick="return confirm('Are you sure you want to delete this item?');"
+                 <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
 
 
