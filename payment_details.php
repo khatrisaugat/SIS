@@ -1,10 +1,11 @@
-<?php 
-session_start();
+<?php
+	session_start();
 if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
 include("includes/header.php"); 
- include("includes/sidebar.php");?>
+ include("includes/sidebar.php");
+ ?>
     <!--sidebar end-->
     <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
@@ -17,82 +18,60 @@ include("includes/header.php");
       if (!isset($_GET['sid'])) {//not letting direct access
   header("Location:display_student.php");
 }
-//initialization
-  $count=0;
-  $Sem=0;
-  $allSem=0;
-  $Monthly=0;
-  $Semfee=0;
-  $admission=0;
-//initialization finish
-  require_once("queries.php");//include queries
-  $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];//query for selecting payment data
+require_once("queries.php");//include queries
+$query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];//query for selecting payment data
   $select_payment=$obj->select($query);//select payment data
+  //initialization
+  $Totalpaid=0;
+  $firstSem=0;
+  $allSem=0;
+  //initialization
+
 
   $policy_select=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");//select fees
 
   $tbl_student=$obj->select("tbl_students WHERE sid=".$_GET['sid']);//select student data
   $row=$tbl_student->fetch(PDO::FETCH_ASSOC);//fetch student data
-  
-  //Calculation of fees for each semester excluding exam fees and including policy
-  while ($policy=$policy_select->fetch(PDO::FETCH_ASSOC)) {//check policy
-    
-    $count++;
-    if($policy['fee_type']=='admission'){
-      $admission=$policy['amount'];
-      
-    }else if($policy['fee_type']=='Semester fee'){
-      $Semfee=$policy['amount'];
-      
-    }else if($policy['fee_type']=='Monthly Fee'){
-      $Monthly=$policy['amount'];
-      
-    }
+
+
+  while ($policy=$policy_select->fetch(PDO::FETCH_ASSOC)) {
+  	// print_r($policy);
+  	$check[]=$policy['fid'];
+  	if($policy['sem_wise']==0){
+  		$firstSem+=$policy['amount'];
+  	}else{
+  		$firstSem+=$policy['amount'];
+  		$allSem+=$policy['amount'];
+  	}
   }
+  if (!isset($check)) {
+   $check[0]=0;
+  }
+
+  $i=0;
   while ($fees=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
-    if($row['batch']==$fees['batch']){
-      if($count==0){//if no policy than
-        if($fees['fee_type']=='admission'){
-          $Sem+=$fees['fees'];
-        }else{
-          $Sem+=$fees['fees'];
-          $allSem+=$fees['fees'];
+  	if($fees['batch']==$row['batch']){
+  			if($fees['fid']!=$check[$i]){
+  				if($fees['sem_wise']==0){
+			  		$firstSem+=$fees['fees'];
+			  	}else{
+			  		$firstSem+=$fees['fees'];
+			  		$allSem+=$fees['fees'];
+			  	}
+  			}
+  			if ($check[0]!=0) {
+         $i++;
         }
-    }else{//if some policy than
-      if ($fees['fee_type']=='admission') {
-        if($admission<=0){
-          $Sem+=$fees['fees'];
-        }else{
-          $Sem+=$admission;
-        }
-      }else if ($fees['fee_type']=='Semester fee') {
-        if($Semfee<=0){
-          $Sem+=$fees['fees'];
-          $allSem+=$fees['fees'];
-        }else{
-          $Sem+=$Semfee;
-          $allSem+=$Semfee;
-        }
-      }else if ($fees['fee_type']=='Monthly Fee') {
-        if($Monthly<=0){
-          $Sem+=$fees['fees'];
-          $allSem+=$fees['fees'];
-        }else{
-          $Sem+=$Monthly;
-          $allSem+=$Monthly;
-        }
-      }
-      
-    }
-  }
-  }?>
-  <div class="container">
+  		}
+  	}
+?>
+<div class="container">
     <table class="table table-bordered">
       <thead>
         <tr>
           <th>Semester</th>
-          <th>Total Payment</th>
+          <!-- <th>Total Payment</th> -->
           <th>Payment Done</th>
         </tr> 
       </thead>
@@ -101,27 +80,33 @@ include("includes/header.php");
         <tr>
           
             <td><?=$pay['semester'];?></td>
-            <td><?php if($pay['sem_id']==1){echo $Sem;}else{echo $allSem;} ?></td>
             <td>
               <table class="table">
                 <tr>
-                <td><?=$pay['fee_type']?></td>
-                <td><?=$pay['amount'];?></td>
+                <td><?=$pay['fee_type'];?></td>
+                <td><?=$pay['amount'];
+                $Totalpaid+=$pay['amount'];
+
+
+                ?></td>
                 <td><?=$pay['pdate'];?></td>
                 </tr>
               </table>
-              
-                
-              
-            </td>
+               </td>
         </tr>
         <?php
         }
         ?>
       </tbody>
     </table>
-  </div>
-        </div>
+    <h3>Total Paid=<?=$Totalpaid?></h3><br>
+    <h3>Total Amount=<?=($firstSem+(7*$allSem));?></h3>
+</div>
+
+
+
+
+ </div>
         <!-- row -->
       </section>
       <!-- /wrapper -->

@@ -59,7 +59,7 @@ if (isset($_GET['op'])) {
                         </div>
 
                     <?php endif;?>
-        <h2> Fees Table</h2>
+        <h2>Display Fees</h2>
         <table class="table table-striped" border="1">
           <thead>
             <tr>

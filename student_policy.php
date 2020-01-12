@@ -69,7 +69,7 @@ $i=0;
 
                     <?php endif;?>
                             <div class="form-group">
-                                <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname']." ". "(".$row['batch'].")";?></label>
+                                <h2><?=$row['name']." ".$row['mname']." ".$row['lname']." ". "(".$row['batch'].")";?></h2>
                                  <input type="hidden" name="sid" value="<?=$row['sid'];?>">
                             </div>
 

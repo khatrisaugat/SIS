@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
 
 
         <?php endif;?>
-        <h2><i class="glyphicon glyphicon-user"></i> Student's Fee Record Form</h2>
+        <h2><i class="glyphicon glyphicon-user"></i>Fees Insert</h2>
         <form action="" method="post" class="form-group">
           <div class="form-group">
             <label>Fee Type*</label>

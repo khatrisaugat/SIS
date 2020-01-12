@@ -27,6 +27,13 @@ if($_SESSION['status']!='Success'){
   //joining tbl_students_payment and tbl_fees
   $tbl_student_policy=$obj->select($tbl_join_policy);
   //selecting all data from tbl_student_policy
+  $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
+  $count=0;//initialization
+  while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+          // print_r($policy);
+          $policy_hai[]=['fee_type'=>$policy['fee_type'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
+          $count++;
+        }
   
   $tbl_sem=$obj->select("semester");
   if(isset($_POST['submit'])){
@@ -68,7 +75,7 @@ if($_SESSION['status']!='Success'){
           </div>
         <?php endif;?>
                 <div class="form-group">
-                  <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname'];?></label>
+                   <h2><?=$row['name']." ".$row['mname']." ".$row['lname']." ". "(".$row['batch'].")";?></h2>
                  <input type="hidden" name="sid" value="<?=$row['sid']?>">
                 </div>
               </div>
@@ -147,6 +154,51 @@ if($_SESSION['status']!='Success'){
           <input type="submit" name="submit"  class="btn btn-success" value="submit">
           </form>
         </div>
+        <?php
+    $query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];
+    $j=0;
+  $student_payment_select=$obj->select($query_complete);
+  ?>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Payment type</th>
+        <th>Payment Date</th>
+        <th>Payment Amount</th>
+        <th>Semester</th>
+        <th>Policy(if any)</th>
+      </tr>
+      
+    </thead>
+    <tbody>
+      <?php while ($payment=$student_payment_select->fetch(PDO::FETCH_ASSOC)) {?>
+        <tr>
+          <td><?=++$j;?></td>
+          <td><?=$payment['fee_type'];?></td>
+          <td><?=$payment['pdate'];?></td>
+          <td><?=$payment['amount'];?></td>
+          <td><?=$payment['semester']?></td>
+
+          <td>
+            <?php 
+            if($count>0){
+              for ($i=0; $i <count($policy_hai) ; $i++) { 
+                if ($payment['spid']==$policy_hai[$i]['spid']) {
+                  echo "Policy Amount = ".$policy_hai[$i]['amount'];
+                }
+              }
+            }
+            ?>
+              
+          </td>
+        </tr>
+        <?php
+        
+      } ?>
+      
+    </tbody>
+  </table>
         </div>
         <!-- row -->
       </section>
