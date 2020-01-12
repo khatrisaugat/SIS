@@ -103,7 +103,7 @@ if($_SESSION['status']!='Success'){
                             <div class="form-group" id="policy"> 
                                 <label class="bmd-label-floating">Student Policy</label>
                                 <select name="spid" class="form-control">
-                                  <option value="" selected="">Select</option>
+                                  <option value="" selected="">Select Policy</option>
                                     <?php
                                       while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
                                         ?>

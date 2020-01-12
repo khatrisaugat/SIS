@@ -36,15 +36,15 @@ if($_SESSION['status']!='Success'){
     }
 
   }
-  // if(isset($_POST['submit']))
-  // {
-  //   if ($_POST['submit']=='Sort') {
-  //     print_r($_POST);
-  //     array_pop($_POST);
-  //     $obj->sort("tbl_students",$_POST['sort']);
-  //     // mysqli_query(mysqli_connect('localhost','root','','student'),"SELECT * FROM tbl_students ORDER BY status");
-  //   }
-  // }
+  if(isset($_POST['submit']))
+  {
+    if ($_POST['submit']=='Sort') {
+      // print_r($_POST);
+      array_pop($_POST);
+     $tbl_students=$obj->select("tbl_students ORDER BY ".$_POST['sort']);
+     
+    }
+  }
 
   include("includes/header.php");
   include("includes/sidebar.php"); 
@@ -59,7 +59,7 @@ if($_SESSION['status']!='Success'){
         <div class="row">
          
   
- <!-- <div class="container"><div style="float: right;margin: 10px;">
+ <div class="container"><div style="float: right;margin: 10px;">
            <form class="form-group" method="post">
                <select name="sort" style="padding: 8px 12px;">
                 <option selected="" disabled="">Select Sorting method</option>
@@ -71,7 +71,7 @@ if($_SESSION['status']!='Success'){
              </select>
              <input type="submit" name="submit" value="Sort" class="btn btn-success">
            </form>
-         </div> -->
+         </div>
      <?php if (isset($_SESSION['true'])):  ?>
                         <div class="alert alert-success">
                             
@@ -108,7 +108,7 @@ if($_SESSION['status']!='Success'){
 
           <?php
           if(!empty($row['img'])){?>
-            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=100%></a></td>
+            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=40%></a></td>
             <?php
 
           }else{

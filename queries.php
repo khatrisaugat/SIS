@@ -49,12 +49,6 @@ class queries extends connection
 		// echo $sql;
 	}
 
-	// function sort($tbl_name,$key){
-	// 	$sql="SELECT * FROM $tbl_name ORDER BY $key";
-	// 	$stm=$this->con->prepare($sql);
-	// 	echo $sql;
-	// 	$stm->execute();
-	// }
 	
 }
 $obj=new queries;
