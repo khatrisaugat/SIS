@@ -13,6 +13,7 @@ class queries extends connection
 		return $stm;
 
 	}
+	
 	function insert($val,$tbl_name){
 
 		$sql="INSERT INTO $tbl_name(";

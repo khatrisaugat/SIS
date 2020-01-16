@@ -35,7 +35,7 @@ if (isset($_FILES['image'])) {
         array_pop($_POST);//popping submit form post
 
         $_POST['img']=$filename;//insert filename in post variable
-        
+        $_POST['sem_id']=1;
         $obj->insert($_POST,"tbl_students");//insert query
         $_SESSION['true']="Students added successfully!";
       }

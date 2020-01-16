@@ -43,6 +43,23 @@
               <li><a href="display_fees.php">Fee Table</a></li>
             </ul>
           </li>
+          <li class="sub-menu">
+            <a href="upgrade_semester.php">
+              <i class="fa fa-pencil"></i>
+              <span>Semester Change</span>
+            </a>
+          </li>
+            <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-money"></i>
+            
+
+                <span>Payment</span>
+              </a>
+            <ul class="sub">
+              <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
+            </ul>
+          </li>
           <?php 
                 if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){
 

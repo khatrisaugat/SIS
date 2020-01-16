@@ -78,7 +78,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
   
  <div class="container">
    <h1>Students Details</h1>
-  <div class="row">
+  <div class="row" style="margin-bottom: 3px;">
  
            <form class="form-group" method="post" action="display_students.php?filter=set">
                <!-- <select name="sort" style="padding: 8px 12px;">
