@@ -8,6 +8,8 @@ if($_SESSION['status']!='Success'){
    $sum=0;
    $value=0;
   $sum1=0;
+  $Receivable_amount=0;
+  $remaining=0;
   
   // print_r($_POST);
 	$select_batch=$obj->select("batch");
@@ -98,9 +100,11 @@ if (isset($_POST['submit'])) {
                   } 
                   else{
                     $value=$policy_select['amount'];
+
                     echo $value;
                   }
                   $sum+=$value;
+                  $Receivable_amount+=$value;
 
 
               ?></td> 
@@ -120,6 +124,7 @@ if (isset($_POST['submit'])) {
                      // $row['sid']++;
                       
                    $sum1+=$payment_received_data['SUM(amount)'];
+                   $remaining+=$payment_received_data['SUM(amount)'];
                   }
                     ?>
                   </td>
@@ -164,7 +169,18 @@ if (isset($_POST['submit'])) {
       </table>
 
       <!-- Economic Details -->
-
+<h3>Total Receivable amount = <?=$Receivable_amount;?></h3>
+<h3>Total Received amount = <?= $remaining;?></h3>
+<h3>Remaining amount to be received =
+<?php if ($Receivable_amount>$remaining) {
+ $amt=$Receivable_amount-$remaining;
+ echo $amt;
+} 
+else{
+  $amt=$remaining-$Receivable_amount;
+ echo $amt;
+}
+?></h3>
 
 
       <!-- Economic Details -->
