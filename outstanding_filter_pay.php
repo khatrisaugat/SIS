@@ -11,8 +11,9 @@ $sql.=" WHERE batch=".$_GET['batch'];
 
 $student_select=$obj->select($sql);
 $count=0;
+
 ?>
-<table class="table">
+<table class="table " border="1">
                <thead>
                  <tr>
                    <th>S.N</th>

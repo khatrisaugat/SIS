@@ -13,6 +13,15 @@ class queries extends connection
 		return $stm;
 
 	}
+	function select_sum($tbl_name)
+	{
+		$sql="SELECT {$tbl_name}";
+		$stm=$this->con->prepare($sql);
+		// echo "$sql";	
+		$stm->execute();
+		return $stm;
+
+	}
 	
 	function insert($val,$tbl_name){
 
@@ -45,6 +54,23 @@ class queries extends connection
 		$sql.=join('',array_keys($sn));
 		$sql.="=".join('',$sn);
 		echo $sql;
+		$stm=$this->con->prepare($sql);
+		$stm->execute();
+		// echo $sql;
+	}
+	function updateSem($val,$tbl_name,$sn){
+		
+		$sql="UPDATE $tbl_name SET ";
+		foreach ($val as $key => $value) {
+			$arr[]=$key."='$value'";
+		}
+		$sql.=implode(',', $arr);
+		
+		$sql.=" WHERE";
+		$sql.=" sid ";
+		// $sql.=join('',array_keys($sn));	
+		$sql.="IN (".join(',',$sn).")";
+		// echo $sql;
 		$stm=$this->con->prepare($sql);
 		$stm->execute();
 		// echo $sql;
