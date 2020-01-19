@@ -98,7 +98,11 @@ if($_SESSION['status']!='Success'){
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+
+                      
+
+                        
+                      <div class="row">
                           <div class="col-md-12">
                             <div class="form-group" id="policy"> 
                                 <label class="bmd-label-floating">Student Policy</label>
@@ -137,7 +141,7 @@ if($_SESSION['status']!='Success'){
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                              <label class="bmd-label-floating">amount</label>
+                              <label class="bmd-label-floating">amount  | rem ()</label>
                             <input type="number" name="amount" class="form-control">
                           </div>
                         </div>
@@ -167,7 +171,7 @@ if($_SESSION['status']!='Success'){
         <th>Payment Date</th>
         <th>Payment Amount</th>
         <th>Semester</th>
-        <th>Policy(if any)</th>
+        <th>Applicable Amount</th>
       </tr>
       
     </thead>
