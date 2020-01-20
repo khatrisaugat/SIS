@@ -15,6 +15,8 @@ if($_SESSION['status']!='Success'){
       <section class="wrapper">
        <div class="row mt">
          <?php 
+
+         
   require_once("queries.php");
   $tbl_name="tbl_students WHERE sid=".$_GET['sid'];//selecting the student 
   $tbl_students=$obj->select($tbl_name);
@@ -24,8 +26,11 @@ if($_SESSION['status']!='Success'){
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
   //selecting all data from tbl_fees
   $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
+
   //joining tbl_students_payment and tbl_fees
   $tbl_student_policy=$obj->select($tbl_join_policy);
+ 
+  // echo $tbl_join_policy;
   //selecting all data from tbl_student_policy
   $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
   $count=0;//initialization
@@ -141,7 +146,7 @@ if($_SESSION['status']!='Success'){
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                              <label class="bmd-label-floating">amount  | rem ()</label>
+                              <label class="bmd-label-floating">amount </label>
                             <input type="number" name="amount" class="form-control">
                           </div>
                         </div>
@@ -178,6 +183,7 @@ if($_SESSION['status']!='Success'){
     <tbody>
       <?php while ($payment=$student_payment_select->fetch(PDO::FETCH_ASSOC)) {?>
         <tr>
+        
           <td><?=++$j;?></td>
           <td><?=$payment['fee_type'];?></td>
           <td><?=$payment['pdate'];?></td>
@@ -186,13 +192,25 @@ if($_SESSION['status']!='Success'){
 
           <td>
             <?php 
-            if($count>0){
+            $amount=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']." AND fid=".$payment['fid']);
+            $Amount=$amount->fetch(PDO::FETCH_ASSOC);
+            if ($count>0) {
               for ($i=0; $i <count($policy_hai) ; $i++) { 
-                if ($payment['spid']==$policy_hai[$i]['spid']) {
+                if ($Amount['spid']==$policy_hai[$i]['spid']) {
                   echo "Policy Amount = ".$policy_hai[$i]['amount'];
-                }
+                } 
+                echo "<pre>";
+                  print_r($policy_hai);
+                  echo "Payment";
+                  print_r($payment);
+                  echo "</pre>";
+                 
+
+              
               }
             }
+              
+            
             ?>
               
           </td>

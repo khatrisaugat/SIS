@@ -27,14 +27,14 @@
         ?>
         <?php if($row2['fid']==$fid){?>
 
-          <option><?=$row2['amount'];?></option>
+          <option value="<?=$row2['spid'];?>"><?=$row2['amount'];?></option>
       <?php /*  <option value="<?=$row2['spid'];?>" <?php if($row2['fid']==$fid){echo "Selected";} ?>>
         <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?>
         </option> */ ?>
         <?php
     		
      } else if($row2['amount']==""){ ?>
-          <option><?php echo $row2['fees']?></option>
+          <option value=""><?php echo $row2['fees']?></option>
       <?php  } }
         ?>
     </select>

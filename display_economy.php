@@ -17,10 +17,65 @@ if($_SESSION['status']!='Success'){
   $students=$obj->select("tbl_students");
   $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
   $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
+
+
+
+//   if (isset($_POST['submit']) && $_POST['submit']=='submit') {
+//     if ($_POST['semester']==1) {
+//           $query="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE ";
+          
+//           array_pop($_POST);
+//           foreach ($_POST as $key => $value) {
+//             if ($value!='') {
+//               $arr[]=$key."='$value'";
+//             }
+
+//           }
+//           if (isset($arr)) {
+//             array_pop($arr);
+//             $query.=implode(' AND ', $arr);
+//           }
+// echo $query;
+// echo "<br>";
+
+//            $tbl_heading=$obj->select($query);
+
+//             $tbl_heading1=$obj->select($query);
+//         }
+
+
+
+//        else{
+//           $query="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND ";
+          
+//           array_pop($_POST);
+//           foreach ($_POST as $key => $value) {
+//             if ($value!='') {
+//               $arr[]=$key."='$value'";
+//             }
+
+//           }
+//           if (isset($arr)) {
+//             array_pop($arr);
+//             $query.=implode(' AND ', $arr);
+//           }
+//           echo "<br>";
+
+// echo $query;
+// // echo $query1;
+//            $tbl_heading=$obj->select($query);
+
+//         $tbl_heading1=$obj->select($query);
+//         }
+ 
+// }
+
+// OR
+
 if (isset($_POST['submit'])) {
   if ($_POST['submit']=='submit') {
     
-    if ($_POST['sem']==1) {
+    if ($_POST['semester']==1) {
       $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
       $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
       
@@ -48,25 +103,25 @@ if (isset($_POST['submit'])) {
   		<div class="col-md-12">
   			<h1>Payment Received Details</h1>
   			<form method="post" class="form-group">
-  				<div class="col-md-4">
-  				
-  					<select name="batch" class="form-control" required="">
-  						<option selected="" disabled="" >Select Batch</option>
-  						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){?>
-  						<option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
-  						<?php }?>
-  					</select>
-  			</div>
-  			<div class="col-md-4">
-  				
-  					<select name="sem" class="form-control" required="">
-  						<option selected="" disabled="" >Select Semester</option>
-  						<?php while($sem=$select_sem->fetch(PDO::FETCH_ASSOC)){?>
-  						<option value="<?=$sem['sem_id'];?>"><?=$sem['semester'];?></option>
-  						<?php }?>
-  					</select>
-  			</div>
-  			<button name="submit" value="submit" class="btn btn-success">Filter</button>
+          				<div class="col-md-4">
+          				
+          					<select name="batch" class="form-control" required="">
+          						<option selected="" disabled="" >Select Batch</option>
+          						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){?>
+          						<option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
+          						<?php }?>
+          					</select>
+          			</div>
+          			<div class="col-md-4">
+          				
+          					<select name="semester" class="form-control" required="">
+          						<option selected="" disabled="" >Select Semester</option>
+          						<?php while($sem=$select_sem->fetch(PDO::FETCH_ASSOC)){?>
+          						<option value="<?=$sem['sem_id'];?>"><?=$sem['semester'];?></option>
+          						<?php }?>
+          					</select>
+          			</div>
+          			<button name="submit" value="submit" class="btn btn-success">Filter</button>
   			</form>
   		</div>
   		<div class="col-md-12">
@@ -76,6 +131,8 @@ if (isset($_POST['submit'])) {
           <tr>
             <th>SN</th>
             <th>Sutdents Name</th>
+            <th>Batch</th>
+            <th>Semester</th>
             <?php for($a=0;$a<count($headings);$a++){?>
               <th><?=$headings[$a]['fee_type'];?></th>
             <?php }?>
@@ -88,7 +145,8 @@ if (isset($_POST['submit'])) {
             <tr>
               <td><?=++$i;?></td>
               <td><?=$row['name'];?></td>
-
+              <td><?=$row['batch'];?></td>
+              <td><?=$row['sem_id'];?></td>
               <?php for($a=0;$a<count($headings);$a++){?>
               <td><?php 
              
