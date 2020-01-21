@@ -60,9 +60,10 @@ include("includes/header.php");?>
               <th>Student Name</th>
               <th>Fee Type</th>
               <th>Amount</th>
+          <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
               <th>Edit</th>
               <th>Delete</th>
-
+            <?php }?>
             </tr>
           </thead>
           <tbody>
@@ -88,10 +89,12 @@ include("includes/header.php");?>
                  $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
                  echo $ftype['fee_type'];?></td>
                  <td><?=$row['amount'];?></td>
+            <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
                  <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
 >Edit</a></td>
                  <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
+<?php }?>
 
 
                 </tr>

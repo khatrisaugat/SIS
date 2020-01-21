@@ -63,8 +63,10 @@ if($_SESSION['status']!='Success'){
         <th>Amount</th>
         <th>Date</th>
         <th>Semester</th>
+      <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
         <th>Delete</th>
         <th>Edit</th>
+      <?php }?>
       </tr>
     </thead>
     <tbody>
@@ -92,10 +94,12 @@ if($_SESSION['status']!='Success'){
           <td><?=$row['amount'];?></td>
           <td><?=$row['pdate'];?></td>
           <td><?=$row['semester']." Sem";?></td>
+        <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
           <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
           <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
 >Edit</a></td>
+<?php }?>
 
         </tr>
       <?php } ?>

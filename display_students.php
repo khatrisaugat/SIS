@@ -133,8 +133,10 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         <th>Gender</th>
         <th>Policy</th>
         <th>Payment</th>
+    <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
         <th>Delete</th>
         <th>Edit</th>
+      <?php }?>
         <th>View</th>
       </tr>
     </thead>
@@ -151,7 +153,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
 
           <?php
           if(!empty($row['img'])){?>
-            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=40%></a></td>
+            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" class="size"></a></td>
             <?php
 
           }else{
@@ -167,10 +169,12 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
           <td><?=$row['gender'];?></td>
           <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Policy</a></td>
           <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Payment</a></td>
+        <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
 >Edit</a></td>
+<?php }?>
           <td><a href="student_details.php?sid=<?=$row['sid'];?>" class="btn btn-success">View</a></td>
         </tr>
         <?php
@@ -275,6 +279,10 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         }, 3000);
     })
   </script>
+
+  <style>
+    .size{height: 60px;width: 60px;}
+  </style>
 </body>
 
 </html>

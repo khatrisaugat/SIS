@@ -15,7 +15,7 @@ include("includes/sidebar.php");?>
   <section id="main-content">
       <section class="wrapper">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <div class="col-sm-4">
               <label>Batch</label>
     			     <select name="batch" class="form-control" onchange="batch(this.value)">
@@ -27,8 +27,9 @@ include("includes/sidebar.php");?>
                </select>
              </div>
            </div>
-           <div class="col-sm-8" id="pay_table">
-             <table class="table">
+           <div class="col-sm-12" id="pay_table">
+            <br>
+             <table class="table table-bordered" >
                <thead>
                  <tr>
                    <th>S.N</th>
@@ -87,7 +88,7 @@ include("includes/sidebar.php");?>
                   ?>
                    <td>
 
-                     <table>
+                     <table class="table table-bordered">
                       
                             
                           

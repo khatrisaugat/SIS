@@ -42,7 +42,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <td>Photo</td>
         <td>
           <?php if(!empty($student['img'])){ ?> 
-          <a href="files/<?=$student['img'];?>"><img src="files/<?=$student['img'];?>" width=100%></a>
+          <a href="files/<?=$student['img'];?>"><img src="files/<?=$student['img'];?>" class="size"></a>
         <?php }else{echo "No image inserted";} ?>
         </td>
       </tr>
@@ -195,6 +195,9 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
 
+  <style>
+    .size{height: 120px;width: 120px;}
+  </style>
 </body>
 
 </html>
