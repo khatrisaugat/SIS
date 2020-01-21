@@ -58,7 +58,7 @@
               </a>
             <ul class="sub">
               <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
-              <li><a href="display_economy.php">Recieved Payment</a></li>
+              <li><a href="display_economy.php">Received Payment</a></li>
             </ul>
           </li>
           <?php 

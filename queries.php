@@ -22,6 +22,15 @@ class queries extends connection
 		return $stm;
 
 	}
+	function selectCurrent($tbl_name)
+	{
+		$sql="SELECT {$tbl_name}";
+		$stm=$this->con->prepare($sql);
+		// echo "$sql";	
+		$stm->execute();
+		return $stm;
+
+	}
 	
 	function insert($val,$tbl_name){
 

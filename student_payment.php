@@ -197,8 +197,18 @@ if($_SESSION['status']!='Success'){
             if ($count>0) {
               for ($i=0; $i <count($policy_hai) ; $i++) { 
                 if ($Amount['spid']==$policy_hai[$i]['spid']) {
-                  echo "Policy Amount = ".$policy_hai[$i]['amount'];
+                  echo $policy_hai[$i]['amount'];
                 } 
+
+                else{
+                  echo $payment['fees'];
+                }
+                // echo "<pre>";
+                //   print_r($policy_hai);
+                //   echo "Payment";
+                //   print_r($payment);
+                //   echo "</pre>";
+
                  
 
               
