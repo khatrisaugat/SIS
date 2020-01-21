@@ -32,13 +32,13 @@ if($_SESSION['status']!='Success'){
  
   // echo $tbl_join_policy;
   //selecting all data from tbl_student_policy
-  $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
+  // $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
   $count=0;//initialization
-  while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
-          // print_r($policy);
-          $policy_hai[]=['fee_type'=>$policy['fee_type'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
-          $count++;
-        }
+  // while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+  //         // print_r($policy);
+  //         $policy_hai[]=['fee_type'=>$policy['fee_type'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
+  //         $count++;
+  //       }
   
   $tbl_sem=$obj->select("semester");
   if(isset($_POST['submit'])){
@@ -192,30 +192,13 @@ if($_SESSION['status']!='Success'){
 
           <td>
             <?php 
-            $amount=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']." AND fid=".$payment['fid']);
-            $Amount=$amount->fetch(PDO::FETCH_ASSOC);
-            if ($count>0) {
-              for ($i=0; $i <count($policy_hai) ; $i++) { 
-                if ($Amount['spid']==$policy_hai[$i]['spid']) {
-                  echo $policy_hai[$i]['amount'];
-                } 
-
-                else{
-                  echo $payment['fees'];
-                }
-                // echo "<pre>";
-                //   print_r($policy_hai);
-                //   echo "Payment";
-                //   print_r($payment);
-                //   echo "</pre>";
-
-                 
-
-              
-              }
+            $check_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']." AND fid=".$payment['fid']);//select policy if exists
+            $fees_select=$obj->select("tbl_fees WHERE fid=".$payment['fid']);
+            $fee_amount=$fees_select->fetch(PDO::FETCH_ASSOC);
+            while ($row7=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+              $fee_amount['fees']=$row7['amount'];
             }
-              
-            
+            echo $fee_amount['fees'];
             ?>
               
           </td>
