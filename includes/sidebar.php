@@ -44,7 +44,7 @@
             </ul>
           </li>
           <li class="sub-menu">
-            <a href="upgrade_semester.php">
+            <a href="up_sem.php">
               <i class="fa fa-pencil"></i>
               <span>Semester Change</span>
             </a>
@@ -58,6 +58,7 @@
               </a>
             <ul class="sub">
               <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
+              <li><a href="display_economy.php">Received Payment</a></li>
             </ul>
           </li>
           <?php 
