@@ -17,6 +17,10 @@ if($_SESSION['status']!='Success'){
   $students=$obj->select("tbl_students");
   $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
   $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
+  $select_current_batch=$obj->selectCurrent(" MAX(batch) AS maxBatch FROM tbl_students");
+  $current_batch=$select_current_batch->fetch(PDO::FETCH_ASSOC);
+  $select_current_sem=$obj->selectCurrent(" MIN(sem_id) AS minSem FROM tbl_students");
+  $current_sem=$select_current_sem->fetch(PDO::FETCH_ASSOC);
 
 
 
@@ -107,8 +111,8 @@ if (isset($_POST['submit'])) {
           				
           					<select name="batch" class="form-control" required="">
           						<option selected="" disabled="" >Select Batch</option>
-          						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){?>
-          						<option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
+          						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){ ?>
+          						<option value="<?=$batch['batch'];?>" <?php if($current_batch['maxBatch']==$batch['batch']){echo "selected";}?>><?=$batch['batch'];?></option>
           						<?php }?>
           					</select>
           			</div>
@@ -117,7 +121,7 @@ if (isset($_POST['submit'])) {
           					<select name="semester" class="form-control" required="">
           						<option selected="" disabled="" >Select Semester</option>
           						<?php while($sem=$select_sem->fetch(PDO::FETCH_ASSOC)){?>
-          						<option value="<?=$sem['sem_id'];?>"><?=$sem['semester'];?></option>
+          						<option value="<?=$sem['sem_id'];?>" <?php if($current_sem['minSem']==$sem['sem_id']){echo "selected";}?><?=$batch['batch'];?>><?=$sem['semester'];?></option>
           						<?php }?>
           					</select>
           			</div>

@@ -1,14 +1,16 @@
 <?php
+session_start();
+
 	$fid=$_GET['fid'];
   // echo $fid;
 	$sid=$_GET['sid'];
 
   // echo $fid." ".$sid;
 	require_once("queries.php");
-	$tbl_join_policy="`tbl_fees` LEFT JOIN tbl_student_policy ON tbl_student_policy.fid=tbl_fees.fid  WHERE tbl_student_policy.sid=".$sid. " and tbl_student_policy.fid=".$fid . "  
+	$tbl_join_policy="`tbl_fees` JOIN tbl_student_policy ON tbl_student_policy.fid=tbl_fees.fid  WHERE tbl_student_policy.sid=".$sid. " and tbl_student_policy.fid=".$fid . "  
 
 
-  UNION (SELECT * FROM tbl_fees left  JOIN tbl_student_policy ON tbl_fees.fid=tbl_student_policy.fid
+  UNION (SELECT * FROM tbl_fees left JOIN tbl_student_policy ON tbl_fees.fid=tbl_student_policy.fid
    where tbl_fees.fid=".$fid." AND tbl_student_policy.sid IS NULL)";
 
   // echo $tbl_join_policy;
@@ -20,7 +22,7 @@
 
 	?>
 	<label class="bmd-label-floating">Applicable Fees</label>
-    <select name="spid" class="form-control" >
+    <select name="spid" class="form-control" disabled="true">
         <?php
         while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
           
@@ -38,3 +40,4 @@
       <?php  } }
         ?>
     </select>
+
