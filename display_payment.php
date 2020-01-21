@@ -12,7 +12,9 @@ if($_SESSION['status']!='Success'){
     if ($_GET['op']=='d') {
       $tspid['tspid']=$_GET['tspid'];
       $obj->delete($tspid,"tbl_student_payment");
+      $_SESSION['true']="Data deleted successfully!";
       header("Location:display_payment.php");
+      exit();
     }else if($_GET['op']=='e'){
       header("Location:edit_payment.php?tspid=".$_GET['tspid']);
     }
@@ -37,6 +39,16 @@ if($_SESSION['status']!='Success'){
         <div class="row">
     
 <div class="container">
+   <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
   <h1>Payment Details</h1>
   <table class="table table-bordered table-striped">
     <thead>
@@ -107,7 +119,14 @@ if($_SESSION['status']!='Success'){
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
+  </script>
 </body>
 
 </html>

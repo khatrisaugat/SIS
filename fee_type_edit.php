@@ -18,7 +18,9 @@ if ($_POST['submit']=='submit') {
   $sn['ftid']=$_GET['ftid'];
   // print_r($sn);
   $obj->update($_POST,"fee_types",$sn);
+  $_SESSION['true']="Data edited successfully!";
   header('location:fee_type_display.php');
+  exit();
 }
 }
  } 

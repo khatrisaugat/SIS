@@ -22,7 +22,7 @@ require_once("queries.php");
 $j=0;//initialize j
 $count=0;//initialize count
 $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
-$student_select=$obj->select("tbl_students WHERE sid=".$_GET['sid']);
+$student_select=$obj->select("tbl_students JOIN semester ON semester.sem_id=tbl_students.sem_id WHERE sid=".$_GET['sid']);
 $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 
 
@@ -60,6 +60,11 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <td><?=++$j;?></td>
         <td>Batch</td>
         <td><?=$student['batch'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>Semester</td>
+        <td><?=$student['semester'];?></td>
       </tr>
       <tr>
         <td><?=++$j;?></td>

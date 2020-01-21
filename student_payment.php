@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -14,6 +15,8 @@ if($_SESSION['status']!='Success'){
       <section class="wrapper">
        <div class="row mt">
          <?php 
+
+         
   require_once("queries.php");
   $tbl_name="tbl_students WHERE sid=".$_GET['sid'];//selecting the student 
   $tbl_students=$obj->select($tbl_name);
@@ -23,9 +26,19 @@ if($_SESSION['status']!='Success'){
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$row['batch']);
   //selecting all data from tbl_fees
   $tbl_join_policy="`tbl_student_policy` JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
+
   //joining tbl_students_payment and tbl_fees
   $tbl_student_policy=$obj->select($tbl_join_policy);
+ 
+  // echo $tbl_join_policy;
   //selecting all data from tbl_student_policy
+  // $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
+  $count=0;//initialization
+  // while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+  //         // print_r($policy);
+  //         $policy_hai[]=['fee_type'=>$policy['fee_type'],'spid'=>$policy['spid'],'amount'=>$policy['amount']];
+  //         $count++;
+  //       }
   
   $tbl_sem=$obj->select("semester");
   if(isset($_POST['submit'])){
@@ -43,8 +56,7 @@ if($_SESSION['status']!='Success'){
 
       $obj->insert($_POST,"tbl_student_payment");
       //insert values from form
-      
-      
+      $_SESSION['true']="Data added successfully!";     
     }
   }
 
@@ -57,8 +69,16 @@ if($_SESSION['status']!='Success'){
           <form action="" method="post" enctype="multipart/form-data" class="form-group">
             <div class="row">
              <div class="col-md-12">
+              <?php if(isset($_SESSION['true'])):?>
+
+          <div class="alert alert-success">
+            <?php echo $_SESSION['true'];
+            unset($_SESSION['true']);
+            ?>
+          </div>
+        <?php endif;?>
                 <div class="form-group">
-                  <label class="bmd-label-floating"><?=$row['name']." ".$row['mname']." ".$row['lname'];?></label>
+                   <h2><?=$row['name']." ".$row['mname']." ".$row['lname']." ". "(".$row['batch'].")";?></h2>
                  <input type="hidden" name="sid" value="<?=$row['sid']?>">
                 </div>
               </div>
@@ -67,7 +87,8 @@ if($_SESSION['status']!='Success'){
                           <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Fee Type</label>
-                                <select name="fid" class="form-control">
+                                <select name="fid" class="form-control" onchange="feeChange(this.value)">
+                                  <option value="" selected="" disabled="">Select</option>
                                     <?php
                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
@@ -75,20 +96,27 @@ if($_SESSION['status']!='Success'){
                                         <?php
                                       }
                                     ?>
+
                                 </select>
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+
+                      
+
+                        
+                      <div class="row">
                           <div class="col-md-12">
-                            <div class="form-group">
+                            <div class="form-group" id="policy"> 
                                 <label class="bmd-label-floating">Student Policy</label>
                                 <select name="spid" class="form-control">
-                                  <option value="" selected="">No policy</option>
+                                  <option value="" selected="">Select Policy</option>
                                     <?php
                                       while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
-                                          <option value="<?=$row2['spid'];?>"><?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
+                                          <option value="<?=$row2['spid'];?>">
+                                            
+                                          <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?></option>
                                         <?php
                                       }
                                     ?>
@@ -100,7 +128,7 @@ if($_SESSION['status']!='Success'){
                           <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Semester</label>
-                                <select name="semester" class="form-control">
+                                <select name="semester" class="form-control" onchange="Sem(this.value)">
                                   <option value="" selected="" disabled="">Select</option>
                                     <?php
                                       while ($row3=$tbl_sem->fetch(PDO::FETCH_ASSOC)) {
@@ -116,7 +144,9 @@ if($_SESSION['status']!='Success'){
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                              <label class="bmd-label-floating">amount</label>
+
+                              <label class="bmd-label-floating" id="semester">amount </label>
+
                             <input type="number" name="amount" class="form-control">
                           </div>
                         </div>
@@ -133,6 +163,52 @@ if($_SESSION['status']!='Success'){
           <input type="submit" name="submit"  class="btn btn-success" value="submit">
           </form>
         </div>
+        <?php
+    $query_complete="tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];
+    $j=0;
+  $student_payment_select=$obj->select($query_complete);
+  ?>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Payment type</th>
+        <th>Payment Date</th>
+        <th>Payment Amount</th>
+        <th>Semester</th>
+        <th>Applicable Amount</th>
+      </tr>
+      
+    </thead>
+    <tbody>
+      <?php while ($payment=$student_payment_select->fetch(PDO::FETCH_ASSOC)) {?>
+        <tr>
+        
+          <td><?=++$j;?></td>
+          <td><?=$payment['fee_type'];?></td>
+          <td><?=$payment['pdate'];?></td>
+          <td><?=$payment['amount'];?></td>
+          <td><?=$payment['semester']?></td>
+
+          <td>
+            <?php 
+            $check_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']." AND fid=".$payment['fid']);//select policy if exists
+            $fees_select=$obj->select("tbl_fees WHERE fid=".$payment['fid']);
+            $fee_amount=$fees_select->fetch(PDO::FETCH_ASSOC);
+            while ($row7=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+              $fee_amount['fees']=$row7['amount'];
+            }
+            echo $fee_amount['fees'];
+            ?>
+              
+          </td>
+        </tr>
+        <?php
+        
+      } ?>
+      
+    </tbody>
+  </table>
         </div>
         <!-- row -->
       </section>
@@ -141,10 +217,42 @@ if($_SESSION['status']!='Success'){
     <!-- /MAIN CONTENT -->
     <!--main content end-->
     <!--footer start-->
-   <?php include("includes/footer.php"); ?>
+   <?php include("includes/footer.php");
+   
+   ?>
+
     <!--footer end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
+  <script type="text/javascript">
+      function feeChange(fid){
+      var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('policy').innerHTML=this.responseText;
+
+        }
+      }
+      xhr.open('GET','ajaxinpayment.php?fid='+fid+"&sid="+<?=$_GET['sid'];?>,true);
+      xhr.send();
+  };
+    function Sem(sem_id){
+       var xh=new XMLHttpRequest();
+      xh.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('semester').innerHTML=this.responseText;
+
+        }
+      }
+      xh.open('GET','amountsuggest.php?sem='+sem_id+'&sid='+<?=$_GET['sid'];?>,true);
+      xh.send();
+      }
+
+
+
+  </script>
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
@@ -162,7 +270,14 @@ if($_SESSION['status']!='Success'){
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
-
+  <script>
+    $(document).ready(function(){
+      setTimeout(function(){
+        $('.alert').hide('slow')
+      },3000);
+    })
+  </script>
 </body>
 
 </html>
+

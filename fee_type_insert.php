@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
 if ($_POST['submit']=='submit') {
   array_pop($_POST);
   $obj->insert($_POST,"fee_types");
+  $_SESSION['true']="Data inserted successfully";
 }
 }
  
@@ -35,6 +36,15 @@ if ($_POST['submit']=='submit') {
     <div class="row">
       <div class="col-md-12">
           <div class="col-md-6">
+            <?php if(isset($_SESSION['true'])):?>
+              <div class="alert alert-success">
+                <?php echo $_SESSION['true'];
+                unset($_SESSION['true']);
+                ?>
+              </div>
+
+
+            <?php endif;?>
             <h2><i class="glyphicon glyphicon-user"></i>FeeType Insert Form</h2>
             <form action="" method="post" class="form-group">
               <div class="form-group">
@@ -84,7 +94,15 @@ if ($_POST['submit']=='submit') {
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
+<script>
+ $(document).ready(function(){
+    setTimeout(function(){
+      $ ('.alert').hide('slow')
+    },3000);
+  })
 
+
+</script>
 </body>
 
 </html>

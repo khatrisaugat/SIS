@@ -35,8 +35,9 @@ if (isset($_FILES['image'])) {
         array_pop($_POST);//popping submit form post
 
         $_POST['img']=$filename;//insert filename in post variable
-        
+        $_POST['sem_id']=1;
         $obj->insert($_POST,"tbl_students");//insert query
+        $_SESSION['true']="Students added successfully!";
       }
     
     
@@ -49,8 +50,18 @@ if (isset($_FILES['image'])) {
 
   <div class="container">
     <div class="row">
-      <div class="col-md-5">
+
+      <div class="col-md-12">
+        <?php if(isset($_SESSION['true'])):?>
+          <div class="alert alert-success">
+            <?php echo $_SESSION['true'];
+            unset($_SESSION['true']);
+            ?>
+          </div>
+        <?php endif;?>
         <h1><i class="glyphicon glyphicon-user"></i> Student's Record Form</h1>
+        <div class="col-md-6">
+             
         <form action="" method="post" class="form-group" enctype="multipart/form-data">
           <div class="form-group">
             <label>First Name*</label>
@@ -80,7 +91,9 @@ if (isset($_FILES['image'])) {
             <label>Phone*</label>
             <input type="text" name="phone" class="form-control">
           </div>
-          <div class="form-group">
+        </div>
+          <div class="col-md-6">
+               <div class="form-group">
             <label>Guardian's Name*</label>
             <input type="text" name="gname" class="form-control">
           </div>
@@ -118,6 +131,7 @@ if (isset($_FILES['image'])) {
           </div>
           <button class="btn btn-success" name="submit" value="upload"><i class="glyphicon glyphicon-plus"></i> Add Record</button>
         </form>
+          </div>
       </div>
     </div>
   </div>
@@ -150,7 +164,13 @@ if (isset($_FILES['image'])) {
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
-
+  <script>
+    $(document).ready(function(){
+      setTimeout(function(){
+        $('.alert').hide('fast')
+      },3000);
+    })
+  </script>
 </body>
 
 </html>

@@ -9,6 +9,7 @@ $fee_select=$obj->select("fee_types");
 // echo "<pre>";
 // print_r($_GET);
 // echo "</pre>";
+
 if (isset($_GET['fid'])) {
   array_pop($_GET);
   $value_select=$obj->select("tbl_fees WHERE fid=".$_GET['fid']);
@@ -16,19 +17,21 @@ if (isset($_GET['fid'])) {
 }
 
 
-  
+
 
 
 if (isset($_GET['fid'])) {
 
 if (isset($_POST['submit'])) {
 
-if ($_POST['submit']=='submit') {
+if ($_POST['submit']=='submit') {    
   array_pop($_POST);
   $sn['fid']=$_GET['fid'];
   // print_r($sn);
   $obj->update($_POST,"tbl_fees",$sn);
+  $_SESSION['true']="Data edited successfully!";
   header('location:display_fees.php');
+  exit();
 }
 }
  } 
@@ -52,11 +55,11 @@ if ($_POST['submit']=='submit') {
             <form action="" method="post" class="form-group">
               <div class="form-group">
                 <label>Fee Type*</label>
-                <select name="ftype" class="form-control">
+                <select name="ftid" class="form-control">
                   <option selected="" disabled="">Select Your Fee type</option>
                   <?php while ($fee_type=$fee_select->fetch(PDO::FETCH_ASSOC)) {?>
                     <?php print_r($fee_type);?>
-                    <option value="<?=$fee_type['fee_type'];?>" <?php if ($value['ftid']==$fee_type['ftid']){echo "Selected";} ?>><?=$fee_type['fee_type'];?></option>
+                    <option value="<?=$fee_type['ftid'];?>" <?php if ($value['ftid']==$fee_type['ftid']){echo "Selected";} ?>><?=$fee_type['fee_type'];?></option>
                   <?php } ?>
                   
                 </select>

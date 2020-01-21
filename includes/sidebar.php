@@ -1,3 +1,13 @@
+ <?php
+ session_start();
+ if($_SESSION['status']!='Success'){
+  header("Location:login.php");
+  }
+
+
+ ?>
+
+
  <!--sidebar start-->
     <aside>
       <div id="sidebar" class="nav-collapse ">
@@ -34,9 +44,33 @@
             </ul>
           </li>
           <li class="sub-menu">
+            <a href="up_sem.php">
+              <i class="fa fa-pencil"></i>
+              <span>Semester Change</span>
+            </a>
+          </li>
+            <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-money"></i>
+            
+
+                <span>Payment</span>
+              </a>
+            <ul class="sub">
+              <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
+              <li><a href="display_economy.php">Received Payment</a></li>
+            </ul>
+          </li>
+          <?php 
+                if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){
+
+                ?>
+          <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-book"></i>
-              <span>Extra</span>
+            
+
+                <span>Extra</span>
               </a>
             <ul class="sub">
               <li><a href="batch_display.php">batch display</a></li>
@@ -46,6 +80,10 @@
             </ul>
           </li>
         </ul>
+        <?php
+      }
+             ?>
+              
         <!-- sidebar menu end-->
       </div>
     </aside>

@@ -13,7 +13,9 @@ if (isset($_GET['op'])) {
     // print_r($_GET);
     array_pop($_GET); 
     $obj->delete($_GET,"tbl_fees");
-    header('Location:display_fees.php');
+    $_SESSION['true']="Data deleted successfully!";
+        header('Location:display_fees.php');
+      exit();
   }
 
   else if($_GET['op']=='e'){
@@ -47,7 +49,17 @@ if (isset($_GET['op'])) {
     <div class="row">
       
       <div class="col-md-12">
-        <h2> Fees Table</h2>
+         <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
+        <h2>Display Fees</h2>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
@@ -68,8 +80,8 @@ if (isset($_GET['op'])) {
                  <td><?=$row['fee_type'];?></td>
                  <td><?=$row['batch'];?></td>
                  <td><?=$row['fees'];?></td>
-                 <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
-                 <td><a href="display_fees.php?fid=<?=$row['fid'];?>&op=d" onclick="return confirm('Are you sure you want to delete this item?');"
+                 <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
+                 <td><a href="display_fees.php?fid=<?=$row['fid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
 
 
@@ -98,7 +110,14 @@ if (isset($_GET['op'])) {
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
+  </script>
 </body>
 
 </html>

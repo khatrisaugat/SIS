@@ -3,12 +3,12 @@ session_start();
 if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
+
     // <!--header end-->
     // <!-- **********************************************************************************************************************************************************
     //     MAIN SIDEBAR MENU
     //     *********************************************************************************************************************************************************** -->
 
-   
   require_once("queries.php");
   $tbl_students=$obj->select("tbl_students");//select all from tbl_students
   $j=1;//initialize j
@@ -26,14 +26,42 @@ if($_SESSION['status']!='Success'){
         unlink($Location);
       }
       $obj->delete($_GET,"tbl_students");//delete data from tbl_students
+      $_SESSION['true']="Data deleted successfully!";
       header("Location:display_students.php");//redirect to display_student.php page
-
+      exit();
 
     }else if($_GET['op']=='e'){
       header("Location:edit_student.php?sid=".$_GET['sid']);
     }
 
   }
+  if(isset($_GET['field']))
+  {
+    // if ($_GET['submit']=='Sort') {
+      // print_r($_POST);
+      // array_pop($_POST);
+     $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']);
+     
+    // }
+  }
+// additional codee
+if (isset($_POST['filter']) && $_POST['filter']=='set') {
+  $query="tbl_students WHERE ";
+  array_pop($_POST);
+  foreach ($_POST as $key => $value) {
+    if ($value!='') {
+      $arr[]=$key."='$value'";
+    }
+
+  }
+  if (isset($arr)) {
+    $query.=implode(' AND ', $arr);
+  }
+  $batch=$obj->select($query);
+}
+// ad code end
+
+
 
   include("includes/header.php");
   include("includes/sidebar.php"); 
@@ -46,18 +74,62 @@ if($_SESSION['status']!='Success'){
     <section id="main-content">
       <section class="wrapper">
         <div class="row">
+         
   
  <div class="container">
-  <h1>Students Details</h1>
+   <h1>Students Details</h1>
+  <div class="row" style="margin-bottom: 3px;">
+ 
+           <form class="form-group" method="post" action="display_students.php?filter=set">
+               <!-- <select name="sort" style="padding: 8px 12px;">
+                <option selected="" disabled="">Select Sorting method</option>
+                 <option value="Date">Date</option>
+                 <option value="batch">Batch</option>
+                 <option value="city">City</option>
+                 <option value="status">Status</option>
+
+             </select>
+             <input type="submit" name="submit" value="Sort" class="btn btn-success"> -->
+             <div class="col-sm-3">
+             <select class="form-control" name="batch">
+               <option selected="" disabled="">Select Batch</option>
+               <?php
+                  $batch_select=$obj->select("batch");
+                  while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+                    <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                    
+                 <?php }
+               ?>
+             </select>
+              </div>
+              <div class="col-sm-3">
+             <input type="text" name="city" class="form-control" placeholder="Enter the city">
+             </div>
+             <div class="col-sm-1">
+               <input type="submit" name="filter" value="set" class="btn btn-primary">
+             </div>     
+           </form>
+         </div>
+     <?php if (isset($_SESSION['true'])):  ?>
+                        <div class="alert alert-success">
+                            
+                            <?php
+                             echo $_SESSION['true'];
+                             unset($_SESSION['true']);
+                             ?>
+                        </div>
+
+                    <?php endif;?>
+  
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th>S.N</th>
         <th>Photo</th>
-        <th>Name</th>
-        <th>Address</th>
+        <th>Name<a href="display_students.php?field=name&order=ASC">&#10506;</a><a href="display_students.php?field=name&order=DESC">&#10507;</a></th>
+        <th>Address<a href="display_students.php?field=address&order=ASC">&#10506;</a><a href="display_students.php?field=address&order=DESC">&#10507;</a></th>
         <th>Phone</th>
-        <th>Batch</th>
+        <th>Batch<a href="display_students.php?field=batch&order=ASC">&#10506;</a><a href="display_students.php?field=batch&order=DESC">&#10507;</a></th>
         <th>Gender</th>
         <th>Policy</th>
         <th>Payment</th>
@@ -67,14 +139,19 @@ if($_SESSION['status']!='Success'){
       </tr>
     </thead>
     <tbody>
-      <?php while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
+      <?php 
+      if(isset($_GET['filter']) && $_GET['filter']=='set'){
+        $tbl_students=$batch;
+      }
+
+      while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
         ?>
         <tr <?php if($row['status']==0){ ?>style="background-color: #ff8080;color: #000" <?php } ?>>
           <td><?=$j++;?></td>
 
           <?php
           if(!empty($row['img'])){?>
-            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=100%></a></td>
+            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=40%></a></td>
             <?php
 
           }else{
@@ -88,8 +165,8 @@ if($_SESSION['status']!='Success'){
           
           <td><?=$row['batch'];?></td>
           <td><?=$row['gender'];?></td>
-          <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Add policy</a></td>
-          <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Add payment</a></td>
+          <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Policy</a></td>
+          <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Payment</a></td>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
@@ -189,6 +266,14 @@ if($_SESSION['status']!='Success'){
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+  </script>
+  <script>
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            $('.alert').hide('slow')
+        }, 3000);
+    })
   </script>
 </body>
 
