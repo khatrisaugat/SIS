@@ -25,4 +25,4 @@ $tbl_join_policy="`tbl_fees` LEFT JOIN tbl_student_policy ON tbl_student_policy.
 
 
 ?>
-amount  | rem ()<?=($total-$payment_made); ?>
+amount<br> Total = <?=$total;?>  <br><span style="color: #000066;font-weight: bold;"> rem = <?=($total-$payment_made); ?></span>
