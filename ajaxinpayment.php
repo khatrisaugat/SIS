@@ -1,8 +1,10 @@
 <?php
-	$fid=$_GET['fid'];
+session_start();
+$_SESSION['fid']=$fid=$_GET['fid'];
+	
   // echo $fid;
 	$sid=$_GET['sid'];
-
+ 
   // echo $fid." ".$sid;
 	require_once("queries.php");
 	$tbl_join_policy="`tbl_fees` LEFT JOIN tbl_student_policy ON tbl_student_policy.fid=tbl_fees.fid  WHERE tbl_student_policy.sid=".$sid. " and tbl_student_policy.fid=".$fid . "  
@@ -27,14 +29,15 @@
         ?>
         <?php if($row2['fid']==$fid){?>
 
-          <option><?=$row2['amount'];?></option>
+          <option value="<?=$row2['spid'];?>"><?=$row2['amount'];?></option>
       <?php /*  <option value="<?=$row2['spid'];?>" <?php if($row2['fid']==$fid){echo "Selected";} ?>>
         <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?>
         </option> */ ?>
         <?php
     		
      } else if($row2['amount']==""){ ?>
-          <option><?php echo $row2['fees']?></option>
+          <option value=""><?php echo $row2['fees']?></option>
       <?php  } }
         ?>
     </select>
+  

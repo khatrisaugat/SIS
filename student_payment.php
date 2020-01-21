@@ -51,9 +51,7 @@ if($_SESSION['status']!='Success'){
 
       $obj->insert($_POST,"tbl_student_payment");
       //insert values from form
-      $_SESSION['true']="Data added successfully!";
-      
-      
+      $_SESSION['true']="Data added successfully!";     
     }
   }
 
@@ -125,7 +123,7 @@ if($_SESSION['status']!='Success'){
                           <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Semester</label>
-                                <select name="semester" class="form-control">
+                                <select name="semester" class="form-control" onchange="Sem(this.value)">
                                   <option value="" selected="" disabled="">Select</option>
                                     <?php
                                       while ($row3=$tbl_sem->fetch(PDO::FETCH_ASSOC)) {
@@ -141,7 +139,7 @@ if($_SESSION['status']!='Success'){
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                              <label class="bmd-label-floating">amount  | rem ()</label>
+                              <label class="bmd-label-floating" id="semester">amount  | rem ()</label>
                             <input type="number" name="amount" class="form-control">
                           </div>
                         </div>
@@ -211,7 +209,10 @@ if($_SESSION['status']!='Success'){
     <!-- /MAIN CONTENT -->
     <!--main content end-->
     <!--footer start-->
-   <?php include("includes/footer.php"); ?>
+   <?php include("includes/footer.php");
+   
+   ?>
+
     <!--footer end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
@@ -225,9 +226,23 @@ if($_SESSION['status']!='Success'){
 
         }
       }
-      xhr.open('GET','ajaxinpayment.php?fid='+fid+"&sid="+<?=$_GET['sid']?>,true);
+      xhr.open('GET','ajaxinpayment.php?fid='+fid+"&sid="+<?=$_GET['sid'];?>,true);
       xhr.send();
-  }
+  };
+    function Sem(sem_id){
+       var xh=new XMLHttpRequest();
+      xh.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('semester').innerHTML=this.responseText;
+
+        }
+      }
+      xh.open('GET','amountsuggest.php?sem='+sem_id+'&sid='+<?=$_GET['sid'];?>,true);
+      xh.send();
+      }
+
+
 
   </script>
   <script src="lib/jquery/jquery.min.js"></script>
