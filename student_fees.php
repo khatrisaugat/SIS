@@ -21,9 +21,21 @@ $batch_select=$obj->select("batch");
 
 if (isset($_POST['submit'])) {
   array_pop($_POST);//popping submit from post
+  $tbl_fees_select=$obj->select("tbl_fees");
+  $insert_value=true;
+  while ($check_fee=$tbl_fees_select->fetch(PDO::FETCH_ASSOC)) {
+    if ($_POST['ftid']==$check_fee['ftid'] && $_POST['batch']==$check_fee['batch']) {
+      $insert_value=false;
+    }
+  }
+  if($insert_value){
   $obj->insert($_POST,"tbl_fees");//insert to tbl_fees
   $_SESSION['true']="Data inserted successfully!";
   // exit();
+  }else{
+    $_SESSION['false']="Data insert fail because of duplicate data";
+    
+  }
 }
 
 
@@ -33,7 +45,7 @@ if (isset($_POST['submit'])) {
   <div class="container">
     <div class="row">
       <div class="col-md-5">
-        <?php if (isset($_SESSION['true'])) :?>
+        <?php if (isset($_SESSION['true'])) {?>
 
           <div class="alert alert-success">
             <?php echo $_SESSION['true'];
@@ -42,7 +54,13 @@ if (isset($_POST['submit'])) {
           </div>
 
 
-        <?php endif;?>
+        <?php }elseif(isset($_SESSION['false'])){?>
+          <div class="alert alert-danger">
+            <?php echo $_SESSION['false'];
+            unset($_SESSION['false']);
+            ?>
+          </div>
+        <?php } ?>
         <h2><i class="glyphicon glyphicon-user"></i>Fees Insert</h2>
         <form action="" method="post" class="form-group">
           <div class="form-group">
