@@ -149,7 +149,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
 
       while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
         ?>
-        <tr <?php if($row['status']==0){ ?> class="block" style="background-color: #ff8080;color: #000"  <?php } ?>>
+        <tr <?php if($row['status']==0){ ?>  style="background-color: #ff8080;color: #000"  <?php } ?>>
           <td><?=$j++;?></td>
 
           <?php
@@ -168,7 +168,22 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
           
           <td><?=$row['batch'];?></td>
           <td><?=$row['gender'];?></td>
-          <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Policy</a></td>
+
+ <?php   if($row['status']==0) {?><!--if clause start-->
+              
+
+          <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
+          <td colspan="5" style="text-align: center;"><a href="display_students.php?sid=<?=$row['sid'];?>&op=e" class="btn btn-warning" onclick="return confirm('Are you sure you want to active status?');"
+>This student is Inactive</a></td>
+<?php }else{?>
+<td colspan="5" style="text-align: center;"><span style="font-size: 18px;color: #fff;">This student is Inactive</span></td>
+
+<?php }?>
+             
+
+
+        <?php }else{ ?>
+           <td><a href="student_policy.php?sid=<?=$row['sid'];?>" class="btn btn-primary">Policy</a></td>
           <td><a href="student_payment.php?sid=<?=$row['sid'];?>" class="btn btn-warning">Payment</a></td>
         <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
           <td><a href="display_students.php?sid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
@@ -177,6 +192,9 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
 >Edit</a></td>
 <?php }?>
           <td><a href="student_details.php?sid=<?=$row['sid'];?>" class="btn btn-success">View</a></td>
+      <!--else clause end--> <?php }?>
+
+        <!--if clause end-->
         </tr>
         <?php
       }
@@ -280,9 +298,8 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         }, 3000);
     })
   </script>
-  <script>
-    $("tr.block input, tr.block select, tr.block textarea").prop('disabled', true);
-  </script>
+  
+   
 
   <style>
    
