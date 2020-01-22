@@ -5,6 +5,13 @@ if($_SESSION['status']!='Success'){
   }
     require_once("queries.php");
   $tbl_join="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
+  if (isset($_POST['filter']) && $_POST['filter']=='set') {
+    $tbl_join.=" WHERE tbl_students.batch=".$_POST['batch'];
+  }
+  if(isset($_GET['field']))
+  {
+    $tbl_join.=" ORDER BY ".$_GET['field']." ".$_GET['order'];
+   }
   $tbl_student_payment=$obj->select($tbl_join);
   $j=0;
 
@@ -20,7 +27,22 @@ if($_SESSION['status']!='Success'){
     }
   }
 
+// additional codee
+// if (isset($_POST['filter']) && $_POST['filter']=='set') {
+//   $query="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch'];
+//   // array_pop($_POST);
+//   // foreach ($_POST as $key => $value) {
+//   //   if ($value!='') {
+//   //     $arr[]=$key."='$value'";
+//   //   }
 
+//   // }
+//   // if (isset($arr)) {
+//   //   $query.=implode(' AND ', $arr);
+//   // }
+//   $batch=$obj->select($query);
+// }
+// ad code end
 
  include("includes/header.php");?>
     <!--header end-->
@@ -50,19 +72,36 @@ if($_SESSION['status']!='Success'){
 
                     <?php endif;?>
   <h1>Payment Details</h1>
+  <form class="form-group" method="post" action="display_payment.php?filter=set">
+     <div class="col-sm-3">
+             <select class="form-control" name="batch">
+               <option selected="" disabled="">Select Batch</option>
+               <?php
+                  $batch_select=$obj->select("batch");
+                  while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+                    <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                    
+                 <?php }
+               ?>
+             </select>
+              </div>
+             <div class="col-sm-1">
+               <input type="submit" name="filter" value="set" class="btn btn-primary">
+             </div>     
+    </form>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th>S.N</th>
         <th>Photo</th>
-        <th>Name</th>
+        <th>Name<a href="display_payment.php?field=name&order=ASC">&#10506;</a><a href="display_payment.php?field=name&order=DESC">&#10507;</a></th>
         <th>Fee type</th>
-        <th>Batch</th>
+        <th>Batch<a href="display_payment.php?field=tbl_students.batch&order=ASC">&#10506;</a><a href="display_payment.php?field=tbl_students.batch&order=DESC">&#10507;</a></th>
         <th>Fees</th>
         <th>Policy Amount</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Semester</th>
+        <th>Paid Amount</th>
+        <th>Date<a href="display_payment.php?field=pdate&order=ASC">&#10506;</a><a href="display_payment.php?field=pdate&order=DESC">&#10507;</a></th>
+        <th>Semester<a href="display_payment.php?field=semester&order=ASC">&#10506;</a><a href="display_payment.php?field=semester&order=DESC">&#10507;</a></th>
       <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
         <th>Delete</th>
         <th>Edit</th>
@@ -70,7 +109,11 @@ if($_SESSION['status']!='Success'){
       </tr>
     </thead>
     <tbody>
-      <?php while ($row=$tbl_student_payment->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_student_payment
+      <?php
+      //   if(isset($_GET['filter']) && $_GET['filter']=='set'){
+      //   $tbl_student_payment=$batch;
+      // }
+       while ($row=$tbl_student_payment->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_student_payment
         ?>
         <tr>
           <td><?=++$j;?></td>

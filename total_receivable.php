@@ -16,6 +16,10 @@ if($_SESSION['status']!='Success'){
 	  $query.=" WHERE batch=".$_POST['batch'];
 	  $batch=$obj->select($query);
 	}
+	if(isset($_GET['field']))
+  {
+    $query.=" ORDER BY ".$_GET['field']." ".$_GET['order'];
+   }
 	$select_student=$obj->select($query);
 // ad code end
 
@@ -43,11 +47,11 @@ if($_SESSION['status']!='Success'){
                <input type="submit" name="filter" value="set" class="btn btn-primary">
              </div>     
            </form>
-         <table class="table table-striped">
+         <table class="table table-striped table-bordered">
          	<thead>
          		<tr>
 	         		<th>S.N</th>
-	         		<th>Student</th>
+	         		<th>Student<a href="total_receivable.php?field=name&order=ASC">&#10506;</a><a href="total_receivable.php?field=name&order=DESC">&#10507;</a></th>
 	         		<th>Total</th>
 	         		<th>Paid</th>
          		</tr>

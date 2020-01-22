@@ -6,7 +6,15 @@ if($_SESSION['status']!='Success'){
 
 require_once('queries.php');
 $obj= new queries;
-$feesData=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
+$sql="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
+if (isset($_POST['filter']) && $_POST['filter']=='set') {
+    $sql.=" WHERE batch=".$_POST['batch'];
+  }
+  if(isset($_GET['field']))
+  {
+    $sql.=" ORDER BY ".$_GET['field']." ".$_GET['order'];
+   }
+$feesData=$obj->select($sql);
 $i=0;
 if (isset($_GET['op'])) {
   if ($_GET['op']='d') {
@@ -60,13 +68,30 @@ if (isset($_GET['op'])) {
 
                     <?php endif;?>
         <h2>Display Fees</h2>
+        <form class="form-group" method="post" action="display_fees.php?filter=set">
+            <div class="col-sm-3">
+                 <select class="form-control" name="batch">
+                   <option selected="" disabled="">Select Batch</option>
+                   <?php
+                      $batch_select=$obj->select("batch");
+                      while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+                        <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                        
+                     <?php }
+                   ?>
+                 </select>
+                  </div>
+                 <div class="col-sm-1">
+                   <input type="submit" name="filter" value="set" class="btn btn-primary">
+                 </div>     
+        </form>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
               <th>SN</th>
               <th>Fee Type</th>
-              <th>Batch</th>
-              <th>Fees</th>
+              <th>Batch<a href="display_fees.php?field=batch&order=ASC">&#10506;</a><a href="display_fees.php?field=batch&order=DESC">&#10507;</a></th>
+              <th>Fees<a href="display_fees.php?field=fees&order=ASC">&#10506;</a><a href="display_fees.php?field=fees&order=DESC">&#10507;</a></th>
           <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
               <th>Edit</th>
               <th>Delete</th>

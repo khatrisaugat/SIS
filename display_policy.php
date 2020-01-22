@@ -5,7 +5,16 @@ if($_SESSION['status']!='Success'){
   }
  
   require_once("queries.php");
-$policyData=$obj->select("tbl_student_policy");
+  $sql="tbl_student_policy JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
+
+if (isset($_POST['filter']) && $_POST['filter']=='set') {
+    $sql.=" WHERE tbl_students.batch=".$_POST['batch'];
+  }
+  if(isset($_GET['field']))
+  {
+    $sql.=" ORDER BY ".$_GET['field']." ".$_GET['order'];
+   }
+   $policyData=$obj->select($sql);
 
 if (isset($_GET['spid'])) {
   if ($_GET['op']=='d') {
@@ -53,13 +62,30 @@ include("includes/header.php");?>
 
                     <?php endif;?>
         <h2>Policy Table</h2>
+        <form class="form-group" method="post" action="display_policy.php?filter=set">
+            <div class="col-sm-3">
+                 <select class="form-control" name="batch">
+                   <option selected="" disabled="">Select Batch</option>
+                   <?php
+                      $batch_select=$obj->select("batch");
+                      while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
+                        <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                        
+                     <?php }
+                   ?>
+                 </select>
+                  </div>
+                 <div class="col-sm-1">
+                   <input type="submit" name="filter" value="set" class="btn btn-primary">
+                 </div>     
+        </form>
         <table class="table table-striped" border="1">
           <thead>
             <tr>
               <th>SN</th>
-              <th>Student Name</th>
+              <th>Student Name<a href="display_policy.php?field=name&order=ASC">&#10506;</a><a href="display_policy.php?field=name&order=DESC">&#10507;</a></th>
               <th>Fee Type</th>
-              <th>Amount</th>
+              <th>Amount<a href="display_policy.php?field=amount&order=ASC">&#10506;</a><a href="display_policy.php?field=amount&order=DESC">&#10507;</a></th>
           <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
               <th>Edit</th>
               <th>Delete</th>
@@ -72,22 +98,17 @@ include("includes/header.php");?>
               <tr>
                  <td><?=++$i;?></td>
                  <td><?php
-                 // print_r($row);
-                $sn['sid']=$row['sid'];
-                $nameResult=$obj->select("tbl_students WHERE sid=".$row['sid']);
-                $result=$nameResult->fetch(PDO::FETCH_ASSOC);
-                $fullnName=$result['name']." ".$result['mname']." ".$result['lname'];
-                  echo $fullnName;?>
+                  echo $row['name']." ".$row['mname']." ".$row['lname'];?>
 
                 </td>
 
                  <td><?php
-                 $fid['fid']=$row['fid'];
-                 $ftypeResult=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fid=".$row['fid']);
+                 // $fid['fid']=$row['fid'];
+                 // $ftypeResult=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fid=".$row['fid']);
 
                  // print_r($ftypeResult);
-                 $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
-                 echo $ftype['fee_type'];?></td>
+                 // $ftype=$ftypeResult->fetch(PDO::FETCH_ASSOC);
+                 echo $row['fee_type'];?></td>
                  <td><?=$row['amount'];?></td>
             <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
                  <td><a href="display_policy.php?spid=<?=$row['spid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
