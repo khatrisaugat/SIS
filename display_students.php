@@ -126,7 +126,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
     <thead>
       <tr>
         <th>S.N</th>
-        <th>Photo</th>
+        
         <th>Name<a href="display_students.php?field=name&order=ASC">&#10506;</a><a href="display_students.php?field=name&order=DESC">&#10507;</a></th>
         <th>Address<a href="display_students.php?field=address&order=ASC">&#10506;</a><a href="display_students.php?field=address&order=DESC">&#10507;</a></th>
         <th>Phone</th>
@@ -151,16 +151,6 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         ?>
         <tr <?php if($row['status']==0){ ?> class="block" style="background-color: #ff8080;color: #000"  <?php } ?>>
           <td><?=$j++;?></td>
-
-          <?php
-          if(!empty($row['img'])){?>
-            <td><a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" class="size"></a></td>
-            <?php
-
-          }else{
-            echo "<td>NO image </td>";
-          }
-          ?>
           <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
          
           <td><?=$row['address'];?></td>

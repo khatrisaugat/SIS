@@ -65,7 +65,7 @@ if (isset($_POST['submit'])) {
         <form action="" method="post" class="form-group">
           <div class="form-group">
             <label>Fee Type*</label>
-            <select name="ftid" class="form-control">
+            <select name="ftid" class="form-control" onchange="feeChange(this.value)">
               <option selected="" disabled="">Select Your Fee type</option>
               <?php while ($fee_type=$fee_select->fetch(PDO::FETCH_ASSOC)) {?>
                 <option value="<?=$fee_type['ftid'];?>"><?=$fee_type['fee_type'];?></option>
@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
           <!-- <div class="form-group">
             <input type="text" name="batch" class="form-control">
           </div> -->
-          <div class="form-group">
+          <div class="form-group" id="batch">
             <select name="batch" class="form-control">
               <option selected="" disabled="">Select Your Batch</option>
                 <?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
@@ -123,6 +123,20 @@ if (isset($_POST['submit'])) {
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
+  <script type="text/javascript">
+    function feeChange(ftid){
+      var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('batch').innerHTML=this.responseText;
+
+        }
+      }
+      xhr.open('GET','ajaxinfees.php?ftid='+ftid,true);
+      xhr.send();
+  };
+  </script>
 <script>
   $(document).ready(function(){
     setTimeout(function(){

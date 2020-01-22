@@ -5,14 +5,16 @@ session_start();
   				}
   	require_once('queries.php');
   $batch_select=$obj->select("batch");
-  $query="tbl_students";
-if (isset($_POST['submit'])) {
-	if ($_POST['submit']=='Submit') {
-		$query.=" WHERE batch=".$_POST['batch']." AND status=1";
+  $sql="tbl_students";
 
-	}
+if (isset($_POST['submit']) && $_POST['submit']=='Submit') {
+	
+		$sql.=" WHERE batch=".$_POST['batch']." AND status=1";
+
+	
 }
-$select_students=$obj->select($query);
+
+// print_r($_POST);
 
 // print_r($_POST);
 
@@ -36,7 +38,7 @@ if (isset($_POST['submit'])) {
 		$obj->updateSem($sem,"tbl_students",$sn);
 	}
 	}
-
+$select_students=$obj->select($sql);
 
 include("includes/header.php");?>
     <?php include("includes/sidebar.php");?>
