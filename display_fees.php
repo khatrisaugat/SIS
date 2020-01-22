@@ -59,16 +59,18 @@ if (isset($_GET['op'])) {
                         </div>
 
                     <?php endif;?>
-        <h2>Display Fees</h2>
-        <table class="table table-striped" border="1">
+        <h2>Fees</h2>
+        <table class="table table-bordered table-hover table-responsive" border="1">
           <thead>
             <tr>
               <th>SN</th>
               <th>Fee Type</th>
               <th>Batch</th>
               <th>Fees</th>
+          <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
               <th>Edit</th>
               <th>Delete</th>
+            <?php }?>
 
             </tr>
           </thead>
@@ -80,9 +82,11 @@ if (isset($_GET['op'])) {
                  <td><?=$row['fee_type'];?></td>
                  <td><?=$row['batch'];?></td>
                  <td><?=$row['fees'];?></td>
+            <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
                  <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
                  <td><a href="display_fees.php?fid=<?=$row['fid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
+<?php }?>
 
 
                 </tr>

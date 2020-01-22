@@ -45,14 +45,14 @@ $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment
   		$allSem+=$policy['amount'];
   	}
   }
-  if (!isset($check)) {
-   $check[0]=0;
-  }
+  // if (!isset($check)) {
+  //  $check[0]=0;
+  // }
 
   $i=0;
   while ($fees=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
   	if($fees['batch']==$row['batch']){
-  			if($fees['fid']!=$check[$i]){
+  			if($fees['fid']!=$policy['fid']){
   				if($fees['sem_wise']==0){
 			  		$firstSem+=$fees['fees'];
 			  	}else{
@@ -67,7 +67,7 @@ $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment
   	}
 ?>
 <div class="container">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover table-responsive">
       <thead>
         <tr>
           <th>Semester</th>
@@ -81,18 +81,18 @@ $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment
           
             <td><?=$pay['semester'];?></td>
             <td>
-              <table class="table">
-                <tr>
-                <td><?=$pay['fee_type'];?></td>
-                <td><?=$pay['amount'];
-                $Totalpaid+=$pay['amount'];
-
-
-                ?></td>
-                <td><?=$pay['pdate'];?></td>
-                </tr>
-              </table>
-               </td>
+                <table class="table table-hover table-responsive">
+                  <thead>
+                        <tr>
+                            <th><?=$pay['fee_type'];?></th>
+                            <th><?=$pay['amount'];
+                            $Totalpaid+=$pay['amount'];
+                            ?></th>
+                            <th><?=$pay['pdate'];?></th>
+                        </tr>
+                  </thead>
+                </table>
+            </td>
         </tr>
         <?php
         }

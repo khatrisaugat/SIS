@@ -50,7 +50,7 @@ if($_SESSION['status']!='Success'){
 
                     <?php endif;?>
   <h1>Payment Details</h1>
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-hover table-responsive">
     <thead>
       <tr>
         <th>S.N</th>
@@ -63,8 +63,10 @@ if($_SESSION['status']!='Success'){
         <th>Amount</th>
         <th>Date</th>
         <th>Semester</th>
+      <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
         <th>Delete</th>
         <th>Edit</th>
+      <?php }?>
       </tr>
     </thead>
     <tbody>
@@ -73,7 +75,7 @@ if($_SESSION['status']!='Success'){
         <tr>
           <td><?=++$j;?></td>
           <td><?php if(!empty($row['img'])){ ?>
-            <a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=100%></a>
+            <a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" class="size"></a>
           <?php }else{
             echo "photo not inserted";
           }?>
@@ -92,10 +94,12 @@ if($_SESSION['status']!='Success'){
           <td><?=$row['amount'];?></td>
           <td><?=$row['pdate'];?></td>
           <td><?=$row['semester']." Sem";?></td>
+        <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
           <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
           <td><a href="display_payment.php?tspid=<?=$row['tspid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');"
 >Edit</a></td>
+<?php }?>
 
         </tr>
       <?php } ?>
@@ -127,6 +131,9 @@ if($_SESSION['status']!='Success'){
         }, 3000);
     })
   </script>
+  <style>
+    .size{height: 150px;width: 150px;}
+  </style>
 </body>
 
 </html>

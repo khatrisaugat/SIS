@@ -60,7 +60,7 @@ exit();
 
                     <?php endif;?>
         <h2>Display Fees Table</h2>
-        <table class="table table-striped" border="1">
+        <table class="table table-bordered table-hover table-responsive" border="1">
           <thead>
             <tr>
               <th>SN</th>
