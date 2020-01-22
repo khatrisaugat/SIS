@@ -100,7 +100,7 @@ if($_SESSION['status']!='Success'){
         <tr>
           <td><?=++$j;?></td>
           <td><?php if(!empty($row['img'])){ ?>
-            <a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" width=100%></a>
+            <a href="files/<?=$row['img'];?>"><img src="files/<?=$row['img'];?>" class="size"></a>
           <?php }else{
             echo "photo not inserted";
           }?>
@@ -156,6 +156,9 @@ if($_SESSION['status']!='Success'){
         }, 3000);
     })
   </script>
+  <style>
+    .size{height: 150px;width: 150px;}
+  </style>
 </body>
 
 </html>
