@@ -67,7 +67,7 @@ if (isset($_GET['op'])) {
                         </div>
 
                     <?php endif;?>
-        <h2>Display Fees</h2>
+        <h2>Fees</h2>
         <form class="form-group" method="post" action="display_fees.php?filter=set">
             <div class="col-sm-3">
                  <select class="form-control" name="batch">
@@ -85,7 +85,7 @@ if (isset($_GET['op'])) {
                    <input type="submit" name="filter" value="set" class="btn btn-primary">
                  </div>     
         </form>
-        <table class="table table-striped" border="1">
+        <table class="table table-bordered table-hover table-responsive" border="1">
           <thead>
             <tr>
               <th>SN</th>
@@ -150,3 +150,4 @@ if (isset($_GET['op'])) {
 </body>
 
 </html>
+

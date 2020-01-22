@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -15,7 +16,7 @@ $count=0;
 ?>
 
 
-                       <table class="table">
+                       <table class="table table-bordered table-hover table-responsive">
                              <thead>
                                <tr>
                                  <th>S.N</th>

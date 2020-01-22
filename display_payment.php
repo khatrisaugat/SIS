@@ -26,24 +26,6 @@ if($_SESSION['status']!='Success'){
       header("Location:edit_payment.php?tspid=".$_GET['tspid']);
     }
   }
-
-// additional codee
-// if (isset($_POST['filter']) && $_POST['filter']=='set') {
-//   $query="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch'];
-//   // array_pop($_POST);
-//   // foreach ($_POST as $key => $value) {
-//   //   if ($value!='') {
-//   //     $arr[]=$key."='$value'";
-//   //   }
-
-//   // }
-//   // if (isset($arr)) {
-//   //   $query.=implode(' AND ', $arr);
-//   // }
-//   $batch=$obj->select($query);
-// }
-// ad code end
-
  include("includes/header.php");?>
     <!--header end-->
     <!-- **********************************************************************************************************************************************************
@@ -89,7 +71,7 @@ if($_SESSION['status']!='Success'){
                <input type="submit" name="filter" value="set" class="btn btn-primary">
              </div>     
     </form>
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-hover table-responsive">
     <thead>
       <tr>
         <th>S.N</th>
@@ -177,3 +159,4 @@ if($_SESSION['status']!='Success'){
 </body>
 
 </html>
+

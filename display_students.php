@@ -1,3 +1,4 @@
+
 <?php 
 session_start();
 if($_SESSION['status']!='Success'){
@@ -121,7 +122,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
 
                     <?php endif;?>
   
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-hover table-responsive">
     <thead>
       <tr>
         <th>S.N</th>
@@ -281,6 +282,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
   </script>
 
   <style>
+   
     .size{height: 60px;width: 60px;}
   </style>
 </body>

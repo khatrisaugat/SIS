@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -16,6 +17,7 @@ include("includes/sidebar.php");?>
       <section class="wrapper">
         <div class="row">
           <div class="col-sm-12">
+            <h2>Outstanding Payments</h2>
             <div class="col-sm-4">
               <label>Batch</label>
     			     <select name="batch" class="form-control" onchange="batch(this.value)">
@@ -29,7 +31,7 @@ include("includes/sidebar.php");?>
            </div>
            <div class="col-sm-12" id="pay_table">
             <br>
-             <table class="table table-bordered" >
+             <table class="table table-responsive table-hover table-bordered">
                <thead>
                  <tr>
                    <th>S.N</th>

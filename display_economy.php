@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -132,7 +133,7 @@ if (isset($_POST['submit'])) {
   		</div>
   		<div class="col-md-12">
         <?php $headings=$tbl_heading->fetchAll(PDO::FETCH_ASSOC);?>
-      <table class="table table-bordered">
+      <table class="table table-bordered table-hover table-responsive">
         <thead>
           <tr>
             <th>SN</th>
@@ -346,4 +347,3 @@ else{
   </script>
 </body>
 
-</html>

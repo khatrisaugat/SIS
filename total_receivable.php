@@ -30,6 +30,9 @@ if($_SESSION['status']!='Success'){
   <section id="main-content">
       <section class="wrapper">
        <div class="row mt">
+
+        <h2>Anual payment details</h2>
+
        	<form class="form-group" method="post" action="total_receivable.php?filter=set">
        		<div class="col-sm-3">
              <select class="form-control" name="batch">
@@ -47,7 +50,9 @@ if($_SESSION['status']!='Success'){
                <input type="submit" name="filter" value="set" class="btn btn-primary">
              </div>     
            </form>
-         <table class="table table-striped table-bordered">
+
+           <br>
+         <table class="table table-bordered table-hover table-responsive">
          	<thead>
          		<tr>
 	         		<th>S.N</th>

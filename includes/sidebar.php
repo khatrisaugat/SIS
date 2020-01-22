@@ -1,3 +1,4 @@
+
  <?php
  session_start();
  if($_SESSION['status']!='Success'){
@@ -29,7 +30,12 @@
               </a>
             <ul class="sub">
               <li><a href="student_form.php">Insert Student</a></li>
-              <li><a href="student_fees.php">Fee Insert</a></li>
+              <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
+
+                
+                  <li><a href="student_fees.php">Fee Insert</a></li>
+
+                <?php }?>
             </ul>
           </li>
           <li class="sub-menu">
@@ -59,7 +65,6 @@
             <ul class="sub">
               <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
               <li><a href="display_economy.php">Received Payment</a></li>
-              <li><a href="total_receivable.php">Total Recievable</a></li>
             </ul>
           </li>
           <?php 
@@ -88,4 +93,3 @@
         <!-- sidebar menu end-->
       </div>
     </aside>
-    <!--sidebar end-->

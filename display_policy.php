@@ -79,7 +79,7 @@ include("includes/header.php");?>
                    <input type="submit" name="filter" value="set" class="btn btn-primary">
                  </div>     
         </form>
-        <table class="table table-striped" border="1">
+        <table class="table table-bordered table-hover table-responsive">
           <thead>
             <tr>
               <th>SN</th>
@@ -159,3 +159,4 @@ include("includes/header.php");?>
 </body>
 
 </html>
+
