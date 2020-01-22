@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -28,7 +29,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 
 ?>
 <div class="container">
-  <table class="table table-bordered">
+  <table class="table table-bordered table-hover table-responsive">
     <thead>
       <tr>
         <th>S.N</th>

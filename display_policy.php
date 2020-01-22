@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -53,7 +54,7 @@ include("includes/header.php");?>
 
                     <?php endif;?>
         <h2>Policy Table</h2>
-        <table class="table table-bordered table-hover table-responsive" border="1">
+        <table class="table table-bordered table-hover table-responsive" >
           <thead>
             <tr>
               <th>SN</th>

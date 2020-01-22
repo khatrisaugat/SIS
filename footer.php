@@ -1,3 +1,0 @@
-<!--footer start-->
-    
-    <!--footer end-->

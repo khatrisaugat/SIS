@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -60,7 +61,7 @@ if (isset($_GET['op'])) {
 
                     <?php endif;?>
         <h2>Fees</h2>
-        <table class="table table-bordered table-hover table-responsive" border="1">
+        <table class="table table-bordered table-hover table-responsive" >
           <thead>
             <tr>
               <th>SN</th>
