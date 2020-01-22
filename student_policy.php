@@ -19,19 +19,12 @@ if($_SESSION['status']!='Success'){
   $tbl_students=$obj->select($tbl_name);//selecting all data from tbl_students
   $row=$tbl_students->fetch(PDO::FETCH_ASSOC);
   // print_r($row);
-  
-
-  $policy="tbl_student_policy JOIN tbl_students ON tbl_students.sid= tbl_student_policy.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE tbl_student_policy.sid=".$_GET['sid'];
-  $tbl_students2=$obj->select($policy);//selecting all data from tbl_students
- 
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE tbl_fees.batch=".$row['batch']);
   // $row11=$tbl_fees->fetch(PDO::FETCH_ASSOC);
   // print_r($row11);
   // die();
-  $tbl_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']);
-  while ($pol=$tbl_policy->fetch(PDO::FETCH_ASSOC)) {
-    $polic[]=$pol;
-  }
+ 
+  
 
   //for inserting data
   if(isset($_POST['submit'])){
@@ -50,6 +43,9 @@ if($_SESSION['status']!='Success'){
     }
   }
 $i=0;
+
+  $policy="tbl_student_policy JOIN tbl_students ON tbl_students.sid= tbl_student_policy.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE tbl_student_policy.sid=".$_GET['sid'];
+  $tbl_students2=$obj->select($policy);//selecting all data from tbl_students
 
 ?>
 
@@ -80,21 +76,42 @@ $i=0;
                             <div class="form-group">
                                 <label class="bmd-label-floating">Student</label>
                                 <select name="fid" class="form-control">
+                                  <option>Select</option>
                                     <?php
-                                      while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
-                                        for ($i=0; $i < count($polic) ; $i++) { 
-                                          $fid[]=$polic[$i]['fid'];
+                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
+                                         $tbl_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']);
+                                        while ($pol=$tbl_policy->fetch(PDO::FETCH_ASSOC)) {
+                                              if ($pol['fid']==$row1['fid']) {
+                                                
+                                                $policy_status=true;
+                                              }
+
                                         }
-                                          $j=0;
-                                          if($fid[$j]!=$row1['fid']){?>
-                                            <option value="<?=$row1['fid'];?>"><?=$row1['fee_type']." (".$row1['fees'].") ";?></option>
-                                            <?php
-                                       }                                                            $j++;
+                                        if ($policy_status) {
+                                          $policy_status=false;
+                                          continue;
+                                        }else{
+                              
+                                        ?>
+
+                                          <option value="<?=$row1['fid']?>"><?=$row1['fee_type']."(".$row1['fees'].")";?></option>
+                                        <?php
                                       }
+                                        
+                                      //   for ($i=0; $i < count($polic) ; $i++) { 
+                                      //     $fid[]=$polic[$i]['fid'];
+                                      //   }
+                                      //     $j=0;
+                                      //     if($fid[$j]!=$row1['fid']){
+                                             
+                                    
+                                         // }                                                            $j++;
+                                       }
+                                        
                                     ?>
                                 </select>
                             </div>
-                            
+                          
                           </div>
                         </div>
                     <div class="row">
