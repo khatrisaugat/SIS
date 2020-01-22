@@ -61,9 +61,9 @@ $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment
 			  		$allSem+=$fees['fees'];
 			  	}
   			}
-  			if ($check[0]!=0) {
-         $i++;
-        }
+  			// if ($check[0]!=0) {
+     //     $i++;
+     //    }
   		}
   	}
 ?>

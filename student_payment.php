@@ -107,7 +107,7 @@ if($_SESSION['status']!='Success'){
                         
                       <div class="row">
                           <div class="col-md-12">
-                            <div class="form-group" id="policy"> 
+                            <div class="form-group" id="policy" disabled="true"> 
                                 <label class="bmd-label-floating">Student Policy</label>
                                 <select name="spid" class="form-control">
                                   <option value="" selected="">Select Policy</option>

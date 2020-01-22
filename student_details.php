@@ -132,7 +132,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <th>Payment Date</th>
         <th>Payment Amount</th>
         <th>Semester</th>
-        <th>Policy(if any)</th>
+        <th>Applicable Amount</th>
       </tr>
       
     </thead>
@@ -147,13 +147,22 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 
           <td>
             <?php 
-            if($count>0){
-              for ($i=0; $i <count($policy_hai) ; $i++) { 
-                if ($payment['spid']==$policy_hai[$i]['spid']) {
-                  echo "Policy Amount = ".$policy_hai[$i]['amount'];
-                }
-              }
+            // if($count>0){
+              // for ($i=0; $i <count($policy_hai) ; $i++) { 
+                // if ($payment['spid']==$policy_hai[$i]['spid']) {
+                  // echo "Policy Amount = ".$policy_hai[$i]['amount'];
+                // }
+              // }
+            // }
+            ?>
+            <?php 
+            $check_policy=$obj->select("tbl_student_policy WHERE sid=".$_GET['sid']." AND fid=".$payment['fid']);//select policy if exists
+            $fees_select=$obj->select("tbl_fees WHERE fid=".$payment['fid']);
+            $fee_amount=$fees_select->fetch(PDO::FETCH_ASSOC);
+            while ($row7=$check_policy->fetch(PDO::FETCH_ASSOC)) {
+              $fee_amount['fees']=$row7['amount'];
             }
+            echo $fee_amount['fees'];
             ?>
               
           </td>
