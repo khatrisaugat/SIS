@@ -22,7 +22,7 @@ if($_SESSION['status']!='Success'){
   
 
   $policy="tbl_student_policy JOIN tbl_students ON tbl_students.sid= tbl_student_policy.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE tbl_student_policy.sid=".$_GET['sid'];
-  $tbl_students2=$obj->select($policy);//selecting all data from tbl_students
+  
  
   $tbl_fees=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE tbl_fees.batch=".$row['batch']);
   // $row11=$tbl_fees->fetch(PDO::FETCH_ASSOC);
@@ -78,7 +78,7 @@ $i=0;
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Student</label>
+                                <label class="bmd-label-floating"></label>
                                 <select name="fid" class="form-control">
                                     <?php
                                       while ($row1=$tbl_fees->fetch(PDO::FETCH_ASSOC)) {
@@ -111,7 +111,7 @@ $i=0;
 
           <div class="col-md-12">
             <h2>Applied Policies</h2>
-            <table class="table table-striped">
+            <table class="table table-bordered table-hover table-responsive">
               <thead>
                 <tr>
                   <th>SN</th>
@@ -122,6 +122,7 @@ $i=0;
                 </tr>
               </thead>
               <tbody>
+                <?php $tbl_students2=$obj->select($policy);//selecting all data from tbl_students?>
                <?php while ($row2=$tbl_students2->fetch(PDO::FETCH_ASSOC)
 ) { ?>
                 <tr>

@@ -149,7 +149,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
 
       while ($row=$tbl_students->fetch(PDO::FETCH_ASSOC)) {//fetch data from tbl_students
         ?>
-        <tr <?php if($row['status']==0){ ?>style="background-color: #ff8080;color: #000" <?php } ?>>
+        <tr <?php if($row['status']==0){ ?> class="block" style="background-color: #ff8080;color: #000"  <?php } ?>>
           <td><?=$j++;?></td>
 
           <?php
@@ -279,6 +279,9 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
             $('.alert').hide('slow')
         }, 3000);
     })
+  </script>
+  <script>
+    $("tr.block input, tr.block select, tr.block textarea").prop('disabled', true);
   </script>
 
   <style>
