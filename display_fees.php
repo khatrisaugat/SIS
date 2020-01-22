@@ -84,7 +84,7 @@ if (isset($_GET['op'])) {
                  <div class="col-sm-1">
                    <input type="submit" name="filter" value="set" class="btn btn-primary">
                  </div>     
-        </form>
+        </form><br><br>
         <table class="table table-bordered table-hover table-responsive" border="1">
           <thead>
             <tr>

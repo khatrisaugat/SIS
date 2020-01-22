@@ -52,6 +52,7 @@ if($_SESSION['status']!='Success'){
            </form>
 
            <br>
+           <br><br>
          <table class="table table-bordered table-hover table-responsive">
          	<thead>
          		<tr>
