@@ -71,6 +71,7 @@ if($_SESSION['status']!='Success'){
                <input type="submit" name="filter" value="set" class="btn btn-primary">
              </div>     
     </form>
+    <br><br>
   <table class="table table-bordered table-hover table-responsive">
     <thead>
       <tr>
