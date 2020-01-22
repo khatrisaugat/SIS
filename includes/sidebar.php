@@ -65,6 +65,7 @@
             <ul class="sub">
               <li><a href="outstanding_pay.php">Outstanding Payment</a></li>
               <li><a href="display_economy.php">Received Payment</a></li>
+              <li><a href="total_receivable.php">Total Receivable</a></li>
             </ul>
           </li>
           <?php 
