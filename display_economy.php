@@ -12,12 +12,22 @@ if($_SESSION['status']!='Success'){
   $Receivable_amount=0;
   $remaining=0;
   
-  // print_r($_POST);
-	$select_batch=$obj->select("batch");
-	$select_sem=$obj->select("semester");
-  $students=$obj->select("tbl_students");
+  // print_r($_GET);
+	$select_batch=$obj->select("batch ORDER BY batch DESC");//changes
+  $desc_batch=$select_batch->fetch(PDO::FETCH_ASSOC);//changes
+	$select_sem=$obj->select("semester");//changes
+  if (!isset($_GET['batch'])) {
+    $students=$obj->select("tbl_students WHERE batch=".$desc_batch['batch']);//changes
+    $sem_select=$students->fetch(PDO::FETCH_ASSOC);//changes
+    $_GET['batch']=$desc_batch['batch'];
+  }else{
+    $students=$obj->select("tbl_students WHERE batch=".$_GET['batch']);//changes
+    $sem_select=$students->fetch(PDO::FETCH_ASSOC);//changes
+  }
+  $students=$obj->select("tbl_students");//changes
   $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
   $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
+  print_r($_GET);
   // $select_current_batch=$obj->selectCurrent(" MAX(batch) AS maxBatch FROM tbl_students");
   // $current_batch=$select_current_batch->fetch(PDO::FETCH_ASSOC);
   // $select_current_sem=$obj->selectCurrent(" MIN(sem_id) AS minSem FROM tbl_students");
@@ -77,24 +87,27 @@ if($_SESSION['status']!='Success'){
 
 // OR
 
-if (isset($_POST['submit'])) {
-  if ($_POST['submit']=='submit') {
-    
-    if ($_POST['semester']==1) {
-      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
-      $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
-      $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);
-      
-    }
+if (isset($_GET['batch'])) {
+  print_r($_GET);
+  if(!isset($_GET['semester'])){
+    $_GET['semester']=$sem_select['sem_id'];
+  }
+    if ($_GET['semester']==1) {
+      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_GET['batch']);
+      $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_GET['batch']);
+      $students=$obj->select("tbl_students WHERE batch=".$_GET['batch']);
+      }
     else{
-      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']);
-    $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']); 
-    $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);     
+      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_GET['batch']);
+    $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_GET['batch']); 
+    $students=$obj->select("tbl_students WHERE batch=".$_GET['batch']);
     }
    
-  }
+  print_r($_GET);
 }
 
+  
+// print_r($_GET);
   include("includes/header.php");
   include("includes/sidebar.php"); 
  ?>
@@ -109,22 +122,14 @@ if (isset($_POST['submit'])) {
          
   		<div class="col-md-12">
   			<h1>Payment Received Details</h1>
-  			<form method="post" class="form-group">
+  			<form method="get" class="form-group">
           				<div class="col-md-4">
           				
           					<select name="batch" class="form-control" required="">
           						<option selected="" disabled="" >Select Batch</option>
+                      <option value="<?=$desc_batch['batch']?>"><?=$desc_batch['batch'];?></option>
           						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){ ?>
           						<option value="<?=$batch['batch'];?>" ><?=$batch['batch'];?></option>
-          						<?php }?>
-          					</select>
-          			</div>
-          			<div class="col-md-4">
-          				
-          					<select name="semester" class="form-control" required="">
-          						<option selected="" disabled="" >Select Semester</option>
-          						<?php while($sem=$select_sem->fetch(PDO::FETCH_ASSOC)){?>
-          						<option value="<?=$sem['sem_id'];?>" ><?=$sem['semester'];?></option>
           						<?php }?>
           					</select>
           			</div>
@@ -132,7 +137,9 @@ if (isset($_POST['submit'])) {
   			</form>
   		</div>
   		<div class="col-md-12">
-        <?php $headings=$tbl_heading->fetchAll(PDO::FETCH_ASSOC);?>
+        <?php $headings=$tbl_heading->fetchAll(PDO::FETCH_ASSOC);
+        print_r($headings);
+        ?>
       <table class="table table-bordered table-hover table-responsive">
         <thead>
           <tr>

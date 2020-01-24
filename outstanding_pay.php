@@ -45,7 +45,7 @@ include("includes/sidebar.php");?>
                  <?php while ($students=$student_select->fetch(PDO::FETCH_ASSOC)) {?>
                   <tr>
                     <td><?=++$count;?></td>
-                    <td><?=$students['name']." ".$students['mname']." ".$students['lname'];?></td>
+                    <td><a href="PAY.php?sid=<?=$students['sid'];?>"><?=$students['name']." ".$students['mname']." ".$students['lname'];?></a></td>
                     <td><?=$students['phone'];?></td>
                     <?php
                     $sem=0;
