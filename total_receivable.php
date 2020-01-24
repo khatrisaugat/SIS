@@ -6,6 +6,10 @@ if($_SESSION['status']!='Success'){
   require_once("queries.php");
   include("includes/header.php"); 
   include("includes/sidebar.php");
+  // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+ 
   $sn=0;
   
   $gtotal=0;
@@ -40,7 +44,14 @@ if($_SESSION['status']!='Success'){
                <?php
                   $batch_select=$obj->select("batch");
                   while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                    <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                    <option value="<?=$batch_option['batch'];?>"
+ <?php
+
+                      if ($batch_option['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$batch_option['batch'];?></option>
                     
                  <?php }
                ?>

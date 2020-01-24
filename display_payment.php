@@ -4,6 +4,10 @@ if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
     require_once("queries.php");
+    // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+ 
   $tbl_join="tbl_student_payment JOIN tbl_students ON tbl_students.sid=tbl_student_payment.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
   if (isset($_POST['filter']) && $_POST['filter']=='set') {
     $tbl_join.=" WHERE tbl_students.batch=".$_POST['batch'];
@@ -61,7 +65,18 @@ if($_SESSION['status']!='Success'){
                <?php
                   $batch_select=$obj->select("batch");
                   while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                    <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                    <option value="<?=$batch_option['batch'];?>"
+
+ <?php
+
+                      if ($batch_option['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>
+
+                      ><?=$batch_option['batch'];?></option>
+
                     
                  <?php }
                ?>
@@ -108,7 +123,14 @@ if($_SESSION['status']!='Success'){
           </td>
           <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
           <td><?=$row['fee_type'];?></td>
-          <td><?=$row['batch'];?></td>
+          <td 
+ <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['batch'];?></td>
           <td><?=$row['fees'];?></td>
           <td><?php
             $spid=$obj->select("tbl_student_policy WHERE spid=".$row['spid']);

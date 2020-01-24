@@ -12,87 +12,69 @@ if($_SESSION['status']!='Success'){
   $Receivable_amount=0;
   $remaining=0;
   
-  // print_r($_POST);
+  print_r($_POST);
 	$select_batch=$obj->select("batch");
-	$select_sem=$obj->select("semester");
-  $students=$obj->select("tbl_students");
-  $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
-  $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid");
-  // $select_current_batch=$obj->selectCurrent(" MAX(batch) AS maxBatch FROM tbl_students");
-  // $current_batch=$select_current_batch->fetch(PDO::FETCH_ASSOC);
-  // $select_current_sem=$obj->selectCurrent(" MIN(sem_id) AS minSem FROM tbl_students");
-  // $current_sem=$select_current_sem->fetch(PDO::FETCH_ASSOC);
+  // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
+// selecting current semester
+  $select_semester=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
+
+  $semester=$select_semester->fetch(PDO::FETCH_ASSOC);
+  $current_semester=$semester['sem_id'];
+  // echo $current_semester;
 
 
+	
+  if(!isset($_POST['batch'])){
+  $students=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
+}
+  if ($current_semester==1) {
+    $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$current_batch['batch']);
+  $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$current_batch['batch']);
+    
+  }else{
+    $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$current_batch['batch']." AND sem_wise=1");
+  $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$current_batch['batch']." AND sem_wise=1");
 
-//   if (isset($_POST['submit']) && $_POST['submit']=='submit') {
-//     if ($_POST['semester']==1) {
-//           $query="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE ";
-          
-//           array_pop($_POST);
-//           foreach ($_POST as $key => $value) {
-//             if ($value!='') {
-//               $arr[]=$key."='$value'";
-//             }
-
-//           }
-//           if (isset($arr)) {
-//             array_pop($arr);
-//             $query.=implode(' AND ', $arr);
-//           }
-// echo $query;
-// echo "<br>";
-
-//            $tbl_heading=$obj->select($query);
-
-//             $tbl_heading1=$obj->select($query);
-//         }
-
-
-
-//        else{
-//           $query="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND ";
-          
-//           array_pop($_POST);
-//           foreach ($_POST as $key => $value) {
-//             if ($value!='') {
-//               $arr[]=$key."='$value'";
-//             }
-
-//           }
-//           if (isset($arr)) {
-//             array_pop($arr);
-//             $query.=implode(' AND ', $arr);
-//           }
-//           echo "<br>";
-
-// echo $query;
-// // echo $query1;
-//            $tbl_heading=$obj->select($query);
-
-//         $tbl_heading1=$obj->select($query);
-//         }
- 
-// }
-
-// OR
-
+  }
+  
+  
 if (isset($_POST['submit'])) {
   if ($_POST['submit']=='submit') {
+    if (!isset($_POST['semester'])) {
+      $_POST['semester']=$current_semester;
     
     if ($_POST['semester']==1) {
-      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
-      $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
-      $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);
+        $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
+        $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
+        $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);
       
     }
     else{
-      $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']);
-    $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']); 
-    $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);     
+        $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']);
+      $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']); 
+      $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']);     
     }
    
   }
+  elseif(isset($_POST['semester'])){
+
+    if ($_POST['semester']==1) {
+        $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
+        $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$_POST['batch']);
+        $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']." AND sem_id=".$_POST['semester']);
+      
+    }
+    else{
+        $tbl_heading=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']);
+      $tbl_heading1=$obj->select("tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE fee_types.sem_wise=1 AND batch=".$_POST['batch']); 
+      $students=$obj->select("tbl_students WHERE batch=".$_POST['batch']." AND sem_id=".$_POST['semester']);     
+    }
+
+  }
+}
 }
 
   include("includes/header.php");
@@ -112,25 +94,29 @@ if (isset($_POST['submit'])) {
   			<form method="post" class="form-group">
           				<div class="col-md-4">
           				
-          					<select name="batch" class="form-control" required="">
+          					<select name="batch" class="form-control" required="" onchange="appearSem(this.value)">
           						<option selected="" disabled="" >Select Batch</option>
           						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){ ?>
-          						<option value="<?=$batch['batch'];?>" ><?=$batch['batch'];?></option>
+          						<option value="<?=$batch['batch'];?>" <?php
+
+                      if ($batch['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>
+                      ><?=$batch['batch'];?></option>
           						<?php }?>
           					</select>
           			</div>
-          			<div class="col-md-4">
+          			
           				
-          					<select name="semester" class="form-control" required="">
-          						<option selected="" disabled="" >Select Semester</option>
-          						<?php while($sem=$select_sem->fetch(PDO::FETCH_ASSOC)){?>
-          						<option value="<?=$sem['sem_id'];?>" ><?=$sem['semester'];?></option>
-          						<?php }?>
-          					</select>
+          				<div id="Semester" class="col-md-2">
+                       
           			</div>
           			<button name="submit" value="submit" class="btn btn-success">Filter</button>
   			</form>
   		</div>
+      <br>
   		<div class="col-md-12">
         <?php $headings=$tbl_heading->fetchAll(PDO::FETCH_ASSOC);?>
       <table class="table table-bordered table-hover table-responsive">
@@ -152,7 +138,14 @@ if (isset($_POST['submit'])) {
             <tr>
               <td><?=++$i;?></td>
               <td><?=$row['name'];?></td>
-              <td><?=$row['batch'];?></td>
+              <td
+ <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['batch'];?></td>
               <td><?=$row['sem_id'];?></td>
               <?php for($a=0;$a<count($headings);$a++){?>
               <td><?php 
@@ -180,8 +173,10 @@ if (isset($_POST['submit'])) {
                 <tr>
                   <td>
                     <?php
+                    if (isset($_POST['semester'])) {
+                      
                     for($a=0;$a<count($headings);$a++){
-                     $payment_received=$obj->select_sum(" SUM(amount) FROM tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE tbl_fees.batch=".$row['batch']." AND tbl_student_payment.sid=".$row['sid']." AND tbl_fees.ftid=".$headings[$a]['ftid']);
+                     $payment_received=$obj->select_sum(" SUM(amount) FROM tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE tbl_fees.batch=".$row['batch']." AND tbl_student_payment.sid=".$row['sid']." AND tbl_fees.ftid=".$headings[$a]['ftid']." AND semester=".$_POST['semester']);
                      $payment_received_data=$payment_received->fetch(PDO::FETCH_ASSOC);
                      echo $headings[$a]['fee_type'];
                      echo "=";
@@ -191,6 +186,21 @@ if (isset($_POST['submit'])) {
                    $sum1+=$payment_received_data['SUM(amount)'];
                    $remaining+=$payment_received_data['SUM(amount)'];
                   }
+                }
+                else{
+                  $_POST['semester']=$current_semester;
+                  for($a=0;$a<count($headings);$a++){
+                     $payment_received=$obj->select_sum(" SUM(amount) FROM tbl_student_payment JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid WHERE tbl_fees.batch=".$row['batch']." AND tbl_student_payment.sid=".$row['sid']." AND tbl_fees.ftid=".$headings[$a]['ftid']." AND semester=".$_POST['semester']);
+                     $payment_received_data=$payment_received->fetch(PDO::FETCH_ASSOC);
+                     echo $headings[$a]['fee_type'];
+                     echo "=";
+                      echo $payment_received_data['SUM(amount)'];echo "<br>";
+                     // $row['sid']++;
+                      
+                   $sum1+=$payment_received_data['SUM(amount)'];
+                   $remaining+=$payment_received_data['SUM(amount)'];
+                  }
+                }
                     ?>
                   </td>
 
@@ -344,6 +354,20 @@ else{
             $('.alert').hide('slow')
         }, 3000);
     })
+  </script>
+  <script>
+    function appearSem(batch){
+       var xhr=new XMLHttpRequest();
+      xhr.onreadystatechange=function(){
+
+        if(this.readyState == 4 && this.status==200){
+         document.getElementById('Semester').innerHTML=this.responseText;
+
+        }
+      }
+      xhr.open('GET','ajaxineconomy.php',true);
+      xhr.send();
+    }
   </script>
 </body>
 

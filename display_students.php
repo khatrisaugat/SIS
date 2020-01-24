@@ -11,6 +11,10 @@ if($_SESSION['status']!='Success'){
     //     *********************************************************************************************************************************************************** -->
 
   require_once("queries.php");
+  // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+ 
   $tbl_students=$obj->select("tbl_students");//select all from tbl_students
   $j=1;//initialize j
   if(isset($_GET['sid'])){//check url for get variable
@@ -156,7 +160,16 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
           <td><?=$row['address'];?></td>
           <td><?=$row['phone'];?></td>
           
-          <td><?=$row['batch'];?></td>
+          <td
+         
+                  <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?> 
+          ><?=$row['batch'];?></td>
           <td><?=$row['gender'];?></td>
 
  <?php   if($row['status']==0) {?><!--if clause start-->
