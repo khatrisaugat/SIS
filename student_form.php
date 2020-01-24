@@ -17,6 +17,10 @@ if($_SESSION['status']!='Success'){
   
   require_once('queries.php');//including queries
 $batch_select=$obj->select("batch");
+// selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
 
 if (isset($_POST['submit'])) {//check if form is submitted
   
@@ -109,7 +113,17 @@ if (isset($_FILES['image'])) {
             <select name="batch" class="form-control">
               <option selected="" disabled="">Select Your Batch</option>
               <?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                <option value="<?=$batch['batch'];?>"><?=$batch['batch'];?></option>
+                <option value="<?=$batch['batch'];?>"
+
+
+                    <?php
+
+                      if ($batch['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>
+                  ><?=$batch['batch'];?></option>
               <?php } ?>
             </select>
           </div>

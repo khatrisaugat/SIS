@@ -6,6 +6,10 @@ if($_SESSION['status']!='Success'){
 
 require_once('queries.php');
 $obj= new queries;
+// selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
 $sql="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
 if (isset($_POST['filter']) && $_POST['filter']=='set') {
     $sql.=" WHERE batch=".$_POST['batch'];
@@ -75,7 +79,16 @@ if (isset($_GET['op'])) {
                    <?php
                       $batch_select=$obj->select("batch");
                       while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                        <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                        <option value="<?=$batch_option['batch'];?>"
+
+ <?php
+
+                      if ($batch_option['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>
+                          ><?=$batch_option['batch'];?></option>
                         
                      <?php }
                    ?>
@@ -105,7 +118,14 @@ if (isset($_GET['op'])) {
               <tr>
                  <td><?=++$i;?></td>
                  <td><?=$row['fee_type'];?></td>
-                 <td><?=$row['batch'];?></td>
+                 <td
+ <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['batch'];?></td>
                  <td><?=$row['fees'];?></td>
             <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
                  <td><a href="edit_fees.php?fid=<?=$row['fid'];?>&op=e" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>

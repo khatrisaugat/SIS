@@ -50,7 +50,7 @@
             </ul>
           </li>
           <li class="sub-menu">
-            <a href="ajaxinsem.php">
+            <a href="up_sem.php">
               <i class="fa fa-pencil"></i>
               <span>Semester Change</span>
             </a>

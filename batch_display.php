@@ -6,6 +6,10 @@ if($_SESSION['status']!='Success'){
   }
 
 require_once('queries.php');
+// selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
 $batchdata=$obj->select("batch");
 $i=0;
 if (isset($_GET['op'])) {
@@ -76,7 +80,14 @@ exit();
             while ($row=$batchdata->fetch(PDO::FETCH_ASSOC)) {?>
               <tr>
                  <td><?=++$i;?></td>
-                 <td><?=$row['batch'];?></td>
+                 <td
+ <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['batch'];?></td>
                  <td><a href="batch_edit.php?bid=<?=$row['bid'];?>" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a></td>
                  <td><a href="batch_display.php?bid=<?=$row['bid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"
 >Delete</a></td>
