@@ -6,8 +6,16 @@ session_start();
   	require_once('queries.php');
 
   	// selecting current batch
+   // selecting current batch
   $select_batch1=$obj->select("batch ORDER BY batch DESC");
   $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
+// selecting current semester
+  $select_semester=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
+
+  $semester=$select_semester->fetch(PDO::FETCH_ASSOC);
+  $current_semester=$semester['sem_id'];
+  
  
   $batch_select=$obj->select("batch");
   $sql="tbl_students WHERE status=1";
@@ -25,7 +33,7 @@ else{
 // print_r($_POST);
 
 // print_r($_POST);
-
+$select_students=$obj->select($sql);
 if (isset($_POST['submit'])) {
 	if ($_POST['submit']=='Upgrade') {
 		$query=$obj->select("tbl_students WHERE status=1");
@@ -46,7 +54,7 @@ if (isset($_POST['submit'])) {
 		$obj->updateSem($sem,"tbl_students",$sn);
 	}
 	}
-$select_students=$obj->select($sql);
+
 
 include("includes/header.php");?>
     <?php include("includes/sidebar.php");?>
@@ -99,7 +107,14 @@ include("includes/header.php");?>
 			  					<tr>
 			  					<!-- <div id="divCheckboxList"> -->
 			  						<td><input type="checkbox" name="sem[]"  value="<?=$row['sid'];?>" /> <?=$row['name'].$row['mname'].$row['lname'];?></td>
-			  						<td><?=$row['sem_id'];?></td>
+			  						<td
+			  						<?php
+
+                      if ($row['sem_id']==$current_semester) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['sem_id'];?></td>
 			  					<!-- </div> -->
 			  					</tr>
 			  				<?php }?>

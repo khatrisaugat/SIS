@@ -29,6 +29,7 @@ require_once("queries.php");//include queries
 
   $semester=$select_semester->fetch(PDO::FETCH_ASSOC);
   $current_semester=$semester['sem_id'];
+  
 $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];//query for selecting payment data
   $select_payment=$obj->select($query);//select payment data
   //initialization
