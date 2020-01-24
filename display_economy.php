@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if($_SESSION['status']!='Success'){
@@ -13,7 +12,7 @@ if($_SESSION['status']!='Success'){
   $remaining=0;
   
   // print_r($_POST);
-	$select_batch=$obj->select("batch");
+  $select_batch=$obj->select("batch");
   // selecting current batch
   $select_batch1=$obj->select("batch ORDER BY batch DESC");
   $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +25,7 @@ if($_SESSION['status']!='Success'){
   // echo $current_semester;
 
 
-	
+  
   if(!isset($_POST['batch'])){
   $students=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
 }
@@ -89,15 +88,15 @@ if (isset($_POST['submit'])) {
       <section class="wrapper">
         <div class="row">
          
-  		<div class="col-md-12">
-  			<h1>Payment Received Details</h1>
-  			<form method="post" class="form-group">
-          				<div class="col-md-4">
-          				
-          					<select name="batch" class="form-control" required="" onchange="appearSem(this.value)">
-          						<option selected="" disabled="" >Select Batch</option>
-          						<?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){ ?>
-          						<option value="<?=$batch['batch'];?>" <?php
+      <div class="col-md-12">
+        <h1>Payment Received Details</h1>
+        <form method="post" class="form-group">
+                  <div class="col-md-4">
+                  
+                    <select name="batch" class="form-control" required="" onchange="appearSem(this.value)">
+                      <option selected="" disabled="" >Select Batch</option>
+                      <?php while($batch=$select_batch->fetch(PDO::FETCH_ASSOC)){ ?>
+                      <option value="<?=$batch['batch'];?>" <?php
 
                       if ($batch['batch']==$current_batch['batch']) {
                       echo "style='font-weight:bold;color:red;'";
@@ -105,19 +104,19 @@ if (isset($_POST['submit'])) {
 
                       ?>
                       ><?=$batch['batch'];?></option>
-          						<?php }?>
-          					</select>
-          			</div>
-          			
-          				
-          				<div id="Semester" class="col-md-2">
+                      <?php }?>
+                    </select>
+                </div>
+                
+                  
+                  <div id="Semester" class="col-md-2">
                        
-          			</div>
-          			<button name="submit" value="submit" class="btn btn-success">Filter</button>
-  			</form>
-  		</div>
+                </div>
+                <button name="submit" value="submit" class="btn btn-success">Filter</button>
+        </form>
+      </div>
       <br>
-  		<div class="col-md-12">
+      <div class="col-md-12">
         <?php $headings=$tbl_heading->fetchAll(PDO::FETCH_ASSOC);?>
       <table class="table table-bordered table-hover table-responsive">
         <thead>
@@ -371,4 +370,3 @@ else{
     }
   </script>
 </body>
-
