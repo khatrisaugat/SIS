@@ -12,7 +12,7 @@ if($_SESSION['status']!='Success'){
   $Receivable_amount=0;
   $remaining=0;
   
-  print_r($_POST);
+  // print_r($_POST);
 	$select_batch=$obj->select("batch");
   // selecting current batch
   $select_batch1=$obj->select("batch ORDER BY batch DESC");
@@ -139,13 +139,14 @@ if (isset($_POST['submit'])) {
               <td><?=++$i;?></td>
               <td><?=$row['name'];?></td>
               <td
- <?php
+                <?php
 
                       if ($row['batch']==$current_batch['batch']) {
                       echo "style='font-weight:bold;color:red;'";
                       }
 
-                      ?>><?=$row['batch'];?></td>
+                      ?>
+                      ><?=$row['batch'];?></td>
               <td><?=$row['sem_id'];?></td>
               <?php for($a=0;$a<count($headings);$a++){?>
               <td><?php 

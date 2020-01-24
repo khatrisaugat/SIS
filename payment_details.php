@@ -20,6 +20,15 @@ include("includes/header.php");
   header("Location:display_student.php");
 }
 require_once("queries.php");//include queries
+ // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
+// selecting current semester
+  $select_semester=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
+
+  $semester=$select_semester->fetch(PDO::FETCH_ASSOC);
+  $current_semester=$semester['sem_id'];
 $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment.semester JOIN tbl_fees ON tbl_fees.fid=tbl_student_payment.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid'];//query for selecting payment data
   $select_payment=$obj->select($query);//select payment data
   //initialization
@@ -80,7 +89,14 @@ $query="tbl_student_payment JOIN semester ON semester.sem_id=tbl_student_payment
         <?php while ($pay=$select_payment->fetch(PDO::FETCH_ASSOC)) {?>
         <tr>
           
-            <td><?=$pay['semester'];?></td>
+            <td <?php
+
+                      if ($pay['sem_id']==$current_semester) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>
+                      ><?=$pay['semester'];?></td>
             <td>
                 <table class="table table-hover table-responsive">
                   <thead>

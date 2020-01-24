@@ -20,6 +20,15 @@ if($_SESSION['status']!='Success'){
 }
 
 require_once("queries.php");
+ // selecting current batch
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
+// selecting current semester
+  $select_semester=$obj->select("tbl_students WHERE batch=".$current_batch['batch']);
+
+  $semester=$select_semester->fetch(PDO::FETCH_ASSOC);
+  $current_semester=$semester['sem_id'];
 $j=0;//initialize j
 $count=0;//initialize count
 $check_policy=$obj->select("tbl_student_policy JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE sid=".$_GET['sid']);//select policy if exists
@@ -60,7 +69,14 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
       <tr>
         <td><?=++$j;?></td>
         <td>Batch</td>
-        <td><?=$student['batch'];?></td>
+        <td <?php
+
+                      if ($student['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?> 
+                      ><?=$student['batch'];?></td>
       </tr>
       <tr>
         <td><?=++$j;?></td>
@@ -143,7 +159,14 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
           <td><?=$payment['fee_type'];?></td>
           <td><?=$payment['pdate'];?></td>
           <td><?=$payment['amount'];?></td>
-          <td><?=$payment['semester']?></td>
+          <td <?php
+
+                      if ($payment['sem_id']==$current_semester) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?> 
+                      ><?=$payment['semester']?></td>
 
           <td>
             <?php 
