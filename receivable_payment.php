@@ -95,8 +95,8 @@ $student_select=$obj->select($query);
 					}
 					?>
 						<tr>
-							<td><?=$students['name']." ".$students['mname']." ".$students['lname'];?></td>
-							<td><?=$students['sem_id'];?></td>
+							<td><a href="PAY.php?sid=<?=$students['sid'];?>"><?=$students['name']." ".$students['mname']." ".$students['lname'];?></td>
+							<td><?=$students['sem_id'];?></a></td>
 							<td>
 								<table class="table table-bordered">
 									<tr>
