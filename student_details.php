@@ -196,7 +196,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
       
     </tbody>
   </table>
-  <a href="payment_details.php?sid=<?=$_GET['sid'];?>" class="btn btn-info">Payment details</a>
+  <a href="PAY.php?sid=<?=$_GET['sid'];?>" class="btn btn-info">Payment details</a>
 </div>
         </div>
         <!-- row -->
