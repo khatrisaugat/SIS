@@ -23,11 +23,13 @@ session_start();
 if (isset($_POST['submit']) && $_POST['submit']=='Submit') {
 	
 		$sql.=" AND batch=".$_POST['batch'];
+		// $_SESSION['batch']=$_POST['batch'];
 
 	
 }
 else{
 	$sql.=" AND batch=".$current_batch['batch'];
+	// $_SESSION['batch']=$current_batch['batch'];
 }
 
 // print_r($_POST);
@@ -36,6 +38,8 @@ else{
 $select_students=$obj->select($sql);
 if (isset($_POST['submit'])) {
 	if ($_POST['submit']=='Upgrade') {
+		// $_POST['batch']=$_SESSION['batch'];
+		// $_POST['submit']='Submit';
 		$query=$obj->select("tbl_students WHERE status=1");
 		$semResult=$query->fetch(PDO::FETCH_ASSOC);
 		$sem['sem_id']=$semResult['sem_id']+1;
@@ -43,8 +47,11 @@ if (isset($_POST['submit'])) {
 		$sn=$_POST['sem'];
 		// print_r($sn);
 		$obj->updateSem($sem,"tbl_students",$sn);
+
 	}
 	elseif ($_POST['submit']=='Downgrade') {
+		// $_POST['batch']=$_SESSION['batch'];
+		// $_POST['submit']='Submit';
 		$query=$obj->select("tbl_students WHERE status=1");
 		$semResult=$query->fetch(PDO::FETCH_ASSOC);
 		$sem['sem_id']=$semResult['sem_id']-1;
@@ -93,7 +100,7 @@ include("includes/header.php");?>
 					</form>		
 				</div>	    	
 					<div class="col-md-8">
-						<form method="post">
+					<form  method="post">
 						<table class="table table-bordered">
 			  				<thead>
 			  					<tr>
