@@ -20,27 +20,30 @@ session_start();
   $batch_select=$obj->select("batch");
   $sql="tbl_students WHERE status=1";
 
-if (isset($_POST['submit']) && $_POST['submit']=='Submit') {
+if (isset($_GET['submit']) && $_GET['submit']=='Submit') {
 	
-		$sql.=" AND batch=".$_POST['batch'];
-		// $_SESSION['batch']=$_POST['batch'];
+		$sql.=" AND batch=".$_GET['batch'];
+		$_SESSION['batch']=$_GET['batch'];
+
 
 	
 }
 else{
 	$sql.=" AND batch=".$current_batch['batch'];
+	$_SESSION['batch']=$current_batch['batch'];
 	// $_SESSION['batch']=$current_batch['batch'];
 }
 
 // print_r($_POST);
 
 // print_r($_POST);
-$select_students=$obj->select($sql);
+
 if (isset($_POST['submit'])) {
 	if ($_POST['submit']=='Upgrade') {
 		// $_POST['batch']=$_SESSION['batch'];
 		// $_POST['submit']='Submit';
-		$query=$obj->select("tbl_students WHERE status=1");
+		$query=$obj->select("tbl_students WHERE status=1 AND batch=".$_SESSION['batch']);
+		unset($_SESSION['batch']);
 		$semResult=$query->fetch(PDO::FETCH_ASSOC);
 		$sem['sem_id']=$semResult['sem_id']+1;
 		// $sem_id=$semResult['sem_id'];
@@ -52,7 +55,8 @@ if (isset($_POST['submit'])) {
 	elseif ($_POST['submit']=='Downgrade') {
 		// $_POST['batch']=$_SESSION['batch'];
 		// $_POST['submit']='Submit';
-		$query=$obj->select("tbl_students WHERE status=1");
+		$query=$obj->select("tbl_students WHERE status=1 AND batch=".$_SESSION['batch']);
+		unset($_SESSION['batch']);
 		$semResult=$query->fetch(PDO::FETCH_ASSOC);
 		$sem['sem_id']=$semResult['sem_id']-1;
 		// $sem_id=$semResult['sem_id'];
@@ -62,7 +66,7 @@ if (isset($_POST['submit'])) {
 	}
 	}
 
-
+$select_students=$obj->select($sql);
 include("includes/header.php");?>
     <?php include("includes/sidebar.php");?>
 
@@ -73,7 +77,7 @@ include("includes/header.php");?>
       <section class="wrapper">
         <div class="row">
         	<div class="col-md-6">
-						<form method="post" class="form-group">
+						<form method="get" class="form-group">
 						<div class="col-md-8">
 							<select name="batch" class="form-control" >
 							<option selected="" disabled="">Select Batch</option>
@@ -100,7 +104,12 @@ include("includes/header.php");?>
 					</form>		
 				</div>	    	
 					<div class="col-md-8">
-					<form  method="post">
+					<form  method="post" action="<?php if(isset($_GET['batch']))
+					{
+						echo "up_sem.php?batch=".$_GET['batch']."&submit=Submit";}
+						else{
+							echo "up_sem.php";
+						} ?>">
 						<table class="table table-bordered">
 			  				<thead>
 			  					<tr>
