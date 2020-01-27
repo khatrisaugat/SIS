@@ -11,11 +11,34 @@ if($_SESSION['status']!='Success'){
     //     *********************************************************************************************************************************************************** -->
 
   require_once("queries.php");
+  //ADDITIONAL CODE
+  if (isset($_GET['pageno'])) {
+            $pageno = $_GET['pageno'];
+        } else {
+            $pageno = 1;
+        }
+        $no_of_records_per_page = 7;
+        $offset = ($pageno-1) * $no_of_records_per_page;
+        $result=$obj->select_count("tbl_students");
+        $row_num=$result->fetch(PDO::FETCH_BOTH);
+        // print_r($row_num);
+        $total_rows=$row_num[0];
+        $total_pages = ceil($total_rows / $no_of_records_per_page);
+        // echo $total_rows;
+  //ADDITIONAL CODE
+        // if (isset($_GET['pageno']) && isset($_SESSION['batch'])) {
+        //   $_POST['filter']='set';
+        //   $_POST['batch']=$_SESSION['batch'];
+        //   unset($_SESSION['batch']);
+        // }elseif (isset($_GET['pageno']) && isset($_SESSION['city'])) {
+        //   $_POST['city']=$_SESSION['city'];
+        //   unset($_SESSION['city']);
+        // }
   // selecting current batch
   $select_batch1=$obj->select("batch ORDER BY batch DESC");
   $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
  
-  $tbl_students=$obj->select("tbl_students");//select all from tbl_students
+  $tbl_students=$obj->select("tbl_students LIMIT $offset, $no_of_records_per_page");//select all from tbl_students
   $j=1;//initialize j
   if(isset($_GET['sid'])){//check url for get variable
 
@@ -45,17 +68,23 @@ if($_SESSION['status']!='Success'){
     // if ($_GET['submit']=='Sort') {
       // print_r($_POST);
       // array_pop($_POST);
-     $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']);
+    if (isset($_GET['pageno'])) {
+      $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']." LIMIT $offset, $no_of_records_per_page");
+    }else{
+     $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']." LIMIT 3");
+    }
      
     // }
   }
 // additional codee
 if (isset($_POST['filter']) && $_POST['filter']=='set') {
+
   $query="tbl_students WHERE ";
   array_pop($_POST);
   foreach ($_POST as $key => $value) {
     if ($value!='') {
       $arr[]=$key."='$value'";
+      $_SESSION[$key]=$value;
     }
 
   }
@@ -154,7 +183,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
     </thead>
     <tbody>
       <?php 
-      if(isset($_GET['filter']) && $_GET['filter']=='set'){
+      if(isset($_GET['filter']) && $_GET['filter']=='set' && !isset($_GET['pageno'])){
         $tbl_students=$batch;
       }
 
@@ -214,7 +243,35 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
       </tbody>
     </table>
   </div>
-          
+  <?php
+  $link_add="";
+  if (!isset($_GET['filter'])) {
+    if (isset($_GET['field'])) {
+    $link_add="&field=".$_GET['field']."&order=".$_GET['order'];
+  } ?>
+         <ul class="pagination">
+        <li><a href="?pageno=1<?=$link_add?>">First</a></li>
+        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
+            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?><?=$link_add?>">Prev</a>
+        </li>
+        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?><?=$link_add?>">Next</a>
+        </li>
+        <li><a href="?pageno=<?php echo $total_pages; ?><?=$link_add?>">Last</a></li>
+    </ul><?php
+  }
+  // $link_add="";
+  // if (isset($_GET['filter'])) {
+  //   $link_add.="&filter=set";
+    // if (isset($_SESSION['batch'])) {
+    //   $_POST['batch']=$_SESSION['batch'];
+    //   unset($_SESSION['batch']);
+    // }else if (isset($_SESSION['city'])) {
+    //   $_POST['city']=$_SESSION['city'];
+    //   unset($_SESSION['city']);
+    // }
+  // }
+   ?>
         </div>
         <!-- /row -->
       </section>
