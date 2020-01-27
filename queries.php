@@ -85,6 +85,14 @@ class queries extends connection
 		$stm->execute();
 		// echo $sql;
 	}
+	function select_count($tbl_name){
+		$sql="SELECT COUNT(*) FROM $tbl_name";
+		$stm=$this->con->prepare($sql);
+		// echo "$sql";	
+		$stm->execute();
+		return $stm;
+
+	}
 
 	
 }
