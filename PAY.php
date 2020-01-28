@@ -129,7 +129,7 @@ if (!empty($students['img'])) {?>
 		</table>
 		<center>
 			<a href="student_details.php?sid=<?=$sid;?>" class="btn btn-primary">Student Details</a>
-			<a href="payment_details.php?sid=<?=$sid;?>" class="btn btn-warning">View Payments Only</a>
+			<!-- <a href="payment_details.php?sid=<?=$sid;?>" class="btn btn-warning">View Payments Only</a> -->
 		</center>
 		</div>
 	</section>
