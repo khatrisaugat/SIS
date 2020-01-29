@@ -5,6 +5,9 @@ if($_SESSION['status']!='Success'){
   }
  
   require_once("queries.php");
+  $select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+ 
   $sql="tbl_student_policy JOIN tbl_students ON tbl_students.sid=tbl_student_policy.sid JOIN tbl_fees ON tbl_fees.fid=tbl_student_policy.fid JOIN fee_types ON fee_types.ftid=tbl_fees.ftid";
 
 if (isset($_POST['filter']) && $_POST['filter']=='set') {
@@ -69,7 +72,14 @@ include("includes/header.php");?>
                    <?php
                       $batch_select=$obj->select("batch");
                       while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                        <option value="<?=$batch_option['batch'];?>"><?=$batch_option['batch'];?></option>
+                        <option value="<?=$batch_option['batch'];?>"
+ <?php
+
+                      if ($batch_option['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$batch_option['batch'];?></option>
                         
                      <?php }
                    ?>

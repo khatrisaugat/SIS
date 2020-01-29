@@ -13,12 +13,24 @@ if($_SESSION['status']!='Success'){
       <section class="wrapper">
        <div class="row mt">
         <?php
+
    $sid=$_GET['sid'];
 require_once("queries.php");//include queries
+
 $student_select=$obj->select("tbl_students WHERE sid=".$_GET['sid']);
+// $payment_sem=$obj->select("tbl_student_payment WHERE sid=".$_GET['sid']);
+// while ($get_sem=$payment_sem->fetch(PDO::FETCH_ASSOC)) {
+// 	$arr[]=$get_sem['semester'];
+// }
+// $payment_sem_count=array_unique($arr);
+
+
 $students=$student_select->fetch(PDO::FETCH_ASSOC);?>
+
 <h1>
 <?php
+// print_r($payment_sem_count);
+// echo $payment_sem_count[0];
 if (!empty($students['img'])) {?>
 	<img src="files/<?=$students['img'];?>" style="width: 150px;height: 150px;margin-top: -80px;">
 <?php	
@@ -34,9 +46,14 @@ if (!empty($students['img'])) {?>
 			</thead>
 			<tbody>
 				<?php
-				$Semester=$obj->select("semester");
+					$maxSem=$obj->select_sum(" MAX(semester) AS maxSem FROM tbl_student_payment WHERE sid=".$_GET['sid']);
+						$count_maxSem=$maxSem->fetch(PDO::FETCH_ASSOC);
+						// print_r($count_maxSem) ;
+				$Semester=$obj->select("semester WHERE sem_id<=".$count_maxSem['maxSem']);
 				while ($row=$Semester->fetch(PDO::FETCH_ASSOC)) {
-					if($row['sem_id']<=$students['sem_id']) {?>
+					// for($x=$payment_sem_count[0];$x<=count($payment_sem_count);$x++){
+					// if($row['sem_id']<=$payment_sem_count[$x]) {
+						?>
 						<tr>
 							<td><?=$row['semester'];?></td>
 							<td>
@@ -121,7 +138,9 @@ if (!empty($students['img'])) {?>
 							</td>
 
 						</tr>
-			<?php	}
+			<?php	
+		// }
+	// }
 				}
 				 ?>
 				

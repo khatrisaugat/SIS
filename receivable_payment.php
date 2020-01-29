@@ -14,10 +14,13 @@ if (isset($_GET['batch']) && $_GET['batch']=='ALL') {
        <div class="row mt">
         <?php
 require_once("queries.php");//include queries
-$query="tbl_students";
+$select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
+$query="tbl_students WHERE status=1";
 // additional codee
 if (isset($_GET['filter']) && $_GET['filter']=='set') {
-  $query.=" WHERE batch=".$_GET['batch'];
+  $query.=" AND batch=".$_GET['batch'];
   
   // echo $query;
   // $batch=$obj->select($query);
@@ -46,7 +49,14 @@ $student_select=$obj->select($query);
                <?php
                   $batch_select=$obj->select("batch");
                   while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                    <option value="<?=$batch_option['batch'];?>" <?php if(isset($_GET['batch']) && $_GET['batch']==$batch_option['batch']){echo "selected";} ?>><?=$batch_option['batch'];?></option>
+                    <option value="<?=$batch_option['batch'];?>" <?php if(isset($_GET['batch']) && $_GET['batch']==$batch_option['batch']){echo "selected";} ?>
+ <?php
+
+                      if ($batch_option['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$batch_option['batch'];?></option>
                     
                  <?php }
                ?>

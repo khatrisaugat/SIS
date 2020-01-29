@@ -49,9 +49,11 @@ if($_SESSION['status']!='Success'){
       // $join=join(',',array_keys($_POST));
       // echo "$join";
 
-      if($_POST['spid']==''){
+      if (isset($_POST['spid'])) {
+        if($_POST['spid']==''){
             unset($_POST['spid']);
             //if there is no policy than spid is not needed
+      }
       }
 
       $obj->insert($_POST,"tbl_student_payment");

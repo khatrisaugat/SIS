@@ -124,7 +124,7 @@ if($_SESSION['status']!='Success'){
           <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
           <td><?=$row['fee_type'];?></td>
           <td 
- <?php
+             <?php
 
                       if ($row['batch']==$current_batch['batch']) {
                       echo "style='font-weight:bold;color:red;'";
@@ -133,9 +133,17 @@ if($_SESSION['status']!='Success'){
                       ?>><?=$row['batch'];?></td>
           <td><?=$row['fees'];?></td>
           <td><?php
-            $spid=$obj->select("tbl_student_policy WHERE spid=".$row['spid']);
-            $tbl_spid=$spid->fetch(PDO::FETCH_ASSOC);
-            echo $tbl_spid['amount'];
+          echo $row['amount'];
+           
+         // $sql="tbl_student_policy";
+           
+         //    if (isset($row['spid'])) {
+         //      $sql.= " WHERE spid=".$row['spid'] ; 
+         //     } 
+         //      $spid=$obj->select($sql);
+         //    $tbl_spid=$spid->fetch(PDO::FETCH_ASSOC);
+         //    // print_r($tbl_spid);
+         //    echo $tbl_spid['amount'];
           ?>
             
           </td>
