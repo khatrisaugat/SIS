@@ -68,6 +68,12 @@
               <li><a href="total_receivable.php">Total Receivable</a></li>
             </ul>
           </li>
+          <li >
+            <a  href="payment_history.php">
+              <i class="fa fa-history"></i>
+              <span>Payment History</span>
+              </a>
+          </li>
           <?php 
                 if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){
 

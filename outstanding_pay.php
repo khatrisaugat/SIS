@@ -5,9 +5,12 @@ if($_SESSION['status']!='Success'){
   header("Location:login.php");
   }
 require_once('queries.php');
+$select_batch1=$obj->select("batch ORDER BY batch DESC");
+  $current_batch=$select_batch1->fetch(PDO::FETCH_ASSOC);
+
 $batch_select=$obj->select("batch");
 //batch select for filter
-$student_select=$obj->select("tbl_students");
+$student_select=$obj->select("tbl_students WHERE status=1");
 $count=0;
 
 
@@ -23,18 +26,27 @@ include("includes/sidebar.php");?>
     			     <select name="batch" class="form-control" onchange="batch(this.value)">
                   <option selected="" value="all">All</option>
                   <?php while ($row=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
-                    <option value="<?=$row['batch'];?>"><?=$row['batch'];?></option>
+                    <option value="<?=$row['batch'];?>"
+ <?php
+
+                      if ($row['batch']==$current_batch['batch']) {
+                      echo "style='font-weight:bold;color:red;'";
+                      }
+
+                      ?>><?=$row['batch'];?></option>
                     <?php
                   } ?>   
                </select>
              </div>
            </div>
-           <div class="col-sm-12" id="pay_table">
+           
+            <!-- <div class="col-md-1"></div> -->
+           <div class="col-sm-10" id="pay_table">
             <br>
-             <table class="table table-responsive table-hover table-bordered">
-               <thead>
+             <table class="table table-responsive table-hover table-bordered w-auto">
+               <thead >
                  <tr>
-                   <th>S.N</th>
+                   <th >S.N</th>
                    <th>Name</th>
                    <th>Phone</th>
                    <th>Outstanding</th>
@@ -44,7 +56,7 @@ include("includes/sidebar.php");?>
                <tbody>
                  <?php while ($students=$student_select->fetch(PDO::FETCH_ASSOC)) {?>
                   <tr>
-                    <td><?=++$count;?></td>
+                    <td scope="row"><?=++$count;?></td>
                     <td><a href="PAY.php?sid=<?=$students['sid'];?>"><?=$students['name']." ".$students['mname']." ".$students['lname'];?></a></td>
                     <td><?=$students['phone'];?></td>
                     <?php
@@ -159,6 +171,9 @@ include("includes/sidebar.php");?>
                </tbody>
              </table>
            </div>
+            <!-- <div class="col-md-1"></div> -->
+
+         
 		    </div>
       </section>
   </section>
