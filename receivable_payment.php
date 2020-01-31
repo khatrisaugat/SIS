@@ -113,7 +113,7 @@ $student_select=$obj->select($query);
 										 ?>
 
 										<tr>
-											<td>
+											<td style="width: 300px;">
 												<table class="table table-striped">
 													<?php while ($paid_row=$paid_select->fetch(PDO::FETCH_ASSOC)) {?>
 														<tr>
@@ -132,7 +132,7 @@ $student_select=$obj->select($query);
 													</tr>
 												</table>
 											</td>
-											<td>
+											<td style="width: 300px;">
 												<table class="table table-striped">
 													<?php $sql="tbl_fees JOIN fee_types ON fee_types.ftid=tbl_fees.ftid WHERE batch=".$students['batch'];
 													$Receivable_select=$obj->select($sql);

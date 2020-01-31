@@ -78,11 +78,16 @@ if($_SESSION['status']!='Success'){
   }
 // additional codee
 if (isset($_POST['filter']) && $_POST['filter']=='set') {
-
-  $query="tbl_students WHERE ";
+  if (!empty($_POST['batch']) || !empty($_POST['city'])) {
+    $query="tbl_students WHERE ";
+  }else{
+    $query="tbl_students";
+  }
+  
   array_pop($_POST);
   foreach ($_POST as $key => $value) {
     if ($value!='') {
+
       $arr[]=$key."='$value'";
       $_SESSION[$key]=$value;
     }
@@ -91,6 +96,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
   if (isset($arr)) {
     $query.=implode(' AND ', $arr);
   }
+  echo $query;
   $batch=$obj->select($query);
 }
 // ad code end
@@ -126,7 +132,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
              <input type="submit" name="submit" value="Sort" class="btn btn-success"> -->
              <div class="col-sm-3">
              <select class="form-control" name="batch">
-               <option selected="" disabled="">Select Batch</option>
+               <option value="">Select Batch</option>
                <?php
                   $batch_select=$obj->select("batch");
                   while ($batch_option=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
