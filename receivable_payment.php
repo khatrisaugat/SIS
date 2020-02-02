@@ -29,6 +29,10 @@ if (isset($_GET['filter']) && $_GET['filter']=='set') {
 $sem_check=$obj->select($query);
 $sem_of_student=$sem_check->fetch(PDO::FETCH_ASSOC);
 $student_select=$obj->select($query);
+$total_outstanding=0;
+$total_paid=0;
+$total_received=0;
+//initialization
 ?>
  <div class="row col-sm-10">
  	
@@ -138,7 +142,9 @@ $student_select=$obj->select($query);
 													<tr>
 														<td></td>
 														<td></td>
-														<td><b><big><?=$paid_total;?></big></b></td>
+														<td><b><big><?=$paid_total;
+														$total_received+=$paid_total;
+														?></big></b></td>
 													</tr>
 												</table>
 											</td>
@@ -177,11 +183,15 @@ $student_select=$obj->select($query);
 													 ?>
 													 <tr>
 													 	<td></td>
-													 	<td><b><big><?=$receivable_total;?></big></b></td>
+													 	<td><b><big><?=$receivable_total;
+													 		$total_paid+=$receivable_total;
+													 	?></big></b></td>
 													 </tr>
 												</table>
 											</td>
-											<td><b><big><?=($receivable_total-$paid_total);?></big></b></td>
+											<td><b><big><?=($receivable_total-$paid_total);
+											$total_outstanding+=($receivable_total-$paid_total);
+											?></big></b></td>
 										</tr>
 									</tbody>
 								</table>
@@ -192,9 +202,25 @@ $student_select=$obj->select($query);
 			<?php	}
 				
 				 ?>
-				
 			</tbody>
 		</table>
+		<div class="container">
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th colspan="3"><big><center>Grand Total</center></big></th>
+				</tr>
+				<tr>
+				 	<th style="width: 300px;">Total Received</th>
+				 	<th style="width: 300px;">Total Receivable</th>
+				 	<th style="width: 300px;">Total Outstanding</th>
+				</tr>
+				<tr>
+				 	<td><big><?=$total_received;?></big></td>
+				 	<td><big><?=$total_paid;?></big></td>
+				 	<td><big><?=$total_outstanding;?></big></td>
+				</tr>
+			</table>
+		</div>
 </div>
 		</div>
 

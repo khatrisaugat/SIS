@@ -12,6 +12,7 @@ $batch_select=$obj->select("batch");
 //batch select for filter
 $student_select=$obj->select("tbl_students WHERE status=1");
 $count=0;
+$total_pay=0;
 
 
 include("includes/header.php");
@@ -163,18 +164,26 @@ include("includes/sidebar.php");?>
                         
                       </table>
                     </td>
-                    <td><?=$Total;?></td>
+                    <td><?=$Total;
+                        $total_pay+=$Total;
+                    ?></td>
                   </tr>
+                  
                    <?php
                  } 
                  ?>
+                 <tr>
+                    <td colspan="4">Total</td>
+                    <td><h1><?=$total_pay;?></h1></td>
+                  </tr>
                </tbody>
              </table>
            </div>
             <!-- <div class="col-md-1"></div> -->
 
-         
+        
 		    </div>
+
       </section>
   </section>
 <?php include("includes/footer.php"); ?>

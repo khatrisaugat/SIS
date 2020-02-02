@@ -12,6 +12,7 @@ $sql.=" WHERE batch=".$_GET['batch'];
 
 $student_select=$obj->select($sql);
 $count=0;
+$total_pay=0;
  
 ?>
 
@@ -136,11 +137,17 @@ $count=0;
                                       
                                     </table>
                                   </td>
-                                  <td><?=$Total;?></td>
+                                  <td><?=$Total;
+                                  $total_pay+=$Total;
+                                  ?></td>
                                 </tr>
                                  <?php
                                } 
                                ?>
+                               <tr>
+                                <td colspan="4">Total</td>
+                                <td><h1><?=$total_pay;?></h1></td>
+                              </tr>
                              </tbody>
                            </table>
              </div> 
