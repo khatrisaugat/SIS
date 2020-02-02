@@ -48,6 +48,9 @@ if (isset($_FILES['image'])) {
 }
 }
 
+// echo "<pre>";
+// print_r($_POST);
+// echo "</pre>";
 
 
 ?>
@@ -69,37 +72,69 @@ if (isset($_FILES['image'])) {
         <form action="" method="post" class="form-group" enctype="multipart/form-data">
           <div class="form-group">
             <label>First Name*</label>
-            <input type="text" name="name" class="form-control">
+            <input type="text" name="name" class="form-control" required="">
           </div>
           <div class="form-group">
-            <label>Middle Name*</label>
+            <label>Middle Name</label>
             <input type="text" name="mname" class="form-control">
           </div>
           <div class="form-group">
             <label>Last Name*</label>
-            <input type="text" name="lname" class="form-control">
+            <input type="text" name="lname" class="form-control" required="">
           </div>
           <div class="form-group">
             <label>Photo*</label>
             <input type="file" name="image" class="form-control">
           </div>
           <div class="form-group">
+            <label>Nationality*</label>
+            <input type="text" name="nationality" class="form-control" required="">
+          </div>
+          <div class="form-group">
+            <label>Province</label>
+            <input type="text" name="province" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>District*</label>
+            <input type="text" name="district" class="form-control">
+          </div>
+
+          <div class="form-group">
             <label>City*</label>
             <input type="text" name="city" class="form-control">
           </div>
           <div class="form-group">
+            <label>Municipality*</label>
+            <input type="text" name="municipality" class="form-control">
+          </div>
+           <div class="form-group">
+            <label>Religion</label>
+            <input type="text" name="religion" class="form-control">
+          </div>
+          <!-- <div class="form-group">
             <label>Address*</label>
             <input type="text" name="address" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Phone*</label>
-            <input type="text" name="phone" class="form-control">
-          </div>
+          </div> -->
+          
+           
         </div>
           <div class="col-md-6">
+            <div class="form-group">
+            <label>Phone*</label>
+            <input type="text" name="phone" class="form-control" required="">
+          </div>
+             <div class="form-group">
+            <label>DOB*</label>
+            <input type="date" name="dob" class="form-control" required="">
+          </div>
+          
                <div class="form-group">
             <label>Guardian's Name*</label>
-            <input type="text" name="gname" class="form-control">
+            <input type="text" name="gname" class="form-control" required="">
+          </div>
+           <div class="form-group">
+            <label>Occupation</label>
+            <input type="text" name="occupation" class="form-control">
           </div>
           <div class="form-group">
             <label>Guardian's Phone*</label>
@@ -110,7 +145,7 @@ if (isset($_FILES['image'])) {
             <input type="text" name="batch" class="form-control">
           </div> -->
           <div class="form-group">
-            <select name="batch" class="form-control">
+            <select name="batch" class="form-control" required="">
               <option selected="" disabled="">Select Your Batch</option>
               <?php while ($batch=$batch_select->fetch(PDO::FETCH_ASSOC)) {?>
                 <option value="<?=$batch['batch'];?>"
@@ -129,12 +164,12 @@ if (isset($_FILES['image'])) {
           </div>
           <div class="form-group">
             <label>Gender*</label><br>
-            <label><input type="radio" name="gender" value="male">Male</label>
-            <label><input type="radio" name="gender" value="female">Female</label>
+            <label><input type="radio" name="gender" value="male" required="">Male</label>
+            <label><input type="radio" name="gender" value="female" required="">Female</label>
           </div>
           <div class="form-group">
             <label>Status</label>
-            <select name="status" class="form-control">
+            <select name="status" class="form-control" required="">
               <option value="1" selected="">Active</option>
               <option value="0">Inactive</option>
             </select>
