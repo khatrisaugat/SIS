@@ -63,7 +63,7 @@ class queries extends connection
 		$sql.=" WHERE ";
 		$sql.=join('',array_keys($sn));
 		$sql.="=".join('',$sn);
-		echo $sql;
+		// echo $sql;
 		$stm=$this->con->prepare($sql);
 		$stm->execute();
 		// echo $sql;

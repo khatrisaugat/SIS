@@ -10,7 +10,7 @@
 
 
  <!--sidebar start-->
-    <aside>
+    <aside >
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
@@ -37,6 +37,13 @@
 
                 <?php }?>
             </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="add_docs.php">
+              <i class="fa fa-edit"></i>
+              <span>Add Documents</span>
+              </a>
+  
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
@@ -90,6 +97,7 @@
               <li><a href="batch_insert.php">batch insert</a></li>
               <li><a href="fee_type_insert.php">fee type insert</a></li>
               <li><a href="fee_type_display.php">fee type display</a></li>
+              <br><br><br><br><br><br>
             </ul>
           </li>
         </ul>

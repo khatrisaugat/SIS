@@ -180,6 +180,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         <th>Gender</th>
         <th>Policy</th>
         <th>Payment</th>
+        
     <?php if(isset($_SESSION['adminlogin']) && $_SESSION['adminlogin']=="yes"){ ?>
         <th>Delete</th>
         <th>Edit</th>
