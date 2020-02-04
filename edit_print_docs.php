@@ -26,6 +26,13 @@ if (isset($_GET['status']) && $_GET['status']=='d') {
   $field="docs".$_GET['docs'];
   $val[$field]='';
   $sn['sid']=$_GET['stid'];
+  $filename=$obj->select("tbl_academic_docs WHERE sid=".$_GET['stid']);
+  $file_name=$filename->fetch(PDO::FETCH_ASSOC);
+  $docs=$file_name[$field];
+  if(!empty($docs)){
+    $location='docs/'.$docs;
+    unlink($location);
+  }
   $obj->update($val,"tbl_academic_docs",$sn);
     header("Location:edit_print_docs.php?stid=".$_GET['stid']);
     exit();
