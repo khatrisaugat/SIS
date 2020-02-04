@@ -165,8 +165,8 @@ include("includes/header.php");
 
 
 
-           ?>" class="btn btn-primary">Edit</a>
-            <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=d&docs=2" class="btn btn-primary">Delete</a>
+           ?>" class="btn btn-primary" onclick="return confirm('Are you sure you want to edit this item?');">Edit</a>
+            <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=d&docs=2" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this item?');" >Delete</a>
           <?php } ?>
           </td>
           </tr>

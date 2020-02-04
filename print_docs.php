@@ -80,8 +80,9 @@ $i=0;
                <td><?=++$i;?></td>
                <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
                <td><?=$row['docs1']."<br/><hr/>".$row['docs2'];?></td>
-               <td><a href="edit_print_docs.php?stid=<?=$row['sid']?>&op=e" class="btn btn-warning">Edit</a></td>
-               <td><a href="print_docs.php?stid=<?=$row['sid'];?>&op=d" class="btn btn-danger">Delete</a></td>
+               <td><a href="edit_print_docs.php?stid=<?=$row['sid']?>&op=e" class="btn btn-warning"
+                onclick="return confirm('Are you sure you want to delete this item?');">Edit</a></td>
+               <td><a href="print_docs.php?stid=<?=$row['sid'];?>&op=d" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a></td>
 
              </tr>
 
