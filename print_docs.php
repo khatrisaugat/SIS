@@ -24,8 +24,8 @@ $select_students=$obj->select("tbl_academic_docs JOIN tbl_students ON tbl_studen
 
     if($_GET['op']=='d'){//delete operation
       array_pop($_GET);//popping op from get
-      $single_select="tbl_academic_docs WHERE sid=".$_GET['stid'];//selecting 1 row from tbl_students
-      $file_name=$obj->select($single_select);//select function call
+      // $single_select="tbl_academic_docs WHERE sid=".$_GET['stid'];//selecting 1 row from tbl_students
+      $file_name=$obj->select("tbl_academic_docs WHERE sid=".$_GET['stid']);//select function call
       $file=$file_name->fetch(PDO::FETCH_ASSOC);//fetch data
       // print_r($file);
       if(!empty($file['docs1'] || !empty($file['docs2']))){//delete image from storage
@@ -37,7 +37,7 @@ $select_students=$obj->select("tbl_academic_docs JOIN tbl_students ON tbl_studen
       }
       $sn['sid']=$_GET['stid'];
       $obj->delete($sn,"tbl_academic_docs");//delete data from tbl_academic_docs
-      $_SESSION['true']="Data deleted successfully!";
+      $_SESSION['true']="Documents deleted successfully!";
       header("Location:print_docs.php?sid=".$_GET['sid']);
       // exit();
 

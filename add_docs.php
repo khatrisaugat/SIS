@@ -44,7 +44,7 @@ $i=0;
              <tr>
                <td><?=++$i;?></td>
                <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
-               <td><a href="academic_docs.php?sid=<?=$row['sid']?>" class="btn btn-primary">Add docs</a>
+               <td><a href="academic_docs.php?sid=<?=$row['sid']?>&add=y" class="btn btn-primary">Add docs</a>
                 <a href="print_docs.php?sid=<?=$row['sid']?>" class="btn btn-info">View docs</a></td>
              </tr>
 

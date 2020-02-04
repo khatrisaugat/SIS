@@ -16,10 +16,12 @@ if($_SESSION['status']!='Success'){
 
 $select_students=$obj->select("tbl_academic_docs JOIN tbl_students ON tbl_students.sid=tbl_academic_docs.sid WHERE tbl_academic_docs.sid=".$_GET['stid']);
 $Students=$select_students->fetch(PDO::FETCH_ASSOC);
+$select_students1=$obj->select("tbl_students WHERE sid=".$_GET['stid']);
+$Students1=$select_students1->fetch(PDO::FETCH_ASSOC);
 // print_r($Students);
 
 
-$students_name=$Students['name']." ".$Students['mname']." ".$Students['lname'];
+$students_name=$Students1['name']." ".$Students1['mname']." ".$Students1['lname'];
 if (isset($_GET['status']) && $_GET['status']=='d') {
   $field="docs".$_GET['docs'];
   $val[$field]='';
@@ -51,10 +53,17 @@ if (isset($_FILES['docs'.$_GET['docs']])) {
         $sn['sid']=$_GET['stid'];
         $obj->update($_POST,"tbl_academic_docs",$sn);//insert query
         $_SESSION['true']="Students added successfully!";
-        header("location:edit_print_docs.php?stid=".$_GET['stid']);
+        if (isset($_GET['src'])) {
+           header("location:student_details.php?sid=".$_GET['stid']);
         exit();
+        }
+        elseif(isset($_GET['add'])){
+          header("location:edit_print_docs.php?stid=".$_GET['stid']);
+        exit();
+        }
+       
       }else{
-        $_SESSION['error']="Sorry, only PDF, TXT, PPT files are allowed!";
+        $_SESSION['error']="Sorry, only PDF, JPEG, PNG, JPG files are allowed!";
       
       }
         
@@ -117,7 +126,8 @@ include("includes/header.php");
               <a href="docs/<?=$Students['docs1']?>"><img src="docs/<?=$Students['docs1']?>" class="img"></a>
            <?php } else{echo "No documents !";}
             ?><br><br>
-           <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=e&docs=1" class="btn btn-primary">Edit</a>
+           <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=e&docs=1 
+            <?php if(isset($_GET['return'])){ echo"&src=new";} ?>" class="btn btn-primary">Edit</a>
             <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=d&docs=1" class="btn btn-primary">Delete</a>
             <?php } ?>
           </td>
@@ -139,7 +149,16 @@ include("includes/header.php");
            <?php } else{echo "No documents !";}
             ?>
           <br><br>
-           <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=e&docs=2" class="btn btn-primary">Edit</a>
+           <a href="<?php  
+           if(isset($_GET['add'])){
+            echo "edit_print_docs.php?stid=".$_GET['stid']."&status=e&docs=2&add=y";
+           }else{
+            echo "edit_print_docs.php?stid=".$_GET['stid']."&status=e&docs=2&src=new";
+           }
+
+
+
+           ?>" class="btn btn-primary">Edit</a>
             <a href="edit_print_docs.php?stid=<?=$_GET['stid']?>&status=d&docs=2" class="btn btn-primary">Delete</a>
           <?php } ?>
           </td>

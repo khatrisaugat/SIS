@@ -113,7 +113,7 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <td>Status</td>
         <td><?php if($student['status']==0){echo "Inactive";}else{echo "Active";}?></td>
       </tr>
-      <tr>
+     <!--  <tr>
         
         <?php while ($policy=$check_policy->fetch(PDO::FETCH_ASSOC)) {
           // print_r($policy);
@@ -132,6 +132,44 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
           <td><?=$policy['amount'];?></td>
         </tr>
       <?php } ?>
+      </tr> -->
+      <tr>
+        <td><?=++$j;?></td>
+        <td>Academic documents </td>
+        <td>
+          <?php
+          $select_students1=$obj->select("tbl_academic_docs WHERE sid=".$_GET['sid']);
+          $Students1=$select_students1->fetch(PDO::FETCH_ASSOC);
+                                                                ?>
+          <table class="table ">
+            
+            <tr>
+              <td>SLC/SEE Docs</td>
+              <td>
+                <?php if (!empty($Students1['docs1']) ) { ?>
+                  <a href="docs/<?=$Students1['docs1']?>"><img src="docs/<?=$Students1['docs1']?>" class="img"></a>
+                <?php }else{echo "No document attached !"; ?>
+                 <a href="academic_docs.php?sid=<?=$_GET['sid']?>&return=q">
+                 <button class="btn btn-info add"><i  class="glyphicon glyphicon-plus ">Add</i></button></a>
+               
+              <?php } ?>  
+
+              </td>
+            </tr>
+            <tr>
+             <td>HSEB/NEB Docs</td>
+              <td>
+               
+                 <?php if (!empty($Students1['docs2']) ) { ?>
+                  <a href="docs/<?=$Students1['docs2']?>"><img src="docs/<?=$Students1['docs2']?>" class="img"></a>
+                <?php } else{ echo "No document attached !";?>
+               <a href="academic_docs.php?sid=<?=$_GET['sid']?>&return=q">
+                 <button class="btn btn-info add"><i  class="glyphicon glyphicon-plus ">Add</i></button></a>
+             <?php } ?>
+              </td>
+            </tr>
+          </table>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -230,6 +268,8 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
 
   <style>
     .size{height: 120px;width: 120px;}
+    .img{height: 200px;width: 200px;}
+    .add{float: right;}
   </style>
 </body>
 

@@ -19,12 +19,28 @@ $Students=$select_students->fetch(PDO::FETCH_ASSOC);
 $students_name=$Students['name']." ".$Students['mname']." ".$Students['lname'];
 $select_students1=$obj->select("tbl_academic_docs WHERE sid=".$_GET['sid']);
 $Students1=$select_students1->fetch(PDO::FETCH_ASSOC);
-if (!empty($Students1)) {
-header("Location:edit_print_docs.php?stid=".$_GET['sid']."&op=e");
+if (isset($_GET['sid'])) {
+ $_SESSION['stid']=$_GET['sid'];
+}
+if (isset($_GET['return'])) {
+  if (!empty($Students1)) {
+header("Location:edit_print_docs.php?stid=".$_GET['sid']."&op=e&src=new");
 exit();
+}}
+if (isset($_GET['add'])) {
+      if (!empty($Students1)) {
+    header("Location:edit_print_docs.php?stid=".$_GET['sid']."&op=e&add=y");
+    exit();
+    }
+}
+else{
+      if (!empty($Students1)) {
+    header("Location:edit_print_docs.php?stid=".$_GET['sid']."&op=e");
+    exit();
+    }
 }
 
-if (isset($_POST['submit'])) {//check if form is submitted
+if (isset($_POST['submit']) && $_POST['submit']=="upload") {//check if form is submitted
   
 if (isset($_FILES['docs1']) && isset( $_FILES['docs2'])) {
     $filename=$_FILES['docs1']['name'];//filename
@@ -45,14 +61,24 @@ if (isset($_FILES['docs1']) && isset( $_FILES['docs2'])) {
         $_POST['docs1']=$filename;
         $_POST['docs2']=$filename1;
         $obj->insert($_POST,"tbl_academic_docs");//insert query
-        $_SESSION['true']="Students added successfully!";
-      }else{
-        $_SESSION['error']="Sorry, only PDF, TXT, PPT files are allowed!";
+        // echo $_GET['stid'];
+        if (isset($_GET['return'])) {
+          header("location:student_details.php?sid=".$_SESSION['stid']);
+          exit();
+        }
+        $_SESSION['true']="Documents added successfully!";
+      }
+
+
+      else{
+        $_SESSION['error']="Sorry, only PDF, JPEG, PNG, JPG files are allowed!";
       
       }
         
     
-}
+}else{
+              $_SESSION['error']="Attach a docs first !";
+            }
 }
 
 
