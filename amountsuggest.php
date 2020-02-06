@@ -15,13 +15,16 @@ $tbl_join_policy="`tbl_fees` LEFT JOIN tbl_student_policy ON tbl_student_policy.
   UNION (SELECT * FROM tbl_fees left  JOIN tbl_student_policy ON tbl_fees.fid=tbl_student_policy.fid
    where tbl_fees.fid=".$fid." AND tbl_student_policy.sid IS NULL)";
    $tbl_student_policy=$obj->select($tbl_join_policy);
-   while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
-   	if($row2['fid']==$fid){
+   $no_policy=$obj->select("tbl_fees WHERE fid=".$_SESSION['fid']);
+ while ($row3=$no_policy->fetch(PDO::FETCH_ASSOC)) {
+    
+   	if($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)){
    		$total=$row2['amount'];
-   		} else if($row2['amount']==""){
-   			$total=$row2['fees'];
+   		} else {
+   			$total=$row3['fees'];
    			} 
-   	}
+   	
+   }
 
 
 ?>
