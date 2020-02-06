@@ -21,8 +21,9 @@ $_SESSION['fid']=$fid=$_GET['fid'];
   //selecting all data from tbl_student_policy
 //$non_policy_amount=$obj->select("tbl_fees WHERE fid=".$fid);
 
-  ?>
-  <label class="bmd-label-floating">Applicable Fees </label>
+	?>
+	<label class="bmd-label-floating">Applicable Fees </label>
+2
     <select name="spid" class="form-control" disabled="true">
         <?php
         while ($row_fee=$select_fees->fetch(PDO::FETCH_ASSOC)) {
@@ -32,8 +33,7 @@ $_SESSION['fid']=$fid=$_GET['fid'];
         <?php if($row2['fid']==$fid){?>
 
           <option value="<?=$row2['spid'];?>"><?=$row2['amount'];?></option>
-        <?php
-        
+
      } else{ ?>
           <option value=""><?php 
            echo $row_fee['fees']?></option>
