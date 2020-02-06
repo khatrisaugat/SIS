@@ -63,6 +63,11 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
       </tr>
       <tr>
         <td><?=++$j;?></td>
+        <td>Date of Birth(DOB)</td>
+        <td><?=$student['DOB'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
         <td>Gender</td>
         <td><?=$student['gender'];?></td>
       </tr>
@@ -85,8 +90,28 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
       </tr>
       <tr>
         <td><?=++$j;?></td>
-        <td>Address</td>
-        <td><?=$student['address'];?></td>
+        <td>Nationality</td>
+        <td><?=$student['Nationality'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>Religion</td>
+        <td><?=$student['Religion'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>Province</td>
+        <td><?=$student['province'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>District</td>
+        <td><?=$student['District'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>City</td>
+        <td><?=$student['city'];?></td>
       </tr>
       <tr>
         <td><?=++$j;?></td>
@@ -98,10 +123,16 @@ $student=$student_select->fetch(PDO::FETCH_ASSOC);//student has student details
         <td>Guardian's Name</td>
         <td><?=$student['gname'];?></td>
       </tr>
+
       <tr>
         <td><?=++$j;?></td>
         <td>Guardian's Phone</td>
         <td><?=$student['gphone'];?></td>
+      </tr>
+      <tr>
+        <td><?=++$j;?></td>
+        <td>Occupation</td>
+        <td><?=$student['Occupation'];?></td>
       </tr>
       <tr>
         <td><?=++$j;?></td>

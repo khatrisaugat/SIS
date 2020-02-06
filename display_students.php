@@ -17,7 +17,7 @@ if($_SESSION['status']!='Success'){
         } else {
             $pageno = 1;
         }
-        $no_of_records_per_page = 7;
+        $no_of_records_per_page = 15;
         $offset = ($pageno-1) * $no_of_records_per_page;
         $result=$obj->select_count("tbl_students");
         $row_num=$result->fetch(PDO::FETCH_BOTH);
@@ -71,7 +71,7 @@ if($_SESSION['status']!='Success'){
     if (isset($_GET['pageno'])) {
       $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']." LIMIT $offset, $no_of_records_per_page");
     }else{
-     $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']." LIMIT 3");
+     $tbl_students=$obj->select("tbl_students ORDER BY ".$_GET['field']." ".$_GET['order']." LIMIT 15");
     }
      
     // }
@@ -174,7 +174,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
         <th>S.N</th>
         
         <th>Name<a href="display_students.php?field=name&order=ASC">&#10506;</a><a href="display_students.php?field=name&order=DESC">&#10507;</a></th>
-        <th>Address<a href="display_students.php?field=address&order=ASC">&#10506;</a><a href="display_students.php?field=address&order=DESC">&#10507;</a></th>
+        <th>City<a href="display_students.php?field=city&order=ASC">&#10506;</a><a href="display_students.php?field=city&order=DESC">&#10507;</a></th>
         <th>Phone</th>
         <th>Batch<a href="display_students.php?field=batch&order=ASC">&#10506;</a><a href="display_students.php?field=batch&order=DESC">&#10507;</a></th>
         <th>Gender</th>
@@ -200,7 +200,7 @@ if (isset($_POST['filter']) && $_POST['filter']=='set') {
           <td><?=$j++;?></td>
           <td><?=$row['name']." ".$row['mname']." ".$row['lname'];?></td>
          
-          <td><?=$row['address'];?></td>
+          <td><?=$row['city'];?></td>
           <td><?=$row['phone'];?></td>
           
           <td
