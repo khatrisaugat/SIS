@@ -17,26 +17,28 @@ $_SESSION['fid']=$fid=$_GET['fid'];
   //joining tbl_students_payment and tbl_fees
   // echo "Thissssssss";
   $tbl_student_policy=$obj->select($tbl_join_policy);
+  $select_fees=$obj->select("tbl_fees WHERE fid=".$fid);
+  
+  // print_r($row_fee);
   //selecting all data from tbl_student_policy
 //$non_policy_amount=$obj->select("tbl_fees WHERE fid=".$fid);
 
 	?>
-	<label class="bmd-label-floating">Applicable Fees</label>
+	<label class="bmd-label-floating">Applicable Fees </label>
     <select name="spid" class="form-control" disabled="true">
         <?php
-        while ($row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)) {
+        while ($row_fee=$select_fees->fetch(PDO::FETCH_ASSOC)) {
           
+          $row2=$tbl_student_policy->fetch(PDO::FETCH_ASSOC)
         ?>
         <?php if($row2['fid']==$fid){?>
 
           <option value="<?=$row2['spid'];?>"><?=$row2['amount'];?></option>
-      <?php /*  <option value="<?=$row2['spid'];?>" <?php if($row2['fid']==$fid){echo "Selected";} ?>>
-        <?=$row2['fee_type']." (".$row2['batch'].") ".$row2['amount']." for ".$row2['name'];?>
-        </option> */ ?>
         <?php
     		
-     } else if($row2['amount']==""){ ?>
-          <option value=""><?php echo $row2['fees']?></option>
+     } else{ ?>
+          <option value=""><?php 
+           echo $row_fee['fees']?></option>
       <?php  } }
         ?>
     </select>
